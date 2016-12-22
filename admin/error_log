@@ -1,0 +1,256 @@
+[24-Oct-2015 20:08:39 PRC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Can't Connect MySQL Server(localhost:3306)!' in /home/meihujie/public_html/includes/cls_mysql.php:396
+Stack trace:
+#0 /home/meihujie/public_html/includes/cls_mysql.php(112): cls_mysql->ErrorMsg('Can't Connect M...')
+#1 /home/meihujie/public_html/includes/cls_mysql.php(241): cls_mysql->connect('localhost:3306', 'liantu', 'zy77813', 'liantu', 'utf8', 0)
+#2 /home/meihujie/public_html/includes/cls_session.php(143): cls_mysql->query('INSERT INTO `li...')
+#3 /home/meihujie/public_html/includes/cls_session.php(126): cls_session->insert_session()
+#4 /home/meihujie/public_html/includes/cls_session.php(114): cls_session->gen_session_id()
+#5 /home/meihujie/public_html/includes/cls_session.php(43): cls_session->cls_session(Object(cls_mysql), '`liantu`.`ecs_s...', '`liantu`.`ecs_s...', 'ECSCP_ID', '')
+#6 /home/meihujie/public_html/admin/includes/init.php(129): cls_session->__construct(Object(cls_mysql), '`liantu`.`ecs_s...', '`liantu`.`ecs_s...', 'ECSCP_ID')
+#7 /home/meihujie/p in /home/meihujie/public_html/includes/cls_mysql.php on line 396
+[24-Oct-2015 20:08:47 PRC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Can't Connect MySQL Server(localhost:3306)!' in /home/meihujie/public_html/includes/cls_mysql.php:396
+Stack trace:
+#0 /home/meihujie/public_html/includes/cls_mysql.php(112): cls_mysql->ErrorMsg('Can't Connect M...')
+#1 /home/meihujie/public_html/includes/cls_mysql.php(241): cls_mysql->connect('localhost:3306', 'liantu', 'zy77813', 'liantu', 'utf8', 0)
+#2 /home/meihujie/public_html/includes/cls_session.php(143): cls_mysql->query('INSERT INTO `li...')
+#3 /home/meihujie/public_html/includes/cls_session.php(126): cls_session->insert_session()
+#4 /home/meihujie/public_html/includes/cls_session.php(114): cls_session->gen_session_id()
+#5 /home/meihujie/public_html/includes/cls_session.php(43): cls_session->cls_session(Object(cls_mysql), '`liantu`.`ecs_s...', '`liantu`.`ecs_s...', 'ECSCP_ID', '')
+#6 /home/meihujie/public_html/admin/includes/init.php(129): cls_session->__construct(Object(cls_mysql), '`liantu`.`ecs_s...', '`liantu`.`ecs_s...', 'ECSCP_ID')
+#7 /home/meihujie/p in /home/meihujie/public_html/includes/cls_mysql.php on line 396
+[24-Oct-2015 20:08:49 PRC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Can't Connect MySQL Server(localhost:3306)!' in /home/meihujie/public_html/includes/cls_mysql.php:396
+Stack trace:
+#0 /home/meihujie/public_html/includes/cls_mysql.php(112): cls_mysql->ErrorMsg('Can't Connect M...')
+#1 /home/meihujie/public_html/includes/cls_mysql.php(241): cls_mysql->connect('localhost:3306', 'liantu', 'zy77813', 'liantu', 'utf8', 0)
+#2 /home/meihujie/public_html/includes/cls_session.php(143): cls_mysql->query('INSERT INTO `li...')
+#3 /home/meihujie/public_html/includes/cls_session.php(126): cls_session->insert_session()
+#4 /home/meihujie/public_html/includes/cls_session.php(114): cls_session->gen_session_id()
+#5 /home/meihujie/public_html/includes/cls_session.php(43): cls_session->cls_session(Object(cls_mysql), '`liantu`.`ecs_s...', '`liantu`.`ecs_s...', 'ECSCP_ID', '')
+#6 /home/meihujie/public_html/admin/includes/init.php(129): cls_session->__construct(Object(cls_mysql), '`liantu`.`ecs_s...', '`liantu`.`ecs_s...', 'ECSCP_ID')
+#7 /home/meihujie/p in /home/meihujie/public_html/includes/cls_mysql.php on line 396
+[24-Oct-2015 20:08:51 PRC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Can't Connect MySQL Server(localhost:3306)!' in /home/meihujie/public_html/includes/cls_mysql.php:396
+Stack trace:
+#0 /home/meihujie/public_html/includes/cls_mysql.php(112): cls_mysql->ErrorMsg('Can't Connect M...')
+#1 /home/meihujie/public_html/includes/cls_mysql.php(241): cls_mysql->connect('localhost:3306', 'liantu', 'zy77813', 'liantu', 'utf8', 0)
+#2 /home/meihujie/public_html/includes/cls_session.php(143): cls_mysql->query('INSERT INTO `li...')
+#3 /home/meihujie/public_html/includes/cls_session.php(126): cls_session->insert_session()
+#4 /home/meihujie/public_html/includes/cls_session.php(114): cls_session->gen_session_id()
+#5 /home/meihujie/public_html/includes/cls_session.php(43): cls_session->cls_session(Object(cls_mysql), '`liantu`.`ecs_s...', '`liantu`.`ecs_s...', 'ECSCP_ID', '')
+#6 /home/meihujie/public_html/admin/includes/init.php(129): cls_session->__construct(Object(cls_mysql), '`liantu`.`ecs_s...', '`liantu`.`ecs_s...', 'ECSCP_ID')
+#7 /home/meihujie/p in /home/meihujie/public_html/includes/cls_mysql.php on line 396
+[24-Oct-2015 20:08:51 PRC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Can't Connect MySQL Server(localhost:3306)!' in /home/meihujie/public_html/includes/cls_mysql.php:396
+Stack trace:
+#0 /home/meihujie/public_html/includes/cls_mysql.php(112): cls_mysql->ErrorMsg('Can't Connect M...')
+#1 /home/meihujie/public_html/includes/cls_mysql.php(241): cls_mysql->connect('localhost:3306', 'liantu', 'zy77813', 'liantu', 'utf8', 0)
+#2 /home/meihujie/public_html/includes/cls_session.php(143): cls_mysql->query('INSERT INTO `li...')
+#3 /home/meihujie/public_html/includes/cls_session.php(126): cls_session->insert_session()
+#4 /home/meihujie/public_html/includes/cls_session.php(114): cls_session->gen_session_id()
+#5 /home/meihujie/public_html/includes/cls_session.php(43): cls_session->cls_session(Object(cls_mysql), '`liantu`.`ecs_s...', '`liantu`.`ecs_s...', 'ECSCP_ID', '')
+#6 /home/meihujie/public_html/admin/includes/init.php(129): cls_session->__construct(Object(cls_mysql), '`liantu`.`ecs_s...', '`liantu`.`ecs_s...', 'ECSCP_ID')
+#7 /home/meihujie/p in /home/meihujie/public_html/includes/cls_mysql.php on line 396
+[24-Oct-2015 20:08:51 PRC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Can't Connect MySQL Server(localhost:3306)!' in /home/meihujie/public_html/includes/cls_mysql.php:396
+Stack trace:
+#0 /home/meihujie/public_html/includes/cls_mysql.php(112): cls_mysql->ErrorMsg('Can't Connect M...')
+#1 /home/meihujie/public_html/includes/cls_mysql.php(241): cls_mysql->connect('localhost:3306', 'liantu', 'zy77813', 'liantu', 'utf8', 0)
+#2 /home/meihujie/public_html/includes/cls_session.php(143): cls_mysql->query('INSERT INTO `li...')
+#3 /home/meihujie/public_html/includes/cls_session.php(126): cls_session->insert_session()
+#4 /home/meihujie/public_html/includes/cls_session.php(114): cls_session->gen_session_id()
+#5 /home/meihujie/public_html/includes/cls_session.php(43): cls_session->cls_session(Object(cls_mysql), '`liantu`.`ecs_s...', '`liantu`.`ecs_s...', 'ECSCP_ID', '')
+#6 /home/meihujie/public_html/admin/includes/init.php(129): cls_session->__construct(Object(cls_mysql), '`liantu`.`ecs_s...', '`liantu`.`ecs_s...', 'ECSCP_ID')
+#7 /home/meihujie/p in /home/meihujie/public_html/includes/cls_mysql.php on line 396
+[24-Oct-2015 20:08:51 PRC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Can't Connect MySQL Server(localhost:3306)!' in /home/meihujie/public_html/includes/cls_mysql.php:396
+Stack trace:
+#0 /home/meihujie/public_html/includes/cls_mysql.php(112): cls_mysql->ErrorMsg('Can't Connect M...')
+#1 /home/meihujie/public_html/includes/cls_mysql.php(241): cls_mysql->connect('localhost:3306', 'liantu', 'zy77813', 'liantu', 'utf8', 0)
+#2 /home/meihujie/public_html/includes/cls_session.php(143): cls_mysql->query('INSERT INTO `li...')
+#3 /home/meihujie/public_html/includes/cls_session.php(126): cls_session->insert_session()
+#4 /home/meihujie/public_html/includes/cls_session.php(114): cls_session->gen_session_id()
+#5 /home/meihujie/public_html/includes/cls_session.php(43): cls_session->cls_session(Object(cls_mysql), '`liantu`.`ecs_s...', '`liantu`.`ecs_s...', 'ECSCP_ID', '')
+#6 /home/meihujie/public_html/admin/includes/init.php(129): cls_session->__construct(Object(cls_mysql), '`liantu`.`ecs_s...', '`liantu`.`ecs_s...', 'ECSCP_ID')
+#7 /home/meihujie/p in /home/meihujie/public_html/includes/cls_mysql.php on line 396
+[24-Oct-2015 20:10:03 PRC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Can't Connect MySQL Server(localhost:3306)!' in /home/meihujie/public_html/includes/cls_mysql.php:396
+Stack trace:
+#0 /home/meihujie/public_html/includes/cls_mysql.php(112): cls_mysql->ErrorMsg('Can't Connect M...')
+#1 /home/meihujie/public_html/includes/cls_mysql.php(241): cls_mysql->connect('localhost:3306', 'mehujie_v4', 'miqinmao@2015', 'mehujie_v4', 'utf8', 0)
+#2 /home/meihujie/public_html/includes/cls_session.php(143): cls_mysql->query('INSERT INTO `me...')
+#3 /home/meihujie/public_html/includes/cls_session.php(126): cls_session->insert_session()
+#4 /home/meihujie/public_html/includes/cls_session.php(114): cls_session->gen_session_id()
+#5 /home/meihujie/public_html/includes/cls_session.php(43): cls_session->cls_session(Object(cls_mysql), '`mehujie_v4`.`e...', '`mehujie_v4`.`e...', 'ECSCP_ID', '')
+#6 /home/meihujie/public_html/admin/includes/init.php(129): cls_session->__construct(Object(cls_mysql), '`mehujie_v4`.`e...', '`mehujie_v4`.`e...', 'ECSCP_ID')
+#7 /h in /home/meihujie/public_html/includes/cls_mysql.php on line 396
+[24-Oct-2015 20:10:05 PRC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Can't Connect MySQL Server(localhost:3306)!' in /home/meihujie/public_html/includes/cls_mysql.php:396
+Stack trace:
+#0 /home/meihujie/public_html/includes/cls_mysql.php(112): cls_mysql->ErrorMsg('Can't Connect M...')
+#1 /home/meihujie/public_html/includes/cls_mysql.php(241): cls_mysql->connect('localhost:3306', 'mehujie_v4', 'miqinmao@2015', 'mehujie_v4', 'utf8', 0)
+#2 /home/meihujie/public_html/includes/cls_session.php(143): cls_mysql->query('INSERT INTO `me...')
+#3 /home/meihujie/public_html/includes/cls_session.php(126): cls_session->insert_session()
+#4 /home/meihujie/public_html/includes/cls_session.php(114): cls_session->gen_session_id()
+#5 /home/meihujie/public_html/includes/cls_session.php(43): cls_session->cls_session(Object(cls_mysql), '`mehujie_v4`.`e...', '`mehujie_v4`.`e...', 'ECSCP_ID', '')
+#6 /home/meihujie/public_html/admin/includes/init.php(129): cls_session->__construct(Object(cls_mysql), '`mehujie_v4`.`e...', '`mehujie_v4`.`e...', 'ECSCP_ID')
+#7 /h in /home/meihujie/public_html/includes/cls_mysql.php on line 396
+[24-Oct-2015 20:10:06 PRC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Can't Connect MySQL Server(localhost:3306)!' in /home/meihujie/public_html/includes/cls_mysql.php:396
+Stack trace:
+#0 /home/meihujie/public_html/includes/cls_mysql.php(112): cls_mysql->ErrorMsg('Can't Connect M...')
+#1 /home/meihujie/public_html/includes/cls_mysql.php(241): cls_mysql->connect('localhost:3306', 'mehujie_v4', 'miqinmao@2015', 'mehujie_v4', 'utf8', 0)
+#2 /home/meihujie/public_html/includes/cls_session.php(143): cls_mysql->query('INSERT INTO `me...')
+#3 /home/meihujie/public_html/includes/cls_session.php(126): cls_session->insert_session()
+#4 /home/meihujie/public_html/includes/cls_session.php(114): cls_session->gen_session_id()
+#5 /home/meihujie/public_html/includes/cls_session.php(43): cls_session->cls_session(Object(cls_mysql), '`mehujie_v4`.`e...', '`mehujie_v4`.`e...', 'ECSCP_ID', '')
+#6 /home/meihujie/public_html/admin/includes/init.php(129): cls_session->__construct(Object(cls_mysql), '`mehujie_v4`.`e...', '`mehujie_v4`.`e...', 'ECSCP_ID')
+#7 /h in /home/meihujie/public_html/includes/cls_mysql.php on line 396
+[24-Oct-2015 20:10:06 PRC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Can't Connect MySQL Server(localhost:3306)!' in /home/meihujie/public_html/includes/cls_mysql.php:396
+Stack trace:
+#0 /home/meihujie/public_html/includes/cls_mysql.php(112): cls_mysql->ErrorMsg('Can't Connect M...')
+#1 /home/meihujie/public_html/includes/cls_mysql.php(241): cls_mysql->connect('localhost:3306', 'mehujie_v4', 'miqinmao@2015', 'mehujie_v4', 'utf8', 0)
+#2 /home/meihujie/public_html/includes/cls_session.php(143): cls_mysql->query('INSERT INTO `me...')
+#3 /home/meihujie/public_html/includes/cls_session.php(126): cls_session->insert_session()
+#4 /home/meihujie/public_html/includes/cls_session.php(114): cls_session->gen_session_id()
+#5 /home/meihujie/public_html/includes/cls_session.php(43): cls_session->cls_session(Object(cls_mysql), '`mehujie_v4`.`e...', '`mehujie_v4`.`e...', 'ECSCP_ID', '')
+#6 /home/meihujie/public_html/admin/includes/init.php(129): cls_session->__construct(Object(cls_mysql), '`mehujie_v4`.`e...', '`mehujie_v4`.`e...', 'ECSCP_ID')
+#7 /h in /home/meihujie/public_html/includes/cls_mysql.php on line 396
+[24-Oct-2015 20:10:06 PRC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Can't Connect MySQL Server(localhost:3306)!' in /home/meihujie/public_html/includes/cls_mysql.php:396
+Stack trace:
+#0 /home/meihujie/public_html/includes/cls_mysql.php(112): cls_mysql->ErrorMsg('Can't Connect M...')
+#1 /home/meihujie/public_html/includes/cls_mysql.php(241): cls_mysql->connect('localhost:3306', 'mehujie_v4', 'miqinmao@2015', 'mehujie_v4', 'utf8', 0)
+#2 /home/meihujie/public_html/includes/cls_session.php(143): cls_mysql->query('INSERT INTO `me...')
+#3 /home/meihujie/public_html/includes/cls_session.php(126): cls_session->insert_session()
+#4 /home/meihujie/public_html/includes/cls_session.php(114): cls_session->gen_session_id()
+#5 /home/meihujie/public_html/includes/cls_session.php(43): cls_session->cls_session(Object(cls_mysql), '`mehujie_v4`.`e...', '`mehujie_v4`.`e...', 'ECSCP_ID', '')
+#6 /home/meihujie/public_html/admin/includes/init.php(129): cls_session->__construct(Object(cls_mysql), '`mehujie_v4`.`e...', '`mehujie_v4`.`e...', 'ECSCP_ID')
+#7 /h in /home/meihujie/public_html/includes/cls_mysql.php on line 396
+[24-Oct-2015 20:10:10 PRC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Can't Connect MySQL Server(localhost:3306)!' in /home/meihujie/public_html/includes/cls_mysql.php:396
+Stack trace:
+#0 /home/meihujie/public_html/includes/cls_mysql.php(112): cls_mysql->ErrorMsg('Can't Connect M...')
+#1 /home/meihujie/public_html/includes/cls_mysql.php(241): cls_mysql->connect('localhost:3306', 'mehujie_v4', 'miqinmao@2015', 'mehujie_v4', 'utf8', 0)
+#2 /home/meihujie/public_html/includes/cls_session.php(143): cls_mysql->query('INSERT INTO `me...')
+#3 /home/meihujie/public_html/includes/cls_session.php(126): cls_session->insert_session()
+#4 /home/meihujie/public_html/includes/cls_session.php(114): cls_session->gen_session_id()
+#5 /home/meihujie/public_html/includes/cls_session.php(43): cls_session->cls_session(Object(cls_mysql), '`mehujie_v4`.`e...', '`mehujie_v4`.`e...', 'ECSCP_ID', '')
+#6 /home/meihujie/public_html/admin/includes/init.php(129): cls_session->__construct(Object(cls_mysql), '`mehujie_v4`.`e...', '`mehujie_v4`.`e...', 'ECSCP_ID')
+#7 /h in /home/meihujie/public_html/includes/cls_mysql.php on line 396
+[24-Oct-2015 20:10:25 PRC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Can't Connect MySQL Server(localhost:3306)!' in /home/meihujie/public_html/includes/cls_mysql.php:396
+Stack trace:
+#0 /home/meihujie/public_html/includes/cls_mysql.php(112): cls_mysql->ErrorMsg('Can't Connect M...')
+#1 /home/meihujie/public_html/includes/cls_mysql.php(241): cls_mysql->connect('localhost:3306', 'mehujie_v4', 'miqinmao@2015', 'mehujie_v4', 'utf8', 0)
+#2 /home/meihujie/public_html/includes/cls_session.php(143): cls_mysql->query('INSERT INTO `me...')
+#3 /home/meihujie/public_html/includes/cls_session.php(126): cls_session->insert_session()
+#4 /home/meihujie/public_html/includes/cls_session.php(114): cls_session->gen_session_id()
+#5 /home/meihujie/public_html/includes/cls_session.php(43): cls_session->cls_session(Object(cls_mysql), '`mehujie_v4`.`e...', '`mehujie_v4`.`e...', 'ECSCP_ID', '')
+#6 /home/meihujie/public_html/admin/includes/init.php(129): cls_session->__construct(Object(cls_mysql), '`mehujie_v4`.`e...', '`mehujie_v4`.`e...', 'ECSCP_ID')
+#7 /h in /home/meihujie/public_html/includes/cls_mysql.php on line 396
+[24-Oct-2015 20:10:32 PRC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Can't Connect MySQL Server(localhost:3306)!' in /home/meihujie/public_html/includes/cls_mysql.php:396
+Stack trace:
+#0 /home/meihujie/public_html/includes/cls_mysql.php(112): cls_mysql->ErrorMsg('Can't Connect M...')
+#1 /home/meihujie/public_html/includes/cls_mysql.php(241): cls_mysql->connect('localhost:3306', 'mehujie_v4', 'miqinmao@2015', 'mehujie_v4', 'utf8', 0)
+#2 /home/meihujie/public_html/includes/cls_session.php(143): cls_mysql->query('INSERT INTO `me...')
+#3 /home/meihujie/public_html/includes/cls_session.php(126): cls_session->insert_session()
+#4 /home/meihujie/public_html/includes/cls_session.php(114): cls_session->gen_session_id()
+#5 /home/meihujie/public_html/includes/cls_session.php(43): cls_session->cls_session(Object(cls_mysql), '`mehujie_v4`.`e...', '`mehujie_v4`.`e...', 'ECSCP_ID', '')
+#6 /home/meihujie/public_html/admin/includes/init.php(129): cls_session->__construct(Object(cls_mysql), '`mehujie_v4`.`e...', '`mehujie_v4`.`e...', 'ECSCP_ID')
+#7 /h in /home/meihujie/public_html/includes/cls_mysql.php on line 396
+[24-Oct-2015 20:10:39 PRC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Can't Connect MySQL Server(localhost:3306)!' in /home/meihujie/public_html/includes/cls_mysql.php:396
+Stack trace:
+#0 /home/meihujie/public_html/includes/cls_mysql.php(112): cls_mysql->ErrorMsg('Can't Connect M...')
+#1 /home/meihujie/public_html/includes/cls_mysql.php(241): cls_mysql->connect('localhost:3306', 'mehujie_v4', 'miqinmao@2015', 'mehujie_v4', 'utf8', 0)
+#2 /home/meihujie/public_html/includes/cls_session.php(143): cls_mysql->query('INSERT INTO `me...')
+#3 /home/meihujie/public_html/includes/cls_session.php(126): cls_session->insert_session()
+#4 /home/meihujie/public_html/includes/cls_session.php(114): cls_session->gen_session_id()
+#5 /home/meihujie/public_html/includes/cls_session.php(43): cls_session->cls_session(Object(cls_mysql), '`mehujie_v4`.`e...', '`mehujie_v4`.`e...', 'ECSCP_ID', '')
+#6 /home/meihujie/public_html/admin/includes/init.php(129): cls_session->__construct(Object(cls_mysql), '`mehujie_v4`.`e...', '`mehujie_v4`.`e...', 'ECSCP_ID')
+#7 /h in /home/meihujie/public_html/includes/cls_mysql.php on line 396
+[24-Oct-2015 20:10:43 PRC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Can't Connect MySQL Server(localhost:3306)!' in /home/meihujie/public_html/includes/cls_mysql.php:396
+Stack trace:
+#0 /home/meihujie/public_html/includes/cls_mysql.php(112): cls_mysql->ErrorMsg('Can't Connect M...')
+#1 /home/meihujie/public_html/includes/cls_mysql.php(241): cls_mysql->connect('localhost:3306', 'mehujie_v4', 'miqinmao@2015', 'mehujie_v4', 'utf8', 0)
+#2 /home/meihujie/public_html/includes/cls_session.php(143): cls_mysql->query('INSERT INTO `me...')
+#3 /home/meihujie/public_html/includes/cls_session.php(126): cls_session->insert_session()
+#4 /home/meihujie/public_html/includes/cls_session.php(114): cls_session->gen_session_id()
+#5 /home/meihujie/public_html/includes/cls_session.php(43): cls_session->cls_session(Object(cls_mysql), '`mehujie_v4`.`e...', '`mehujie_v4`.`e...', 'ECSCP_ID', '')
+#6 /home/meihujie/public_html/admin/includes/init.php(129): cls_session->__construct(Object(cls_mysql), '`mehujie_v4`.`e...', '`mehujie_v4`.`e...', 'ECSCP_ID')
+#7 /h in /home/meihujie/public_html/includes/cls_mysql.php on line 396
+[24-Oct-2015 20:13:07 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[24-Oct-2015 20:13:07 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[30-Oct-2015 21:14:10 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[30-Oct-2015 21:14:10 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[30-Oct-2015 21:14:39 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[30-Oct-2015 21:23:20 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[30-Oct-2015 21:23:20 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[30-Oct-2015 21:23:21 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[30-Oct-2015 21:23:21 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[30-Oct-2015 21:23:34 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[30-Oct-2015 21:23:47 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[30-Oct-2015 21:24:38 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[30-Oct-2015 21:26:19 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[30-Oct-2015 21:26:19 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[30-Oct-2015 21:27:08 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[31-Oct-2015 11:18:05 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[31-Oct-2015 11:18:05 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[31-Oct-2015 19:28:36 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[31-Oct-2015 19:28:36 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[31-Oct-2015 19:29:01 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[09-Nov-2015 10:57:16 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[09-Nov-2015 10:57:16 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[09-Nov-2015 10:57:31 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[09-Nov-2015 10:59:28 PRC] PHP Strict Standards:  Redefining already defined constructor for class kuaiqian_bob in /home/meihujie/public_html/includes/modules/payment/kuaiqian_bob.php on line 83
+[09-Nov-2015 10:59:29 PRC] PHP Strict Standards:  Redefining already defined constructor for class yeepay_icbc in /home/meihujie/public_html/includes/modules/payment/yeepay_icbc.php on line 83
+[09-Nov-2015 10:59:29 PRC] PHP Strict Standards:  Redefining already defined constructor for class kuaiqian_icbc in /home/meihujie/public_html/includes/modules/payment/kuaiqian_icbc.php on line 83
+[09-Nov-2015 10:59:29 PRC] PHP Strict Standards:  Redefining already defined constructor for class kuaiqian_cmb in /home/meihujie/public_html/includes/modules/payment/kuaiqian_cmb.php on line 83
+[09-Nov-2015 10:59:29 PRC] PHP Strict Standards:  Redefining already defined constructor for class yeepay_ccb in /home/meihujie/public_html/includes/modules/payment/yeepay_ccb.php on line 83
+[09-Nov-2015 10:59:29 PRC] PHP Strict Standards:  Redefining already defined constructor for class kuaiqian_bcom in /home/meihujie/public_html/includes/modules/payment/kuaiqian_bcom.php on line 83
+[09-Nov-2015 10:59:29 PRC] PHP Strict Standards:  Redefining already defined constructor for class kuaiqian_cmbc in /home/meihujie/public_html/includes/modules/payment/kuaiqian_cmbc.php on line 83
+[09-Nov-2015 10:59:29 PRC] PHP Strict Standards:  Redefining already defined constructor for class alipay_bank in /home/meihujie/public_html/includes/modules/payment/alipay_bank.php on line 84
+[09-Nov-2015 10:59:29 PRC] PHP Strict Standards:  Redefining already defined constructor for class kuaiqian_boc in /home/meihujie/public_html/includes/modules/payment/kuaiqian_boc.php on line 83
+[09-Nov-2015 10:59:29 PRC] PHP Strict Standards:  Redefining already defined constructor for class kuaiqian_ccb in /home/meihujie/public_html/includes/modules/payment/kuaiqian_ccb.php on line 83
+[09-Nov-2015 10:59:29 PRC] PHP Strict Standards:  Redefining already defined constructor for class yeepayszx in /home/meihujie/public_html/includes/modules/payment/yeepayszx.php on line 82
+[09-Nov-2015 10:59:29 PRC] PHP Strict Standards:  Redefining already defined constructor for class weixin in /home/meihujie/public_html/includes/modules/payment/weixin.php on line 85
+[09-Nov-2015 10:59:29 PRC] PHP Strict Standards:  Redefining already defined constructor for class yeepay in /home/meihujie/public_html/includes/modules/payment/yeepay.php on line 82
+[09-Nov-2015 10:59:29 PRC] PHP Strict Standards:  Redefining already defined constructor for class unionpay in /home/meihujie/public_html/includes/modules/payment/unionpay.php on line 56
+[09-Nov-2015 10:59:29 PRC] PHP Strict Standards:  Redefining already defined constructor for class kuaiqian_sdb in /home/meihujie/public_html/includes/modules/payment/kuaiqian_sdb.php on line 83
+[09-Nov-2015 10:59:29 PRC] PHP Strict Standards:  Redefining already defined constructor for class cncard in /home/meihujie/public_html/includes/modules/payment/cncard.php on line 85
+[09-Nov-2015 10:59:29 PRC] PHP Strict Standards:  Redefining already defined constructor for class express in /home/meihujie/public_html/includes/modules/payment/express.php on line 80
+[09-Nov-2015 10:59:29 PRC] PHP Strict Standards:  Redefining already defined constructor for class yeepay_cmbchina in /home/meihujie/public_html/includes/modules/payment/yeepay_cmbchina.php on line 83
+[09-Nov-2015 10:59:30 PRC] PHP Strict Standards:  Redefining already defined constructor for class yeepay_abchina in /home/meihujie/public_html/includes/modules/payment/yeepay_abchina.php on line 83
+[09-Nov-2015 10:59:30 PRC] PHP Strict Standards:  Redefining already defined constructor for class pup in /home/meihujie/public_html/includes/modules/payment/pup.php on line 72
+[09-Nov-2015 10:59:30 PRC] PHP Strict Standards:  Redefining already defined constructor for class kuaiqian_abc in /home/meihujie/public_html/includes/modules/payment/kuaiqian_abc.php on line 83
+[09-Nov-2015 10:59:30 PRC] PHP Strict Standards:  Redefining already defined constructor for class yeepay_jcard in /home/meihujie/public_html/includes/modules/payment/yeepay_jcard.php on line 83
+[13-Nov-2015 09:27:55 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 09:27:55 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 09:27:55 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 09:27:55 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 09:27:58 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 09:27:59 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 09:28:36 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 09:28:39 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 09:28:39 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 09:28:40 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 09:28:40 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 09:29:02 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 09:29:02 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 09:29:07 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 09:29:07 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 09:30:41 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 09:30:41 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 09:37:01 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 09:37:05 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 09:37:05 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 09:37:10 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 09:37:10 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 09:52:02 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 09:52:02 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 10:13:03 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 10:13:03 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 10:13:18 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[14-Nov-2015 14:21:24 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[14-Nov-2015 14:21:24 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[14-Nov-2015 14:21:37 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[21-Nov-2015 02:45:54 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[21-Nov-2015 02:45:54 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[21-Nov-2015 13:11:03 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[21-Nov-2015 13:11:03 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[21-Nov-2015 13:11:18 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[21-Nov-2015 23:58:46 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[21-Nov-2015 23:58:46 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[22-Nov-2015 18:55:49 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[22-Nov-2015 18:55:49 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[22-Nov-2015 18:56:19 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[22-Nov-2015 19:00:03 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346

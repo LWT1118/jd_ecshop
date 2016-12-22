@@ -1,0 +1,3 @@
+[19-Nov-2015 10:36:47 UTC] PHP Fatal error:  Call-time pass-by-reference has been removed in /home/meihujie/public_html/weixin/index.php on line 79
+[19-Nov-2015 10:36:51 UTC] PHP Fatal error:  Call-time pass-by-reference has been removed in /home/meihujie/public_html/weixin/index.php on line 79
+[19-Nov-2015 10:39:24 UTC] PHP Fatal error:  Call-time pass-by-reference has been removed in /home/meihujie/public_html/weixin/index.php on line 79

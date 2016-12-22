@@ -1,0 +1,23 @@
+[25-Oct-2015 04:32:50 UTC] PHP Notice:  Constant ADMIN_PATH already defined in /home/meihujie/public_html/data/config.php on line 30
+[25-Oct-2015 04:33:06 UTC] PHP Notice:  Constant ADMIN_PATH already defined in /home/meihujie/public_html/data/config.php on line 30
+[25-Oct-2015 12:33:06 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[25-Oct-2015 12:33:06 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[27-Oct-2015 10:36:01 UTC] PHP Notice:  Constant ADMIN_PATH already defined in /home/meihujie/public_html/data/config.php on line 30
+[01-Nov-2015 13:21:44 UTC] PHP Notice:  Constant ADMIN_PATH already defined in /home/meihujie/public_html/data/config.php on line 30
+[01-Nov-2015 13:21:47 UTC] PHP Notice:  Constant ADMIN_PATH already defined in /home/meihujie/public_html/data/config.php on line 30
+[01-Nov-2015 21:21:48 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[01-Nov-2015 21:21:48 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[02-Nov-2015 20:42:15 UTC] PHP Notice:  Constant ADMIN_PATH already defined in /home/meihujie/public_html/data/config.php on line 30
+[02-Nov-2015 20:42:16 UTC] PHP Notice:  Constant ADMIN_PATH already defined in /home/meihujie/public_html/data/config.php on line 30
+[03-Nov-2015 04:42:16 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[03-Nov-2015 04:42:16 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[08-Nov-2015 01:05:39 UTC] PHP Notice:  Constant ADMIN_PATH already defined in /home/meihujie/public_html/data/config.php on line 30
+[08-Nov-2015 01:05:43 UTC] PHP Notice:  Constant ADMIN_PATH already defined in /home/meihujie/public_html/data/config.php on line 30
+[08-Nov-2015 09:05:43 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[08-Nov-2015 09:05:43 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[08-Nov-2015 01:35:31 UTC] PHP Notice:  Constant ADMIN_PATH already defined in /home/meihujie/public_html/data/config.php on line 30
+[08-Nov-2015 01:35:32 UTC] PHP Notice:  Constant ADMIN_PATH already defined in /home/meihujie/public_html/data/config.php on line 30
+[08-Nov-2015 09:35:32 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[08-Nov-2015 09:35:32 PRC] PHP Strict Standards:  Non-static method cls_image::gd_version() should not be called statically in /home/meihujie/public_html/includes/lib_base.php on line 346
+[13-Nov-2015 11:05:25 UTC] PHP Notice:  Constant ADMIN_PATH already defined in /home/meihujie/public_html/data/config.php on line 30
+[15-Nov-2015 17:06:25 UTC] PHP Notice:  Constant ADMIN_PATH already defined in /home/meihujie/public_html/data/config.php on line 30
