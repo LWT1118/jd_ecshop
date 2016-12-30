@@ -135,29 +135,21 @@ if($_GET['act'] == 'send')
 
 function sendSMS ($mobile, $content, $time = '', $mid = '')
 {
-	$content = iconv('utf-8', 'gbk', $content);
-	$http = 'http://http.yunsms.cn/tx/'; // 短信接口
-	$uid = ''; // 用户账号
-	$pwd = ''; // 密码
+	//$content = iconv('utf-8', 'gbk', $content);
+	$http = 'http://120.24.167.205/msg/HttpSendSM'; // 短信接口
 	
 	$data = array(
-		'uid' => $uid, // 用户账号
-		'pwd' => strtolower(md5($pwd)), // MD5位32密码,密码和用户名拼接字符
+		'account' => 'jnzhengh_member', // 用户账号
+		'pswd' => 'M111111m', // MD5位32密码,密码和用户名拼接字符
 		'mobile' => $mobile, // 号码
-		'content' => $content, // 内容
-		'time' => $time, // 定时发送
-		'mid' => $mid
+		'msg' => $content, // 内容
+		'needstatus' => true, // 定时发送
+		'product' => ''
 	);
-	$re = postSMS($http, $data); // POST方式提交
-	                             
+	$re = postSMS($http, $data); // POST方式提交	                          
 	// change_sms change_start
-	
-	$re_t = substr(trim($re), 3, 3);
-	
-	if(trim($re) == '100' || $re_t == '100')
-	
-	// change_sms change_end
-	
+	$re_t = explode(',', trim($re));
+	if(isset($re_t[1]) && intval($re_t[1]) == 0)	// change_sms change_end		
 	{
 		return true;
 	}
@@ -172,7 +164,7 @@ function postSMS ($url, $data = '')
 	$row = parse_url($url);
 	$host = $row['host'];
 	$port = $row['port'] ? $row['port'] : 80;
-	$file = $row['path'];
+	$file = isset($row['path']) ? $row['path'] : '/';
 	while(list($k, $v) = each($data))
 	{
 		$post .= rawurlencode($k) . "=" . rawurlencode($v) . "&"; // 转URL标准码

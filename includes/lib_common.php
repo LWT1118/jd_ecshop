@@ -199,6 +199,15 @@ function get_regions($type = 0, $parent = 0)
 
     return $GLOBALS['db']->GetAll($sql);
 }
+/**
+ * 根据region_id获取地区
+ * add by liuweitao
+ * */
+function get_region_by_id($region_id){
+    $sql = 'select region_id, region_name from ' . $GLOBALS['ecs']->table('region') . "where region_id={$region_id}";
+    
+    return $GLOBALS['db']->GetRow($sql);
+}
 
 /**
  * 获得配送区域中指定的配送方式的配送费用的计算参数
