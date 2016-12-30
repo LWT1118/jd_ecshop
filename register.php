@@ -134,10 +134,9 @@ function action_send_email_code ()
 	}
 }
 
-/* 发送注册邮箱验证码到邮箱 */
+/* 发送验证码到手机 */
 function action_send_mobile_code ()
-{
-	
+{	
 	// 获取全局变量
 	$user = $GLOBALS['user'];
 	$_CFG = $GLOBALS['_CFG'];
@@ -292,8 +291,7 @@ function action_check_mobile_exist ()
  * 显示会员注册界面
  */
 function action_default ()
-{
-	
+{	
 	// 获取全局变量
 	$_CFG = $GLOBALS['_CFG'];
 	$_LANG = $GLOBALS['_LANG'];
@@ -317,6 +315,25 @@ function action_default ()
 		$smarty->assign('enabled_captcha', 1);
 		$smarty->assign('rand', mt_rand());
 	}
+	/* 还原选择的省地区联动 by liuweitao */
+	if(isset($_SESSION['register_info'])){
+	    $sel_country = intval($_SESSION['register_info']['country']);
+	    $smarty->assign('sel_country', $sel_country);
+	    if($sel_country > 0){
+	        $smarty->assign('province_list', get_regions(1, $sel_country));
+	    }
+	    $sel_province = intval($_SESSION['register_info']['province']);
+	    $smarty->assign('sel_province', $sel_province);
+	    if($sel_province > 0){
+	        $smarty->assign('city_list', get_regions(2, $sel_province));
+	    }
+	    $sel_city = intval($_SESSION['register_info']['city']);
+	    $smarty->assign('sel_city', $sel_city);
+	    if($sel_city > 0){
+	        $smarty->assign('district_list', get_regions(3, $sel_city));
+	    }
+	    $smarty->assign('sel_district', intval($_SESSION['register_info']['district']));
+	}
 	
 	/* 密码提示问题 */
 	$smarty->assign('passwd_questions', $_LANG['passwd_questions']);
@@ -329,14 +346,75 @@ function action_default ()
 	/* 增加是否关闭注册 */
 	$smarty->assign('shop_reg_closed', $_CFG['shop_reg_closed']);
 	// 登陆注册-注册类型
-	$register_type = empty($_REQUEST['register_type']) ? 'mobile' : $_REQUEST['register_type'];
+	//$register_type = empty($_REQUEST['register_type']) ? 'mobile' : $_REQUEST['register_type'];
+	$register_type = 'mobile'; //默认设为手机号
 	if($register_type != 'email' && $register_type != 'mobile')
 	{
 		$register_type = 'mobile';
 	}
+	$smarty->assign('country_list', get_regions());
+	
 	$smarty->assign('register_type', $register_type);
 	// $smarty->assign('back_act', $back_act);
 	$smarty->display('user_register.dwt');
+}
+
+/**
+ * liuweitao
+ * 提交资料审核
+ */
+function action_register_preview()
+{
+    $_SESSION['register_info'] = $_POST; //存储post过来的数据，以便还原地区四级联动
+    $_CFG = $GLOBALS['_CFG'];
+    $_LANG = $GLOBALS['_LANG'];
+    $smarty = $GLOBALS['smarty'];
+    if(empty($_POST['agreement'])){
+        show_message($_LANG['passport_js']['agreement']);
+    }
+    foreach($_POST as $value){
+        if($value) continue;
+        show_message('请将资料填写完整后再提交，所有信息都必须填写');
+    }
+    if($_FILES['img_bank_card']['size'] == 0 || $_FILES['img_id_card_1'] == 0 || $_FILES['img_id_card_2'] == 0){
+        show_message("请上传银行卡正面照和身份证正反面！");
+    }
+    /* 手机验证码检查 */  
+    require_once (ROOT_PATH . 'includes/lib_validate_record.php');
+    $record = get_validate_record($_POST['mobile']);
+    $session_mobile_phone = $_SESSION[VT_MOBILE_REGISTER];    
+    if($session_mobile_phone != $_POST['mobile']){   // 检查发送短信验证码的手机号码和提交的手机号码是否匹配
+        show_message($_LANG['mobile_phone_changed']);
+    }else if($record['record_code'] != $_POST['mobile_code']){  // 检查验证码是否正确
+        show_message($_LANG['invalid_mobile_phone_code']);
+    }else if($record['expired_time'] < time()){ // 检查过期时间
+        show_message($_LANG['invalid_mobile_phone_code']);
+    }
+    /* 图片验证码检查 */
+    if((intval($_CFG['captcha']) & CAPTCHA_REGISTER) && gd_version() > 0){
+        include_once ('includes/cls_captcha.php');
+        $captcha = new captcha();        	
+        if(! $captcha->check_word(trim($_POST['captcha']))){
+            show_message($_LANG['invalid_captcha']);
+        }
+    }
+    include_once (ROOT_PATH . '/includes/cls_image.php');
+    $image = new cls_image($_CFG['bgcolor']);
+    $img_bank_card = $image->upload_image($_FILES['img_bank_card'], 'imgbankcard/' . date('Ym'));
+    $img_id_card1 = $image->upload_image($_FILES['img_id_card_1'], 'imgidcard/' . date('Ym'));
+    $img_id_card2 = $image->upload_image($_FILES['img_id_card_2'], 'imgidcard/' . date('Ym'));
+    $_POST['img_bank_card'] = $img_bank_card;
+    $_POST['img_id_card_1'] = $img_id_card1;
+    $_POST['img_id_card_2'] = $img_id_card2;    
+    $smarty->assign('country', get_region_by_id($_POST['country']));
+    $smarty->assign('province', get_region_by_id($_POST['province']));
+    $smarty->assign('city', get_region_by_id($_POST['city']));
+    $smarty->assign('district', get_region_by_id($_POST['district']));
+    $smarty->assign('register_info', $_POST);
+    $smarty->display('user_register_preview.dwt');
+    //$sql = 'UPDATE ' . $ecs->table('users') . " SET `headimg`='$headimg_thumb'  WHERE `user_id`='" . $_SESSION['user_id'] . "'";
+    //$db->query($sql);
+    //$_SESSION['headimg'] = $headimg_thumb;
 }
 
 /**
@@ -344,7 +422,9 @@ function action_default ()
  */
 function action_register ()
 {
-	
+    if(empty($_SESSION['register_info'])){
+        show_message('请正确填写审核资料', '提交审请资料', 'register.php');
+    }
 	// 获取全局变量
 	$_CFG = $GLOBALS['_CFG'];
 	$_LANG = $GLOBALS['_LANG'];
@@ -361,12 +441,14 @@ function action_register ()
 	}
 	else
 	{
+	    $registerInfo = $_SESSION['register_info'];
 		include_once (ROOT_PATH . 'includes/lib_passport.php');
 		
-		$username = isset($_POST['username']) ? trim($_POST['username']) : '';
+		//$username = isset($_POST['username']) ? trim($_POST['username']) : '';
+		$real_name = isset($registerInfo['real_name']) ? trim($registerInfo['real_name']) : '';
 		
-		$password = isset($_POST['password']) ? trim($_POST['password']) : '';
-		$email = isset($_POST['email']) ? trim($_POST['email']) : '';
+		//$password = isset($_POST['password']) ? trim($_POST['password']) : '';
+		//$email = isset($_POST['email']) ? trim($_POST['email']) : '';
 		$other['msn'] = isset($_POST['extend_field1']) ? $_POST['extend_field1'] : '';
 		$other['qq'] = isset($_POST['extend_field2']) ? $_POST['extend_field2'] : '';
 		$other['office_phone'] = isset($_POST['extend_field3']) ? $_POST['extend_field3'] : '';
@@ -376,134 +458,13 @@ function action_register ()
 		$passwd_answer = isset($_POST['passwd_answer']) ? compile_str(trim($_POST['passwd_answer'])) : '';
 		
 		// 注册类型：email、mobile
-		$register_type = isset($_POST['register_type']) ? trim($_POST['register_type']) : '';
-		
-		$back_act = isset($_POST['back_act']) ? trim($_POST['back_act']) : '';
-		
-		if(empty($_POST['agreement']))
-		{
-			show_message($_LANG['passport_js']['agreement']);
-		}
-		
-		// 注册类型不能为空
-		if(empty($register_type))
-		{
-			show_message($_LANG['passport_js']['msg_register_type_blank']);
-		}
-		
-		// 用户名将自动生成
-		if(strlen($username) < 3)
-		{
-			// show_message($_LANG['passport_js']['username_shorter']);
-		}
-		
-		if(strlen($password) < 6)
-		{
-			show_message($_LANG['passport_js']['password_shorter']);
-		}
-		
-		if(strpos($password, ' ') > 0)
-		{
-			show_message($_LANG['passwd_balnk']);
-		}
-		
-		/* 验证码检查 */
-		if((intval($_CFG['captcha']) & CAPTCHA_REGISTER) && gd_version() > 0)
-		{
-			if(empty($_POST['captcha']))
-			{
-				show_message($_LANG['invalid_captcha'], $_LANG['sign_up'], 'register.php', 'error');
-			}
-			
-			/* 检查验证码 */
-			include_once ('includes/cls_captcha.php');
-			
-			$captcha = new captcha();
-			
-			if(! $captcha->check_word(trim($_POST['captcha'])))
-			{
-				show_message($_LANG['invalid_captcha'], $_LANG['sign_up'], 'register.php', 'error');
-			}
-		}
-		
-		if($register_type == "email")
-		{
-			/* 邮箱验证码检查 */
-			require_once (ROOT_PATH . 'includes/lib_validate_record.php');
-			
-			if(empty($email))
-			{
-				show_message($_LANG['msg_email_blank'], $_LANG['sign_up'], 'register.php', 'error');
-			}
-			
-			$record = get_validate_record($email);
-			
-			$session_email = $_SESSION[VT_EMAIL_REGISTER];
-			
-			$email_code = ! empty($_POST['email_code']) ? trim($_POST['email_code']) : '';
-			
-			if(empty($email_code))
-			{
-				show_message($_LANG['msg_email_code_blank'], $_LANG['sign_up'], 'register.php', 'error');
-			}
-			else if($session_email != $email)
-			{
-				show_message($_LANG['email_changed'], $_LANG['sign_up'], 'register.php', 'error');
-			}
-			else if($email_code != $record['record_code'])
-			{
-				show_message($_LANG['invalid_email_code'], $_LANG['sign_up'], 'register.php', 'error');
-			}
-			
-			/* 邮箱注册时 */
-			$username = generate_username();
-			
-			/* 邮箱注册 */
-			$result = register_by_email($username, $password, $email, $other);
-			
-			if($result)
-			{
-				/* 删除注册的验证记录 */
-				remove_validate_record($email);
-			}
-		}
-		else if($register_type == "mobile")
-		{
-			
-			require_once (ROOT_PATH . 'includes/lib_validate_record.php');
-			
-			$mobile_phone = ! empty($_POST['mobile_phone']) ? trim($_POST['mobile_phone']) : '';
-			$mobile_code = ! empty($_POST['mobile_code']) ? trim($_POST['mobile_code']) : '';
-			
-			$record = get_validate_record($mobile_phone);
-			
-			$session_mobile_phone = $_SESSION[VT_MOBILE_REGISTER];
-			
-			/* 手机验证码检查 */
-			
-			if(empty($mobile_code))
-			{
-				show_message($_LANG['msg_mobile_phone_blank'], $_LANG['sign_up'], 'register.php', 'error');
-			}
-			// 检查发送短信验证码的手机号码和提交的手机号码是否匹配
-			else if($session_mobile_phone != $mobile_phone)
-			{
-				show_message($_LANG['mobile_phone_changed'], $_LANG['sign_up'], 'register.php', 'error');
-			}
-			// 检查验证码是否正确
-			else if($record['record_code'] != $mobile_code)
-			{
-				show_message($_LANG['invalid_mobile_phone_code'], $_LANG['sign_up'], 'register.php', 'error');
-			}
-			// 检查过期时间
-			else if($record['expired_time'] < time())
-			{
-				show_message($_LANG['invalid_mobile_phone_code'], $_LANG['sign_up'], 'register.php', 'error');
-			}
-			
+		//$register_type = isset($_POST['register_type']) ? trim($_POST['register_type']) : '';
+		$register_type = 'mobile';		
+		$back_act = isset($_POST['back_act']) ? trim($_POST['back_act']) : '';		
+		if($register_type == "mobile")
+		{						
 			/* 手机注册时，用户名默认为u+手机号 */
-			$username = generate_username_by_mobile($mobile_phone);
-			
+			//$username = generate_username_by_mobile($mobile_phone);			
 			/* 手机注册 */
 			$result = register_by_mobile($username, $password, $mobile_phone, $other);
 			

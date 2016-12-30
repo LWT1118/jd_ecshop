@@ -399,7 +399,8 @@ $_LANG['back_retry_answer'] = '返回重试';
 
 /* 登录 注册 */
 $_LANG['username_chana'] = '用户名不能有中文';
-$_LANG['label_username'] = '用户名';
+$_LANG['label_username'] = '卡号';
+$_LANG['label_realname'] = '姓名';
 $_LANG['label_email'] = 'email';
 $_LANG['label_password'] = '密码';
 $_LANG['label_confirm_password'] = '确认密码';
@@ -411,6 +412,9 @@ $_LANG['other_office_phone'] = '办公电话';
 $_LANG['other_home_phone'] = '家庭电话';
 $_LANG['other_mobile_phone'] = '手机';
 $_LANG['remember'] = '请保存我这次的登录信息。';
+$_LANG['label_id_card_no'] = '身份证号码';
+$_LANG['label_bank_card_no'] = '银行卡号码';
+$_LANG['label_select_address'] = '国家/省/市/区';
 
 $_LANG['msg_un_chine'] = '用户名不能有中文';
 $_LANG['msg_un_blank'] = '用户名不能为空';
@@ -440,7 +444,7 @@ $_LANG['secrecy'] = '保密';
 $_LANG['birthday'] = '出生日期';
 
 $_LANG['logout'] = '您已经成功的退出了。';
-$_LANG['username_empty'] = '用户名为空';
+$_LANG['username_empty'] = '用户姓名为空';
 $_LANG['username_invalid'] = '用户名 %s 含有敏感字符';
 $_LANG['username_exist'] = '用户名 %s 已经存在';
 $_LANG['username_not_allow'] = '用户名 %s 不允许注册';
