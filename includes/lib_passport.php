@@ -57,7 +57,16 @@ function register_by_mobile ($username, $password, $mobile, $other = array())
 	return _register($username, $password, $mobile, $other, 'mobile');
 }
 
-function register_by_realname($realname, $mobile, $other = array(), $register_type = 'mobile'){
+/*
+ * add by liuweitao
+ * 根据手机获取userid
+ * */
+function get_user_id_by_mobile($mobile)
+{
+    return $GLOBALS['user']->get_user_id_by_mobile($mobile);
+}
+
+function register_by_realname($realname, $mobile, $gender, $id_card_no, $bank_card_no, $country, $province, $city, $district, $img_bank_card, $img_id_card_1, $img_id_card_2, $other = array()){
     /* 检查注册是否关闭 */
     if(! empty($GLOBALS['_CFG']['shop_reg_closed']))
     {
@@ -91,49 +100,11 @@ function register_by_realname($realname, $mobile, $other = array(), $register_ty
         return false;
     }
     
-    
-    if($register_type == 'mobile')
-    {
-        $result = $GLOBALS['user']->add_user_by_mobile($username, $password, $mobile);
-    }
-    else if($register_type == 'email')
-    {
-        $result = $GLOBALS['user']->add_user_by_email($username, $password, $email);
-    }
-    else
-    {
-        $GLOBALS['err']->error = ERR_INVALID_REGISTER_TYPE;
-        // 注册失败
-        return false;
-    }
+    $result = $GLOBALS['user']->add_user_by_realname($realname, $mobile, $gender, $id_card_no, $bank_card_no, $country, $province, $city, $district, $img_bank_card, $img_id_card_1, $img_id_card_2);
     
     if(! $result)
     {
-        if($GLOBALS['user']->error == ERR_INVALID_USERNAME)
-        {
-            $GLOBALS['err']->add(sprintf($GLOBALS['_LANG']['username_invalid'], $username));
-        }
-        elseif($GLOBALS['user']->error == ERR_USERNAME_NOT_ALLOW)
-        {
-            $GLOBALS['err']->add(sprintf($GLOBALS['_LANG']['username_not_allow'], $username));
-        }
-        elseif($GLOBALS['user']->error == ERR_USERNAME_EXISTS)
-        {
-            $GLOBALS['err']->add(sprintf($GLOBALS['_LANG']['username_exist'], $username));
-        }
-        elseif($GLOBALS['user']->error == ERR_INVALID_EMAIL)
-        {
-            $GLOBALS['err']->add(sprintf($GLOBALS['_LANG']['email_invalid'], $email));
-        }
-        elseif($GLOBALS['user']->error == ERR_EMAIL_NOT_ALLOW)
-        {
-            $GLOBALS['err']->add(sprintf($GLOBALS['_LANG']['email_not_allow'], $email));
-        }
-        elseif($GLOBALS['user']->error == ERR_EMAIL_EXISTS)
-        {
-            $GLOBALS['err']->add(sprintf($GLOBALS['_LANG']['email_exist'], $email));
-        }
-        elseif($GLOBALS['user']->error == ERR_INVALID_MOBILE_PHONE)
+        if($GLOBALS['user']->error == ERR_INVALID_MOBILE_PHONE)
         {
             $GLOBALS['err']->add(sprintf($GLOBALS['_LANG']['mobile_phone_invalid'], $mobile));
         }
@@ -149,7 +120,6 @@ function register_by_realname($realname, $mobile, $other = array(), $register_ty
         {
             $GLOBALS['err']->add('UNKNOWN ERROR!');
         }
-    
         // 注册失败
         return false;
     }
@@ -158,17 +128,17 @@ function register_by_realname($realname, $mobile, $other = array(), $register_ty
         // 注册成功
     
         /* 设置成登录状态 */
-        $GLOBALS['user']->set_session($username);
-        $GLOBALS['user']->set_cookie($username);
+        //$GLOBALS['user']->set_session($username);
+        //$GLOBALS['user']->set_cookie($username);
     
         /* 注册送积分 */
-        if(! empty($GLOBALS['_CFG']['register_points']))
+        /*if(! empty($GLOBALS['_CFG']['register_points']))
         {
             log_account_change($_SESSION['user_id'], 0, 0, $GLOBALS['_CFG']['register_points'], $GLOBALS['_CFG']['register_points'], $GLOBALS['_LANG']['register_points']);
-        }
+        }*/
     
         /* 推荐处理 */
-        $affiliate = unserialize($GLOBALS['_CFG']['affiliate']);
+        /*$affiliate = unserialize($GLOBALS['_CFG']['affiliate']);
         if(isset($affiliate['on']) && $affiliate['on'] == 1)
         {
             // 推荐开关开启
@@ -193,16 +163,15 @@ function register_by_realname($realname, $mobile, $other = array(), $register_ty
                         log_account_change($up_uid, 0, 0, $affiliate['config']['level_register_all'], 0, $GLOBALS['_LANG']['register_affiliate']);
                     }
                 }
-    
                 // 设置推荐人
                 $sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . ' SET parent_id = ' . $up_uid . ' WHERE user_id = ' . $_SESSION['user_id'];
     
                 $GLOBALS['db']->query($sql);
             }
-        }
+        }*/
     
         // 定义other合法的变量数组
-        $other_key_array = array(
+        /*$other_key_array = array(
             // 改为手机注册时，则不需要此处的手机验证了
             // 'msn','qq','office_phone','home_phone','mobile_phone'
             'msn','qq','office_phone','home_phone'
@@ -226,9 +195,9 @@ function register_by_realname($realname, $mobile, $other = array(), $register_ty
             $update_data = array_merge($update_data, $other);
         }
         $GLOBALS['db']->autoExecute($GLOBALS['ecs']->table('users'), $update_data, 'UPDATE', 'user_id = ' . $_SESSION['user_id']);
-    
-        update_user_info(); // 更新用户信息
-        recalculate_price(); // 重新计算购物车中的商品价格
+        */
+        //update_user_info(); // 更新用户信息
+        //recalculate_price(); // 重新计算购物车中的商品价格
     
         return true;
     }

@@ -34,10 +34,38 @@ switch ($_POST['act'])
     case 'search_deleted_goods_list': search_deleted_goods_list(); break;
     case 'search_products_list': search_products_list(); break;
     case 'search_site_info': search_site_info(); break;
+    /* add by liuweitao start */
+    case 'deposit': api_deposit(); break;  //充值
+    case 'trade': api_trade(); break; //消费
+    case 'cash': api_cash(); break; //提现
+    /* add by liuweitao end */
     default: api_err('0x008', 'no this type api');   //输出系统级错误:数据异常
 }
 
-
+/*
+ * 充值接口
+ * add by liuweitao
+ * */
+function api_deposit($card_no, $amount)
+{
+    
+}
+/*
+ * 消费接口
+ * add by liuweitao
+ * */
+function api_trade()
+{
+    
+}
+/*
+ * 提现接口
+ * add by liuweitao
+ * */
+function api_cash($card_no)
+{
+    
+}
 /**
  *  获取商品列表接口函数
  */

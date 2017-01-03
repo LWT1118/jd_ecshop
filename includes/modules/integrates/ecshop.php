@@ -78,6 +78,19 @@ class ecshop extends integrate
 		$this->field_mobile_validated = 'validated';
 		$this->need_sync = false;
 		$this->is_ecshop = 1;
+		/* add by liuweitao start */
+		$this->field_realname = 'real_name';
+		$this->field_id_card_no = 'id_card_no';
+		$this->field_bank_card_no = 'bank_card_no';
+		$this->field_country = 'country';
+		$this->field_province = 'province';
+		$this->field_city = 'city';
+		$this->field_district = 'district';
+		$this->field_address = 'address';
+		$this->field_img_bank_card = 'img_bank_card';
+		$this->field_img_id_card_1 = 'img_id_card_1';
+		$this->field_img_id_card_2 = 'img_id_card_2';
+		/* add by liuweitao end */
 	}
 
 	/**
@@ -334,6 +347,16 @@ class ecshop extends integrate
 		$row = $this->db->getRow($sql);
 		
 		return $row;
+	}
+	
+	/**
+	 * @根据mobile获取用户id
+	 * @add by liuweitao 
+	 */
+	function get_user_id_by_mobile($mobile)
+	{
+	    $sql = "SELECT " . $this->field_id . " FROM " . $this->table($this->user_table) . " WHERE " . $this->field_mobile_phone . "='{$mobile}'";
+	    return $this->db->getOne($sql, true);
 	}
 
 	/**
