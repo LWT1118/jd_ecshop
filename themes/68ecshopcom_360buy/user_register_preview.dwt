@@ -77,7 +77,7 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
 			                  <td align="left" bgcolor="#ffffff">{$register_info.real_name}</td>
 			                  <td align="right" bgcolor="#ffffff">{$lang.sex}：</td>
 			                  <td align="left" bgcolor="#ffffff">
-			                    <!-- {if $register_info.sex eq 1} -->男<!-- {else} -->女<!-- {/if} -->			      
+			                    <!-- {if $register_info.sex eq 1} -->男<!-- {else} -->女<!-- {/if} -->			          		 
 			                  </td>
 			                </tr>
 			                
@@ -125,9 +125,8 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
 			               	
 			              </table>										
 						
-							<div class="item" style="margin-top:10px;">
+							<div class="item" style="margin-top:10px;">				
 								<input name="act" type="hidden" value="register">
-								<input type="hidden" name="back_act" value="user.php" />
 								<input type="submit" id="btn_submit" name="Submit" class="btn-img btn-regist" value="确定提交" />								
 							</div>
 							

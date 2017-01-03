@@ -416,6 +416,47 @@ class integrate
 		
 		return true;
 	}
+	
+	/**
+	 * <p>提交审请资料注册</p>
+	 * author liuweitao
+	 * @access public
+	 * @param
+	 * @return int
+	 */
+	function add_user_by_realname ($realname, $mobile, $gender, $id_card_no, $bank_card_no, $country, $province, $city, $district, $img_bank_card, $img_id_card_1, $img_id_card_2)
+	{
+	    /* 检查mobile是否重复 */
+	    $sql = "SELECT " . $this->field_id . " FROM " . $this->table($this->user_table) . " WHERE " . $this->field_mobile_phone . " = '$mobile'";
+	    if($this->db->getOne($sql, true) > 0)
+	    {
+	        $this->error = ERR_MOBILE_PHONE_EXISTS;
+	        	
+	        return false;
+	    }
+	
+	    /* 补充手机已验证 */
+	    $fields = array(
+	        $this->field_realname, $this->field_mobile_phone, $this->field_gender, $this->field_id_card_no, $this->field_bank_card_no, $this->field_country, $this->field_province, $this->field_city, $this->field_district, $this->field_img_bank_card, $this->field_img_id_card_1, $this->field_img_id_card_2
+	    );
+	    $values = array(
+	        $realname, $mobile, $gender, $id_card_no, $bank_card_no, $country, $province, $city, $district, $img_bank_card, $img_id_card_1, $img_id_card_2
+	    );
+	    
+	    $fields[] = $this->field_reg_date;
+	    $values[] = time();	    
+	
+	    $sql = "INSERT INTO " . $this->table($this->user_table) . " (" . implode(',', $fields) . ")" . " VALUES ('" . implode("', '", $values) . "')";
+	
+	    $this->db->query($sql);
+	
+	    /*if($this->need_sync)
+	    {
+	        $this->sync($username, $password);
+	    }*/
+	
+	    return true;
+	}
 
 	/**
 	 * 编辑用户信息($password, $email, $gender, $bday, $mobile_phone,
