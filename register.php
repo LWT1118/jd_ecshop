@@ -466,7 +466,7 @@ function action_register ()
 		//$username = generate_username_by_mobile($mobile_phone);			
 		/* 手机注册 */
 		//$result = register_by_mobile($username, $password, $mobile_phone, $other);
-		$result = register_by_realname($realname, $registerInfo['mobile'], $registerInfo['gender'], $registerInfo['id_card_no'], $registerInfo['bank_card_no'], $registerInfo['country'], $registerInfo['province'], $registerInfo['city'], $registerInfo['district'], $registerInfo['img_bank_card'], $registerInfo['img_id_card_1'], $registerInfo['img_id_card_2'], $other);
+		$result = register_by_realname($realname, $registerInfo['mobile'], $registerInfo['gender'], $registerInfo['id_card_no'], $registerInfo['bank_card_no'], $registerInfo['country'], $registerInfo['province'], $registerInfo['city'], $registerInfo['district'], $registerInfo['address'], $registerInfo['img_bank_card'], $registerInfo['img_id_card_1'], $registerInfo['img_id_card_2'], $other);
 		if($result)
 		{
 			/* 删除注册的验证记录 */
