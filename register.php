@@ -376,12 +376,12 @@ function action_register_preview()
         if($value) continue;
         show_message('请将资料填写完整后再提交，所有信息都必须填写');
     }
-    if($_FILES['img_bank_card']['size'] == 0 || $_FILES['img_id_card_1'] == 0 || $_FILES['img_id_card_2'] == 0){
+    if($_FILES['img_bank_card']['size'] == 0 || $_FILES['face_card'] == 0 || $_FILES['back_card'] == 0){
         show_message("请上传银行卡正面照和身份证正反面！");
     }
     /* 手机验证码检查 */  
     require_once (ROOT_PATH . 'includes/lib_validate_record.php');
-    /*$record = get_validate_record($_POST['mobile']);
+    $record = get_validate_record($_POST['mobile']);
     $session_mobile_phone = $_SESSION[VT_MOBILE_REGISTER];    
     if($session_mobile_phone != $_POST['mobile']){   // 检查发送短信验证码的手机号码和提交的手机号码是否匹配
         show_message($_LANG['mobile_phone_changed']);
@@ -389,7 +389,8 @@ function action_register_preview()
         show_message($_LANG['invalid_mobile_phone_code']);
     }else if($record['expired_time'] < time()){ // 检查过期时间
         show_message($_LANG['invalid_mobile_phone_code']);
-    }*/
+    }
+    remove_validate_record($_POST['mobile']);/* 删除注册的验证记录 */
     /* 图片验证码检查 */
     if((intval($_CFG['captcha']) & CAPTCHA_REGISTER) && gd_version() > 0){
         include_once ('includes/cls_captcha.php');
@@ -401,20 +402,17 @@ function action_register_preview()
     include_once (ROOT_PATH . '/includes/cls_image.php');
     $image = new cls_image($_CFG['bgcolor']);
     $img_bank_card = $image->upload_image($_FILES['img_bank_card'], 'imgbankcard/' . date('Ym'));
-    $img_id_card1 = $image->upload_image($_FILES['img_id_card_1'], 'imgidcard/' . date('Ym'));
-    $img_id_card2 = $image->upload_image($_FILES['img_id_card_2'], 'imgidcard/' . date('Ym'));
-    $_POST['img_bank_card'] = $img_bank_card;
-    $_POST['img_id_card_1'] = $img_id_card1;
-    $_POST['img_id_card_2'] = $img_id_card2;    
+    $face_card = $image->upload_image($_FILES['face_card'], 'imgidcard/' . date('Ym'));
+    $back_card = $image->upload_image($_FILES['back_card'], 'imgidcard/' . date('Ym'));
+    $_SESSION['register_info']['img_bank_card'] = $img_bank_card;
+    $_SESSION['register_info']['face_card'] = $face_card;
+    $_SESSION['register_info']['back_card'] = $back_card;   
     $smarty->assign('country', get_region_by_id($_POST['country']));
     $smarty->assign('province', get_region_by_id($_POST['province']));
     $smarty->assign('city', get_region_by_id($_POST['city']));
     $smarty->assign('district', get_region_by_id($_POST['district']));
-    $smarty->assign('register_info', $_POST);
+    $smarty->assign('register_info', $_SESSION['register_info']);
     $smarty->display('user_register_preview.dwt');
-    //$sql = 'UPDATE ' . $ecs->table('users') . " SET `headimg`='$headimg_thumb'  WHERE `user_id`='" . $_SESSION['user_id'] . "'";
-    //$db->query($sql);
-    //$_SESSION['headimg'] = $headimg_thumb;
 }
 
 /**
@@ -461,23 +459,12 @@ function action_register ()
 		//$register_type = isset($_POST['register_type']) ? trim($_POST['register_type']) : '';
 		$register_type = 'mobile';		
 		$back_act = isset($_POST['back_act']) ? trim($_POST['back_act']) : '';		
-							
-		/* 手机注册时，用户名默认为u+手机号 */
-		//$username = generate_username_by_mobile($mobile_phone);			
-		/* 手机注册 */
+		$mobile = $registerInfo['mobile'];
 		//$result = register_by_mobile($username, $password, $mobile_phone, $other);
-		$result = register_by_realname($realname, $registerInfo['mobile'], $registerInfo['gender'], $registerInfo['id_card_no'], $registerInfo['bank_card_no'], $registerInfo['country'], $registerInfo['province'], $registerInfo['city'], $registerInfo['district'], $registerInfo['address'], $registerInfo['img_bank_card'], $registerInfo['img_id_card_1'], $registerInfo['img_id_card_2'], $other);
+		$result = register_by_realname($realname, $mobile, $registerInfo['sex'], $registerInfo['card'], $registerInfo['bank_card_no'], $registerInfo['country'], $registerInfo['province'], $registerInfo['city'], $registerInfo['district'], $registerInfo['address'], $registerInfo['img_bank_card'], $registerInfo['face_card'], $registerInfo['back_card'], $other);
 		if($result)
-		{
-			/* 删除注册的验证记录 */
-			//remove_validate_record($registerInfo['mobile']);
-		}		
-		
-		/* 随进生成用户名 */
-		// $username = generate_username();
-		
-		if($result)
-		{
+		{		    
+		    unset($_SESSION['register_info']);
 		    $user_id = get_user_id_by_mobile($registerInfo['mobile']);
 			/* 把新注册用户的扩展信息插入数据库 */
 			$sql = 'SELECT id FROM ' . $ecs->table('reg_fields') . ' WHERE type = 0 AND display = 1 ORDER BY dis_order, id'; // 读出所有自定义扩展字段的id

@@ -338,7 +338,7 @@ function action_edit ()
 	$user = $users->get_user_info($row['user_name']);
 	/* 代码增加2014-12-23 by www.68ecshop.com _star */
 	$sql = "SELECT u.user_id, u.sex, u.birthday, u.pay_points, u.rank_points, u.user_rank , u.user_money, u.frozen_money, u.credit_line, u.parent_id, u2.user_name as parent_username, u.qq, u.msn,
-    u.office_phone, u.home_phone, u.mobile_phone,u.real_name,u.card,u.face_card,u.back_card,u.country,u.province,u.city,u.district,u.address,u.status " . " FROM " . $ecs->table('users') . " u LEFT JOIN " . $ecs->table('users') . " u2 ON u.parent_id = u2.user_id WHERE u.user_id='$_GET[id]'";
+    u.office_phone, u.home_phone, u.mobile_phone,u.real_name,u.card,u.bank_card_no,u.img_bank_card,u.face_card,u.back_card,u.country,u.province,u.city,u.district,u.address,u.status " . " FROM " . $ecs->table('users') . " u LEFT JOIN " . $ecs->table('users') . " u2 ON u.parent_id = u2.user_id WHERE u.user_id='$_GET[id]'";
 	/* 代码增加2014-12-23 by www.68ecshop.com _end */
 	
 	$row = $db->GetRow($sql);
@@ -375,6 +375,11 @@ function action_edit ()
 		$user['address'] = $row['address'];
 		$user['status'] = $row['status'];
 		/* 代码增加2014-12-23 by www.68ecshop.com _end */
+		/* add by liuweitao start */
+		$user['bank_card_no'] = $row['bank_card_no'];
+		$user['img_bank_card'] = $row['img_bank_card'];
+		$user['formated_pay_points'] = price_format($row['pay_points']);
+		/* add by liuweitao end */
 	}
 	else
 	{
@@ -484,7 +489,7 @@ function action_edit ()
 	));
 	$smarty->assign('user', $user);
 	$smarty->assign('form_action', 'update');
-	$smarty->assign('special_ranks', get_rank_list(true));
+	$smarty->assign('special_ranks', get_rank_list(false));
 	$smarty->display('user_info.htm');
 }
 
@@ -503,32 +508,42 @@ function action_update ()
 	
 	/* 检查权限 */
 	admin_priv('users_manage');
+	$user_id = intval($_POST['id']);
+	if($user_id < 1){
+	    sys_msg('用户id非法');
+	}
 	$username = empty($_POST['username']) ? '' : trim($_POST['username']);
-	$password = empty($_POST['password']) ? '' : trim($_POST['password']);
+	$user_money = sprintf('%.2f', floatval($_POST['user_money']));
+	$pay_points = sprintf('%.2f', floatval($_POST['pay_points']));
+	if(empty($username)){
+	    sys_msg('卡号不能为空');
+	}
+	/*$password = empty($_POST['password']) ? '' : trim($_POST['password']);
 	$email = empty($_POST['email']) ? '' : trim($_POST['email']);
 	$mobile_phone = empty($_POST['mobile_phone']) ? '' : trim($_POST['mobile_phone']);
 	$sex = empty($_POST['sex']) ? 0 : intval($_POST['sex']);
 	$sex = in_array($sex, array(
 		0, 1, 2
 	)) ? $sex : 0;
-	$birthday = $_POST['birthdayYear'] . '-' . $_POST['birthdayMonth'] . '-' . $_POST['birthdayDay'];
+	$birthday = $_POST['birthdayYear'] . '-' . $_POST['birthdayMonth'] . '-' . $_POST['birthdayDay'];*/
 	$rank = empty($_POST['user_rank']) ? 0 : intval($_POST['user_rank']);
-	$credit_line = empty($_POST['credit_line']) ? 0 : floatval($_POST['credit_line']);
+	//$credit_line = empty($_POST['credit_line']) ? 0 : floatval($_POST['credit_line']);
 	/* 代码增加2014-12-23 by www.68ecshop.com _star */
-	$real_name = empty($_POST['real_name']) ? '' : trim($_POST['real_name']);
+	/*$real_name = empty($_POST['real_name']) ? '' : trim($_POST['real_name']);
 	$card = empty($_POST['card']) ? '' : trim($_POST['card']);
 	$country = $_POST['country'];
 	$province = $_POST['province'];
 	$city = $_POST['city'];
 	$district = $_POST['district'];
-	$address = empty($_POST['address']) ? '' : trim($_POST['address']);
+	$address = empty($_POST['address']) ? '' : trim($_POST['address']);*/
 	$status = $_POST['status'];
 	/* 代码增加2014-12-23 by www.68ecshop.com _end */
 	
 	$users = & init_users();
+	$users->audit_user($user_id, $username, $user_money, $pay_points, $rank, $status);
 	
 	// 获取用户邮箱和手机号已经验证信息,如果手机号、邮箱变更则需验证，如果未变化则沿用原来的验证结果
-	$user = $users->get_profile_by_name($username);
+	/*$user = $users->get_profile_by_name($username);
 	
 	$profile = array(
 		'username' => $username,'password' => $password,'email' => $email, 'mobile_phone' => $mobile_phone, 'gender' => $sex,'bday' => $birthday
@@ -568,9 +583,9 @@ function action_update ()
 	{
 		$sql = "UPDATE " . $ecs->table('users') . "SET `ec_salt`='0' WHERE user_name= '" . $username . "'";
 		$db->query($sql);
-	}
+	}*/
 	/* 代码增加2014-12-23 by www.68ecshop.com _star */
-	if(isset($_FILES['face_card']) && $_FILES['face_card']['tmp_name'] != '')
+	/*if(isset($_FILES['face_card']) && $_FILES['face_card']['tmp_name'] != '')
 	{
 		$face_card = $image->upload_image($_FILES['face_card']);
 		if($face_card === false)
@@ -585,12 +600,13 @@ function action_update ()
 		{
 			sys_msg($image->error_msg(), 1, array(), false);
 		}
-	}
+	}*/
 	
-	$sql = "update " . $ecs->table('users') . " set `real_name`='$real_name',`card`='$card',`country`='$country',`province`='$province',`city`='$city',`district`='$district',`address`='$address',`status`='$status' where user_name = '" . $username . "'";
-	$db->query($sql);
+	//$sql = "update " . $ecs->table('users') . " set `real_name`='$real_name',`card`='$card',`country`='$country',`province`='$province',`city`='$city',`district`='$district',`address`='$address',`status`='$status' where user_name = '" . $username . "'";
 	
-	if($face_card != '')
+	//$db->query($sql);
+	
+	/*if($face_card != '')
 	{
 		$sql = "update " . $ecs->table('users') . " set `face_card` = '$face_card' where user_name = '" . $username . "'";
 		$db->query($sql);
@@ -599,10 +615,10 @@ function action_update ()
 	{
 		$sql = "update " . $ecs->table('users') . " set `back_card` = '$back_card' where user_name = '" . $username . "'";
 		$db->query($sql);
-	}
+	}*/
 	/* 代码增加2014-12-23 by www.68ecshop.com _end */
 	/* 更新用户扩展字段的数据 */
-	$sql = 'SELECT id FROM ' . $ecs->table('reg_fields') . ' WHERE type = 0 AND display = 1 ORDER BY dis_order, id'; // 读出所有扩展字段的id
+	/*$sql = 'SELECT id FROM ' . $ecs->table('reg_fields') . ' WHERE type = 0 AND display = 1 ORDER BY dis_order, id'; // 读出所有扩展字段的id
 	$fields_arr = $db->getAll($sql);
 	$user_id_arr = $users->get_profile_by_name($username);
 	$user_id = $user_id_arr['user_id'];
@@ -625,17 +641,17 @@ function action_update ()
 			}
 			$db->query($sql);
 		}
-	}
+	}*/
 	
 	/* 更新会员的其它信息 */
-	$other = array();
+	/*$other = array();
 	$other['credit_line'] = $credit_line;
 	$other['user_rank'] = $rank;
 	
 	$other['msn'] = isset($_POST['extend_field1']) ? htmlspecialchars(trim($_POST['extend_field1'])) : '';
 	$other['qq'] = isset($_POST['extend_field2']) ? htmlspecialchars(trim($_POST['extend_field2'])) : '';
 	$other['office_phone'] = isset($_POST['extend_field3']) ? htmlspecialchars(trim($_POST['extend_field3'])) : '';
-	$other['home_phone'] = isset($_POST['extend_field4']) ? htmlspecialchars(trim($_POST['extend_field4'])) : '';
+	$other['home_phone'] = isset($_POST['extend_field4']) ? htmlspecialchars(trim($_POST['extend_field4'])) : '';*/
 	// $other['mobile_phone'] = isset($_POST['extend_field5']) ?
 	// htmlspecialchars(trim($_POST['extend_field5'])) : '';
 	
@@ -650,7 +666,7 @@ function action_update ()
 	**/
 	// dqy add end 2015-1-6
 	
-	$db->autoExecute($ecs->table('users'), $other, 'UPDATE', "user_name = '$username'");
+	//$db->autoExecute($ecs->table('users'), $other, 'UPDATE', "user_name = '$username'");
 	
 	/* 记录管理员操作 */
 	admin_log($username, 'edit', 'users');
@@ -1072,7 +1088,7 @@ function user_list ()
 		// $sql = "SELECT user_id, user_name, email, is_validated,
 		// validated,status,user_money, frozen_money, rank_points, pay_points,
 		// reg_time ".
-		$sql = "SELECT user_id, user_name, email, mobile_phone, is_validated, validated, user_money, frozen_money, rank_points, pay_points, status, reg_time, froms ".
+		$sql = "SELECT user_id, user_name, real_name, email, mobile_phone, is_validated, validated, user_money, frozen_money, user_rank, rank_points, pay_points, status, reg_time, froms ".
 		        /* 代码增加2014-12-23 by www.68ecshop.com  _end  */
                 " FROM " . $GLOBALS['ecs']->table('users') . $ex_where . " ORDER by " . $filter['sort_by'] . ' ' . $filter['sort_order'] . " LIMIT " . $filter['start'] . ',' . $filter['page_size'];
 		
@@ -1087,7 +1103,7 @@ function user_list ()
 	
 	$user_list = $GLOBALS['db']->getAll($sql);
 	
-	$sql = "select * from " . $GLOBALS['ecs']->table('user_rank') . " where special_rank = 0";
+	$sql = "select * from " . $GLOBALS['ecs']->table('user_rank'); // . " where special_rank = 0"; //comment by liuweitao
 	
 	$rank_list = $GLOBALS['db']->getAll($sql);
 	
@@ -1099,12 +1115,10 @@ function user_list ()
 		for ($j = 0; $j < count($rank_list); $j ++)
 		{
 			$rank_id = $rank_list[$j]['rank_id'];
-			
 			$rank_points = $user_list[$i]['rank_points'];
 			$min_point = $rank_list[$j]['min_points'];
 			$max_point = $rank_list[$j]['max_points'];
-			
-			if($rank_points <= $max_point && $rank_points >= $min_point)
+			if($rank_id == $user_list[$i]['user_rank'])  //($rank_points <= $max_point && $rank_points >= $min_point) // by liuweitao
 			{
 				$user_list[$i]['rank_name'] = $rank_list[$j]['rank_name'];
 			}

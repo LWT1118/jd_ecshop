@@ -44,13 +44,13 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
     <div class="mcon">
       <div id="reg-pic" class="box-pic"></div>
       <div id="login-box" class="uc_box">
-        <form name="formLogin" action="user.php?XDEBUG_SESSION_START=ECLIPSE_DBGP" method="post" onSubmit="return userLogin()">
+        <form name="formLogin" action="user.php" method="post" onSubmit="return userLogin()">
           <h2><span>还没有账号？<a href="register.php">立即注册</a></span></h2>
           <div class="form">
           
             <div class="item"> <span class="label">账户名</span>
       
-                <input type="text" id="username" name="username" class="text" tabindex="1" placeholder="手机号/用户名/邮箱"/>
+                <input type="text" id="username" name="username" class="text" tabindex="1" placeholder="手机号/卡号"/>
   
             </div>
             <div class="item"> <span class="label">密码</span>

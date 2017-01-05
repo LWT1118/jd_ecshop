@@ -121,7 +121,7 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
 			                  <select name="country" id="selCountries_reg" onchange="region.changed(this, 1, 'selProvinces_reg')">
 			                      <option value="0">{$lang.please_select}{$name_of_region[0]}</option>
 			                      <!-- {foreach from=$country_list item=country} -->
-			                      <option value="{$country.region_id}">{$country.region_name}</option>
+			                      <option value="{$country.region_id}"<!--{if $country.region_id eq $sel_country}--> selected<!--{/if}-->>{$country.region_name}</option>
 			                      <!-- {/foreach} -->
 			                    </select>		
 			                    <select style="margin-left:5px;" name="province" id="selProvinces_reg" onchange="region.changed(this, 2, 'selCities_reg')">			                      
@@ -152,17 +152,17 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
 			               			             
    							<tr>
 			                  <td align="right" bgcolor="#ffffff">{$lang.label_id_card_no}：</td>
-			                  <td align="left" bgcolor="#ffffff" colspan="3"><input name="id_card_no" type="text" class="inputBg" value="" style="width: 300px;"/></td>
+			                  <td align="left" bgcolor="#ffffff" colspan="3"><input name="card" type="text" class="inputBg" value="" style="width: 300px;"/></td>
 			               	</tr>			               	
 			               	
 			                <tr>
 			                  <td align="right" bgcolor="#ffffff">身份证正面照：</td>
-			                  <td align="left" bgcolor="#ffffff" colspan="3"><input name="img_id_card_1" type="file">大小不能超过2M</td>
+			                  <td align="left" bgcolor="#ffffff" colspan="3"><input name="face_card" type="file">大小不能超过2M</td>
 			               	</tr>
 			               				               	
  	    	                <tr>
 			                  <td align="right" bgcolor="#ffffff">身份证反面照：</td>
-			                  <td align="left" bgcolor="#ffffff" colspan="3"><input name="img_id_card_2" type="file">大小不能超过2M</td>
+			                  <td align="left" bgcolor="#ffffff" colspan="3"><input name="back_card" type="file">大小不能超过2M</td>
 			               	</tr>
 			              
 			                <!-- 判断是否启用验证码{if $enabled_captcha} -->

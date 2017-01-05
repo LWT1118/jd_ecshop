@@ -110,17 +110,17 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
 			               			             
    							<tr>
 			                  <td align="right" bgcolor="#ffffff">{$lang.label_id_card_no}：</td>
-			                  <td align="left" bgcolor="#ffffff" colspan="3">{$register_info.id_card_no}</td>
+			                  <td align="left" bgcolor="#ffffff" colspan="3">{$register_info.card}</td>
 			               	</tr>			               	
 			               	
 			                <tr>
 			                  <td align="right" bgcolor="#ffffff">身份证正面照：</td>
-			                  <td align="left" bgcolor="#ffffff" colspan="3"><img src="{$register_info.img_id_card_1}" /></td>
+			                  <td align="left" bgcolor="#ffffff" colspan="3"><img src="{$register_info.face_card}" /></td>
 			               	</tr>
 			               				               	
  	    	                <tr>
 			                  <td align="right" bgcolor="#ffffff">身份证反面照：</td>
-			                  <td align="left" bgcolor="#ffffff" colspan="3"><img src="{$register_info.img_id_card_2}"></td>
+			                  <td align="left" bgcolor="#ffffff" colspan="3"><img src="{$register_info.back_card}"></td>
 			               	</tr>			              
 			               	
 			              </table>										

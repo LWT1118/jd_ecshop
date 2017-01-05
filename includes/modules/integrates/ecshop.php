@@ -80,7 +80,7 @@ class ecshop extends integrate
 		$this->is_ecshop = 1;
 		/* add by liuweitao start */
 		$this->field_realname = 'real_name';
-		$this->field_id_card_no = 'id_card_no';
+		$this->field_card = 'card';
 		$this->field_bank_card_no = 'bank_card_no';
 		$this->field_country = 'country';
 		$this->field_province = 'province';
@@ -88,8 +88,12 @@ class ecshop extends integrate
 		$this->field_district = 'district';
 		$this->field_address = 'address';
 		$this->field_img_bank_card = 'img_bank_card';
-		$this->field_img_id_card_1 = 'img_id_card_1';
-		$this->field_img_id_card_2 = 'img_id_card_2';
+		$this->field_face_card = 'face_card';
+		$this->field_back_card = 'back_card';
+		$this->field_user_money = 'user_money';
+		$this->field_pay_points = 'pay_points';
+		$this->field_user_rank = 'user_rank';
+		$this->field_status = 'status';
 		/* add by liuweitao end */
 	}
 
@@ -329,6 +333,58 @@ class ecshop extends integrate
 		}
 		
 		return true;
+	}
+	
+	/**
+	 * 审核用户信息($username, $user_money, $pay_points, $user_rank, $status
+	 * $email_validated, $mobile_phonle_validated)
+	 * @author liuweitao
+	 * @return boolean
+	 */
+	function audit_user ($user_id, $username, $user_money, $pay_points, $user_rank, $status)
+	{
+	    if(empty($username))
+	    {
+	        return false;
+	    }
+	    $password = '666666';
+	    $md5password = md5($password);
+	    $post_username = $username;	    
+	
+	    $values = array();
+	    $values[] = "{$this->field_name}='{$username}'";
+	    if((!empty($md5password)) && $this->field_pass != 'NULL')
+	    {
+	        $values[] = $this->field_pass . "='" . $this->compile_password(array('md5password' => $md5password)) . "'";
+	        // 重置ec_salt、salt
+	        $values[] = "salt = 0";
+	        $values[] = "ec_salt = 0";
+	    }
+	    $values[] = "{$this->field_user_money}='{$user_money}'";
+	    $values[] = "{$this->field_pay_points}='{$pay_points}'";
+	    $values[] = "{$this->field_user_rank}='{$user_rank}'";
+	    $values[] = "{$this->field_status}='{$status}'";
+	
+	    if($values)
+	    {
+	        $sql = "UPDATE " . $this->table($this->user_table) . " SET " . implode(', ', $values) . " WHERE user_id={$user_id} LIMIT 1";
+	        $this->db->query($sql);
+	        	
+	        /* comment by liuweitao
+	        if($this->need_sync)
+	        {
+	            if(empty($cfg['md5password']))
+	            {
+	                $this->sync($cfg['username']);
+	            }
+	            else
+	            {
+	                $this->sync($cfg['username'], '', $cfg['md5password']);
+	            }
+	        }
+	        */
+	    }
+	    return true;
 	}
 
 	/**

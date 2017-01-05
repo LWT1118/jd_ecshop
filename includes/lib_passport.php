@@ -66,7 +66,7 @@ function get_user_id_by_mobile($mobile)
     return $GLOBALS['user']->get_user_id_by_mobile($mobile);
 }
 
-function register_by_realname($realname, $mobile, $gender, $id_card_no, $bank_card_no, $country, $province, $city, $district, $address, $img_bank_card, $img_id_card_1, $img_id_card_2, $other = array()){
+function register_by_realname($realname, $mobile, $gender, $card, $bank_card_no, $country, $province, $city, $district, $address, $img_bank_card, $face_card, $back_card, $other = array()){
     /* 检查注册是否关闭 */
     if(! empty($GLOBALS['_CFG']['shop_reg_closed']))
     {
@@ -100,7 +100,7 @@ function register_by_realname($realname, $mobile, $gender, $id_card_no, $bank_ca
         return false;
     }
     
-    $result = $GLOBALS['user']->add_user_by_realname($realname, $mobile, $gender, $id_card_no, $bank_card_no, $country, $province, $city, $district, $address, $img_bank_card, $img_id_card_1, $img_id_card_2);
+    $result = $GLOBALS['user']->add_user_by_realname($realname, $mobile, $gender, $card, $bank_card_no, $country, $province, $city, $district, $address, $img_bank_card, $face_card, $back_card);
     
     if(! $result)
     {

@@ -313,7 +313,7 @@ function action_act_supplier_del ()
 // 用户中心欢迎页
 function action_default ()
 {
-	
+
 	// 获取全局变量
 	$_LANG = $GLOBALS['_LANG'];
 	$smarty = $GLOBALS['smarty'];
@@ -808,7 +808,7 @@ function action_check_mobile_phone ()
 /* 用户登录界面 */
 function action_login ()
 {
-	
+
 	// 获取全局变量
 	$user = $GLOBALS['user'];
 	$_CFG = $GLOBALS['_CFG'];
@@ -939,14 +939,14 @@ function action_act_login ()
 			show_message($_LANG['invalid_captcha'], $_LANG['relogin_lnk'], 'user.php', 'error');
 		}
 	}
-	/* 代码增加2014-12-23 by www.68ecshop.com _star */
-	if(is_email($username))
+	/* 代码增加2014-12-23 by www.68ecshop.com _star by liuweitao */
+	/*if(is_email($username))
 	{
 		$sql = "select user_name from " . $ecs->table('users') . " where email='" . $username . "'";
 		$username_e = $db->getOne($sql);
 		if($username_e)
 			$username = $username_e;
-	}
+	}*/
 	if(is_telephone($username))
 	{
 		$sql = "select user_name from " . $ecs->table('users') . " where mobile_phone='" . $username . "'";

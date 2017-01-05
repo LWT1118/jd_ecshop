@@ -41,7 +41,7 @@
           <div class="money">
             <ul class="clearfix">
               <li class="first">
-                <div class="title"><span>账号余额</span></div>
+                <div class="title"><span>提现额度</span></div>
                 <div class="pic"><a href="user.php?act=account_log"><i class="user_bg"></i></a></div>
                 <p><a href="user.php?act=account_log" class="_capitalAccount">{$info.surplus}</a></p>
               </li>
@@ -51,7 +51,7 @@
                 <p><a href="user.php?act=bonus" class="_backAccount">{$info.bonus}</a>张</p>
               </li>
               <li class="third">
-                <div class="title"><span>可用积分</span></div>
+                <div class="title"><span>消费额度</span></div>
                 <div class="pic"><i class="user_bg"></i></div>
                 <p><span class="_goldAccount">{$info.integral}</span></p>
               </li>
