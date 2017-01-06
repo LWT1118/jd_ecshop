@@ -38,3 +38,10 @@ CREATE TABLE `jd_ecshop`.`ecs_cash_record` (
 /*2017-01-06*/
 ALTER TABLE `jd_ecshop`.`ecs_users`
 CHANGE COLUMN `credit_line` `credit_line` DECIMAL(10,2) UNSIGNED NOT NULL COMMENT '信用额度作为提现额度使用' ;
+
+ALTER TABLE `jd_ecshop`.`ecs_cash_record`
+  CHANGE COLUMN `cash` `user_money` DECIMAL(10,2) NOT NULL DEFAULT '0.00' COMMENT '提现金额' ,
+  ADD COLUMN `credit_line` DECIMAL(10,2) NOT NULL DEFAULT 0.00 AFTER `user_money`;
+
+ALTER TABLE `jd_ecshop`.`ecs_cash_record`
+  ADD COLUMN `status` TINYINT NULL DEFAULT 0 COMMENT '0：交易中，-1：交易回滚，1：交易成功' AFTER `create_time`;

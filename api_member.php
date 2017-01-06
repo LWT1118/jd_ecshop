@@ -65,6 +65,7 @@ class ApiMember
             $this->setError('终端编号不能为空');
             return false;
         }
+        //检测pos机是否在数据库中存在 ... to do
         /*if(empty($this->random) || empty($this->keycode)){
             $this->setError('随机数和校验码不能为空');
             return false;
@@ -99,7 +100,7 @@ class ApiMember
             $create_time = time();
             $db->query("insert into {$record_table} (user_id,card_no,pos_no,amount,create_time) values ({$user_id}, '{$this->cardNo}', '{$this->posNo}', '{$amount}', '{$create_time}')");
         }
-        $this->responseData['balance'] = $money_value;
+        $this->responseData['user_money'] = $money_value;
     }
     
     private function cashHandler()
@@ -112,9 +113,13 @@ class ApiMember
         }
         $amount = $amount / 100;
         $user_table = $ecs->table('users');
-        $record = $db->getRow("select user_id,user_money,surplus_password from {$user_table} where user_name='{$this->cardNo}'");
+        $record = $db->getRow("select user_id,user_money,credit_line,is_surplus_open,surplus_password from {$user_table} where user_name='{$this->cardNo}'");
         if(empty($record)){
             $this->errMsg = "未找到卡号：{$this->cardNo}";
+            return;
+        }
+        if(!$record['is_surplus_open']){
+            $this->errMsg = "该卡号没有开通支付密码，请先开通支付密码，然后提现";
             return;
         }
         if(empty($_GET['surplus_pwd'])){
@@ -125,18 +130,34 @@ class ApiMember
             $this->errMsg = '支付密码错误';
             return;
         }
-        if($amount > $record['user_money']){
+        if($amount > ($record['user_money'] + $record['credit_line'])){
             $this->errMsg = '余额不足';
             return;
         }
+        if($record['user_money'] >= $amount){
+            $user_money = $record['user_money'] - $amount;
+            $credit_line = $record['credit_line'];
+        }else{
+            $user_money = '0.00';
+            $credit_line = $record['user_money'] + $record['credit_line'] - $amount;
+        }
         $user_id = $record['user_id'];
-        $money_value = $record['user_money'] - $amount;
         $record_table = $ecs->table('cash_record');
-        if($db->query("update {$user_table} set user_money={$money_value} where user_id={$user_id}")){
+        if($db->query("update {$user_table} set user_money={$user_money},credit_line={$credit_line} where user_id={$user_id}")){
             $create_time = time();
             $db->query("insert into {$record_table} (user_id,card_no,pos_no,cash,create_time) values ({$user_id}, '{$this->cardNo}', '{$this->posNo}', '{$amount}', '{$create_time}')");
         }
-        $this->responseData['balance'] = $money_value;
+        $this->responseData['record_id'] = $db->insert_id();
+        $this->responseData['user_money'] = $user_money;
+        $this->responseData['credit_line'] = $credit_line;
+    }
+
+    private function cashdoneHandler()
+    {
+        if(empty($_GET['record_id'])){
+            $this->errMsg = '充值ID不能为空';
+            return;
+        }
     }
     
     private function tradeHandler()
@@ -144,6 +165,14 @@ class ApiMember
         require(ROOT_PATH . 'includes/lib_order.php');
         include_once('includes/lib_clips.php');
         include_once('includes/lib_payment.php');
+    }
+
+    private function tradedoneHandler()
+    {
+        if(empty($_GET['order_id'])){
+            $this->errMsg = '订单ID不能为空';
+            return;
+        }
     }
     
     private function queryHandler()
