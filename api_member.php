@@ -141,7 +141,9 @@ class ApiMember
     
     private function tradeHandler()
     {
-        
+        require(ROOT_PATH . 'includes/lib_order.php');
+        include_once('includes/lib_clips.php');
+        include_once('includes/lib_payment.php');
     }
     
     private function queryHandler()

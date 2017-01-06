@@ -92,6 +92,7 @@ class ecshop extends integrate
 		$this->field_back_card = 'back_card';
 		$this->field_user_money = 'user_money';
 		$this->field_pay_points = 'pay_points';
+		$this->field_credit_line = 'credit_line';
 		$this->field_user_rank = 'user_rank';
 		$this->field_status = 'status';
 		/* add by liuweitao end */
@@ -341,7 +342,7 @@ class ecshop extends integrate
 	 * @author liuweitao
 	 * @return boolean
 	 */
-	function audit_user ($user_id, $username, $user_money, $pay_points, $user_rank, $status)
+	function audit_user ($user_id, $username, $user_money, $pay_points, $credit_line, $user_rank, $status)
 	{
 	    if(empty($username))
 	    {
@@ -362,6 +363,7 @@ class ecshop extends integrate
 	    }
 	    $values[] = "{$this->field_user_money}='{$user_money}'";
 	    $values[] = "{$this->field_pay_points}='{$pay_points}'";
+	    $values[] = "{$this->field_credit_line}='{$credit_line}'";
 	    $values[] = "{$this->field_user_rank}='{$user_rank}'";
 	    $values[] = "{$this->field_status}='{$status}'";
 	

@@ -8,7 +8,7 @@
 <table width="100%" >
   <tr>
     <td class="label">{$lang.username}:</td>
-    <td>{if $form_action eq "update"}{$user.user_name}<!--input type="text" name="username" value="{$user.user_name}" /-->{else}<input type="text" name="username" maxlength="60" value="{$user.user_name}" />{$lang.require_field}{/if}</td>
+    <td>{if $form_action eq "update"}<input type="text" name="username" maxlength="45" value="{$user.user_name}" />{else}<input type="text" name="username" maxlength="45" value="{$user.user_name}" />{$lang.require_field}{/if}</td>
   </tr>
   {if $form_action eq "update"}
   <tr>
@@ -24,7 +24,14 @@
     <input type="text" name="pay_points" value="{$user.formated_pay_points}" /> 
     <!--a href="account_log.php?act=list&user_id={$user.user_id}&account_type=user_money">[ {$lang.view_detail_account} ]</a-->
     </td>
-  </tr>  
+  </tr>
+  <tr>
+    <td class="label">{$lang.credit_line}:</td>
+    <td>
+      <input type="text" name="credit_line" value="{$user.formated_credit_line}" />
+      <!--a href="account_log.php?act=list&user_id={$user.user_id}&account_type=user_money">[ {$lang.view_detail_account} ]</a-->
+    </td>
+  </tr>
   <!--tr>
     <td class="label">{$lang.frozen_money}:</td>
     <td>{$user.formated_frozen_money} <a href="account_log.php?act=list&user_id={$user.user_id}&account_type=frozen_money">[ {$lang.view_detail_account} ]</a> </td>

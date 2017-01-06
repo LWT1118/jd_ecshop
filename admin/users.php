@@ -356,6 +356,7 @@ function action_edit ()
 		$user['credit_line'] = $row['credit_line'];
 		$user['formated_user_money'] = price_format($row['user_money']);
 		$user['formated_frozen_money'] = price_format($row['frozen_money']);
+		$user['formated_credit_line'] = price_format($row['credit_line']);
 		$user['parent_id'] = $row['parent_id'];
 		$user['parent_username'] = $row['parent_username'];
 		$user['qq'] = $row['qq'];
@@ -515,6 +516,7 @@ function action_update ()
 	$username = empty($_POST['username']) ? '' : trim($_POST['username']);
 	$user_money = sprintf('%.2f', floatval($_POST['user_money']));
 	$pay_points = sprintf('%.2f', floatval($_POST['pay_points']));
+    $credit_line = sprintf('%.2f', floatval($_POST['credit_line']));
 	if(empty($username)){
 	    sys_msg('卡号不能为空');
 	}
@@ -540,7 +542,7 @@ function action_update ()
 	/* 代码增加2014-12-23 by www.68ecshop.com _end */
 	
 	$users = & init_users();
-	$users->audit_user($user_id, $username, $user_money, $pay_points, $rank, $status);
+	$users->audit_user($user_id, $username, $user_money, $pay_points, $credit_line, $rank, $status);
 	
 	// 获取用户邮箱和手机号已经验证信息,如果手机号、邮箱变更则需验证，如果未变化则沿用原来的验证结果
 	/*$user = $users->get_profile_by_name($username);
@@ -1088,7 +1090,7 @@ function user_list ()
 		// $sql = "SELECT user_id, user_name, email, is_validated,
 		// validated,status,user_money, frozen_money, rank_points, pay_points,
 		// reg_time ".
-		$sql = "SELECT user_id, user_name, real_name, email, mobile_phone, is_validated, validated, user_money, frozen_money, user_rank, rank_points, pay_points, status, reg_time, froms ".
+		$sql = "SELECT user_id, user_name, real_name, sex, card, credit_line, email, mobile_phone, is_validated, validated, user_money, frozen_money, user_rank, rank_points, pay_points, status, reg_time, froms ".
 		        /* 代码增加2014-12-23 by www.68ecshop.com  _end  */
                 " FROM " . $GLOBALS['ecs']->table('users') . $ex_where . " ORDER by " . $filter['sort_by'] . ' ' . $filter['sort_order'] . " LIMIT " . $filter['start'] . ',' . $filter['page_size'];
 		

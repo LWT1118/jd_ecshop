@@ -38,10 +38,12 @@
 					<!--a href="javascript:listTable.sort('email'); ">{$lang.is_validated}&nbsp;|&nbsp;{$lang.email}</a>
 					{$sort_email}-->姓名
 				</th>
+				<th>性别</th>
 				<!--th>
 					<a href="javascript:listTable.sort('mobile_phone'); ">{$lang.is_validated}&nbsp;|&nbsp;{$lang.mobile_phone}</a>
 					{$sort_mobile_phone}
 				</th-->
+				<th>身份证号</th>
 				<th>{$lang.mobile_phone}</th>
 				<th>{$lang.user_rank}</th>
 				<!-- #代码增加2014-12-23 by www.68ecshop.com  _end -->
@@ -49,6 +51,7 @@
 				<!--th>{$lang.frozen_money}</th>
 				<th>{$lang.rank_points}</th-->
 				<th>{$lang.pay_points}</th>
+				<th>{$lang.credit_line}</th>
 				<th>
 					<a href="javascript:listTable.sort('reg_time'); ">{$lang.reg_date}</a>
 					{$sort_reg_time}
@@ -95,12 +98,15 @@
 					{/if}{/if}
 					<span onclick="listTable.edit(this, 'edit_mobile_phone', {$user.user_id})">{$user.mobile_phone}</span>
 				</td-->
+				<td><!--{if $user.sex eq 1}-->男<!--{elseif $user.sex eq 2}-->女<!--{/if}--></td>
+				<td>{$user.card}</td>
 				<td>{$user.mobile_phone}</td>
 				<td>{$user.rank_name}</td>
 				<td>{$user.user_money}</td>
 				<!--td>{$user.frozen_money}</td>
 				<td>{$user.rank_points}</td-->
 				<td>{$user.pay_points}</td>
+				<td>{$user.credit_line}</td>
 				<td align="center">{$user.reg_time}</td>
 				<!-- #代码增加2014-12-23 by www.68ecshop.com  _star -->
 				<td>{if $user.status eq 1}审核通过{elseif $user.status eq 2}审核中{elseif $user.status eq 3}审核不通过{else}未审核{/if}</td>

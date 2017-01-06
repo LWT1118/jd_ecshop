@@ -5,7 +5,7 @@ ADD COLUMN `bank_card_no` VARCHAR(30) NOT NULL DEFAULT '' COMMENT '银行卡号'
 ADD COLUMN `img_bank_card` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '银行卡正面照' AFTER `bank_card_no`,
 ADD COLUMN `img_id_card_1` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '身份证正面照' AFTER `img_bank_card`,
 ADD COLUMN `img_id_card_2` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '身份证反面照' AFTER `img_id_card_1`;
-/* 2016-01-04 */
+/* 2017-01-04*/
 ALTER TABLE `jd_ecshop`.`ecs_users` 
 DROP COLUMN `img_id_card_2`,
 DROP COLUMN `img_id_card_1`,
@@ -17,7 +17,7 @@ CHANGE COLUMN `pay_points` `pay_points` INT(10) UNSIGNED NOT NULL DEFAULT '0' CO
 ALTER TABLE `jd_ecshop`.`ecs_users` 
 CHANGE COLUMN `user_money` `user_money` DECIMAL(10,2) NOT NULL DEFAULT '0.00' COMMENT '可用资金字段作为提现额度使用' ,
 CHANGE COLUMN `pay_points` `pay_points` DECIMAL(10,2) UNSIGNED NOT NULL DEFAULT '0.00' COMMENT '消费积分作为消费额度字段使用';
-/*2016-01-05*/
+/*2017-01-05*/
 CREATE TABLE `jd_ecshop`.`ecs_deposit_record` (
   `record_id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL DEFAULT 0,
@@ -35,4 +35,6 @@ CREATE TABLE `jd_ecshop`.`ecs_cash_record` (
   `cash` DECIMAL(10,2) NOT NULL DEFAULT 0.00 COMMENT '提现金额',
   `create_time` INT NOT NULL DEFAULT 0 COMMENT '提现时间',
   PRIMARY KEY (`record_id`));
-
+/*2017-01-06*/
+ALTER TABLE `jd_ecshop`.`ecs_users`
+CHANGE COLUMN `credit_line` `credit_line` DECIMAL(10,2) UNSIGNED NOT NULL COMMENT '信用额度作为提现额度使用' ;
