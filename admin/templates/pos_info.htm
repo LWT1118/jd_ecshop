@@ -1,0 +1,57 @@
+<!-- $Id: pos_info.htm liuweitao $ -->
+{include file="pageheader.htm"}
+{insert_scripts files="../js/transport.org.js,../js/region.js"}
+<div class="main-div">
+    <!-- #代码增加2014-12-23 by www.68ecshop.com  _star -->
+    <form method="post" action="pos.php" name="theForm"><!--onsubmit="return validate()"-->
+        <!-- #代码增加2014-12-23 by www.68ecshop.com  _end -->
+        <table width="100%" >
+            <tr>
+                <td class="label">POS机编号:</td>
+                <td><input type="text" name="pos_no" maxlength="45" value="{$pos.pos_no}" />{$lang.require_field}</td>
+            </tr>
+            <tr>
+                <td class="label">联系人姓名:</td>
+                <td>
+                    <input type="text" name="contact" value="{$pos.contact}" />{$lang.require_field}
+                </td>
+            </tr>
+            <tr>
+                <td class="label">电话:</td>
+                <td>
+                    <input type="text" name="mobile" value="{$pos.mobile}" />{$lang.require_field}
+                </td>
+            </tr>
+            <tr>
+                <td class="label">地址</td>
+                <td><input type="text" name="address" maxlength="60" size="40" value="{$pos.address}" />{$lang.require_field}</td>
+            </tr>
+            <tr>
+                <td class="label">经营分类</td>
+                <td><input type="text" name="category" maxlength="60" size="40" value="{$pos.category}" />{$lang.require_field}</td>
+            </tr>
+
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" value="{$lang.button_submit}" class="button" />
+                    <input type="reset" value="{$lang.button_reset}" class="button" />
+                    <input type="hidden" name="act" value="{$form_action}" />
+                    <input type="hidden" name="id" value="{$pos.pos_id}" />    </td>
+            </tr>
+        </table>
+
+    </form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+{literal}
+<script language="JavaScript">
+    <!--
+    onload = function()
+    {
+        // 开始检查订单
+        startCheckOrder();
+    }
+    //-->
+</script>
+{/literal}
+{include file="pagefooter.htm"}

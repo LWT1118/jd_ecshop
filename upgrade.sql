@@ -26,7 +26,8 @@ CREATE TABLE `jd_ecshop`.`ecs_deposit_record` (
   `amount` DECIMAL(10,2) NOT NULL DEFAULT 0.00 COMMENT '充值金额',
   `create_time` INT NOT NULL DEFAULT 0 COMMENT '充值时间',
   PRIMARY KEY (`record_id`));
-
+ALTER TABLE `jd_ecshop`.`ecs_deposit_record`
+ENGINE = MyISAM ;
 CREATE TABLE `jd_ecshop`.`ecs_cash_record` (
   `record_id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL DEFAULT 0,
@@ -35,6 +36,8 @@ CREATE TABLE `jd_ecshop`.`ecs_cash_record` (
   `cash` DECIMAL(10,2) NOT NULL DEFAULT 0.00 COMMENT '提现金额',
   `create_time` INT NOT NULL DEFAULT 0 COMMENT '提现时间',
   PRIMARY KEY (`record_id`));
+ALTER TABLE `jd_ecshop`.`ecs_cash_record`
+ENGINE = MyISAM ;
 /*2017-01-06*/
 ALTER TABLE `jd_ecshop`.`ecs_users`
 CHANGE COLUMN `credit_line` `credit_line` DECIMAL(10,2) UNSIGNED NOT NULL COMMENT '信用额度作为提现额度使用' ;
@@ -45,3 +48,20 @@ ALTER TABLE `jd_ecshop`.`ecs_cash_record`
 
 ALTER TABLE `jd_ecshop`.`ecs_cash_record`
   ADD COLUMN `status` TINYINT NULL DEFAULT 0 COMMENT '0：交易中，-1：交易回滚，1：交易成功' AFTER `create_time`;
+/*02017-01-07*/
+insert into ecs_admin_action (parent_id, action_code , relevance) values (5, 'pos_manage', '');
+insert into ecs_admin_action (parent_id, action_code , relevance) values (5, 'pos_drop', 'pos_manage');
+
+CREATE TABLE `jd_ecshop`.`ecs_pos` (
+  `pos_id` INT NOT NULL AUTO_INCREMENT,
+  `pos_no` VARCHAR(45) NOT NULL DEFAULT '',
+  `contact` VARCHAR(20) NOT NULL DEFAULT '',
+  `mobile` VARCHAR(20) NOT NULL DEFAULT '',
+  `total` INT NOT NULL DEFAULT 0 COMMENT '刷卡次数',
+  `create_time` INT NOT NULL DEFAULT 0 COMMENT '创建日期',
+  PRIMARY KEY (`pos_id`))
+ENGINE = MyISAM;
+ALTER TABLE `jd_ecshop`.`ecs_pos`
+CHANGE COLUMN `total` `address` VARCHAR(100) NOT NULL DEFAULT '' COMMENT '刷卡次数' ;
+ALTER TABLE `jd_ecshop`.`ecs_pos`
+ADD COLUMN `categary` VARCHAR(50) NOT NULL DEFAULT '' AFTER `address`;

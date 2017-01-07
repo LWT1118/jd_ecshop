@@ -146,6 +146,7 @@ elseif ($_REQUEST['act'] == 'menu')
 
     }
 
+
     $smarty->assign('menus',     $menus);
     $smarty->assign('no_help',   $_LANG['no_help']);
     $smarty->assign('help_lang', $_CFG['lang']);

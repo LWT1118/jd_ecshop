@@ -101,6 +101,8 @@ $purview['suppliers_list'] = 'suppliers_manage'; // 供货商
 $purview['admin_role'] = 'role_manage';
 $purview['customer'] = 'customer'; // 在线聊天客服管理
 $purview['third_customer'] = 'third_customer'; // 三方客服
+
+$purview['02_pos_list'] = array('pos_manage', 'pos_drop');
                                                      
 // 商店设置权限
 $purview['01_shop_config'] = 'shop_config';

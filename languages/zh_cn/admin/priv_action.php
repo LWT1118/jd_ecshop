@@ -81,6 +81,8 @@ $_LANG['role_manage'] = '角色管理';
 
 // 系统设置部分权限
 $_LANG['shop_config'] = '商店设置';
+$_LANG['pos_manage'] = 'POS机添加/编辑';
+$_LANG['pos_drop'] = '删除POS机';
 $_LANG['shop_authorized'] = '授权证书';
 $_LANG['webcollect_manage'] = '网罗天下管理';
 $_LANG['ship_manage'] = '配送方式管理';

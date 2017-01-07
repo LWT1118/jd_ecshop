@@ -290,15 +290,28 @@ $_LANG['vote_list'] = '在线调查';
 /* 会员管理 */
 $_LANG['08_unreply_msg'] = '会员留言';
 $_LANG['03_users_list'] = '会员列表';
+$_LANG['03_pos_list'] = 'POS机列表';
 
 $_LANG['04_users_export'] = '会员导出'; // 代码增加 By www.68ecshop.com
 
 $_LANG['04_users_add'] = '添加会员';
+$_LANG['04_pos_add'] = '添加POS机';
 $_LANG['05_user_rank_list'] = '会员等级';
 $_LANG['06_list_integrate'] = '会员整合';
 $_LANG['09_user_account'] = '充值和提现申请';
 $_LANG['10_user_account_manage'] = '资金管理';
 $_LANG['09_postman_list'] = '快递员列表';
+
+/*POS机*/
+$_LANG['pos_add_success'] = 'POS机 %s 已经添加成功。';
+$_LANG['id_invalid'] = '无效的ID';
+$_LANG['pos_edit'] = '编辑POS机信息';
+$_LANG['update_pos_success'] = '编辑POS机信息已经成功。';
+$_LANG['remove_pos_success'] = 'POS机 %s 已经删除成功。';
+$_LANG['remove_pos_confirm'] = '您确定要删除该POS机吗？';
+$_LANG['list_remove_pos_confirm'] = '您确定要删除所有选中的POS机记录吗？';
+$_LANG['no_select_pos'] = '您现在没有需要删除的POS机！';
+$_LANG['batch_remove_pos_success'] = '已经成功删除了 %d 个POS机。';
 
 /* 权限管理 */
 $_LANG['admin_list'] = '管理员列表';
@@ -316,6 +329,7 @@ $_LANG['01_shop_config'] = '商店设置';
 $_LANG['shop_authorized'] = '授权证书';
 $_LANG['shp_webcollect'] = '网罗天下';
 $_LANG['02_payment_list'] = '支付方式';
+$_LANG['02_pos_list'] = 'POS机管理';
 $_LANG['03_shipping_list'] = '配送方式';
 $_LANG['04_mail_settings'] = '邮件服务器设置';
 $_LANG['05_area_list'] = '地区列表';
@@ -329,6 +343,7 @@ $_LANG['fckfile_manage'] = 'Fck上传文件管理';
 $_LANG['ucenter_setup'] = 'UCenter设置';
 $_LANG['file_check'] = '文件校验';
 $_LANG['021_reg_fields'] = '会员注册项设置';
+$_LANG['button_remove_selected'] = '删除选中记录';
 
 /* 模板管理 */
 $_LANG['02_template_select'] = '模板选择';

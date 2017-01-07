@@ -49,6 +49,8 @@ class ApiMember
 
     private function checkParams()
     {
+        $ecs = $GLOBALS['ecs'];
+        $db = $GLOBALS['db'];
         if(empty($this->action)){
             $this->setError('接口名称不能为空');
             return false;
@@ -63,6 +65,10 @@ class ApiMember
         }
         if(empty($this->posNo)){
             $this->setError('终端编号不能为空');
+            return false;
+        }
+        if(!$db->getRow('select pos_id from ' . $ecs->table('pos') . " where pos_no='{$this->posNo}'")){
+            $this->setError('POS机编号不存在');
             return false;
         }
         //检测pos机是否在数据库中存在 ... to do
