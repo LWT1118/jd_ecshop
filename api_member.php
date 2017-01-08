@@ -71,15 +71,14 @@ class ApiMember
             $this->setError('POS机编号不存在');
             return false;
         }
-        //检测pos机是否在数据库中存在 ... to do
-        /*if(empty($this->random) || empty($this->keycode)){
+        if(empty($this->random) || empty($this->keycode)){
             $this->setError('随机数和校验码不能为空');
             return false;
         }
         if($this->keycode != md5("^{$this->cardNo}&{$this->random}$")){
             $this->setError('校验码错误');
             return false;
-        }*/
+        }
         return true;
     }
     
@@ -121,23 +120,23 @@ class ApiMember
         $user_table = $ecs->table('users');
         $record = $db->getRow("select user_id,user_money,credit_line,is_surplus_open,surplus_password from {$user_table} where user_name='{$this->cardNo}'");
         if(empty($record)){
-            $this->errMsg = "未找到卡号：{$this->cardNo}";
+            $this->setError("未找到卡号：{$this->cardNo}");
             return;
         }
         if(!$record['is_surplus_open']){
-            $this->errMsg = "该卡号没有开通支付密码，请先开通支付密码，然后提现";
+            $this->setError("该卡号没有开通支付密码，请先开通支付密码，然后提现");
             return;
         }
         if(empty($_GET['surplus_pwd'])){
-            $this->errMsg = '支付密码不能为空';
+            $this->setError('支付密码不能为空');
             return;
         }
         if($record['surplus_password'] != $_GET['surplus_pwd']){
-            $this->errMsg = '支付密码错误';
+            $this->setError('支付密码错误');
             return;
         }
         if($amount > ($record['user_money'] + $record['credit_line'])){
-            $this->errMsg = '余额不足';
+            $this->setError('余额不足');
             return;
         }
         if($record['user_money'] >= $amount){
@@ -160,25 +159,131 @@ class ApiMember
 
     private function cashdoneHandler()
     {
-        if(empty($_GET['record_id'])){
-            $this->errMsg = '充值ID不能为空';
+        global $db, $ecs;
+        $record_id = isset($_GET['record_id']) ? intval($_GET['record_id']) : 0;
+        if($record_id < 1){
+            $this->setError('充值ID非法');
             return;
         }
+        $cash_table = $ecs->table('cash_record');
+        $user_table = $ecs->table('users');
+        $user_id = $db->getOne("select user_id from {$cash_table} where record_id={$record_id}");
+        if(!$user_id){
+            $this->setError('未找到该充值记录');
+            return;
+        }
+        $user_info = $db->getRow("select user_id,user_money,credit_line from {$user_table} where user_id={$user_id}");
+        $db->query("update {$cash_table} set status=1 where record_id={$record_id}");
+        $this->responseData['record_id'] = $record_id;
+        $this->responseData['user_money'] = $user_info['user_money'];
+        $this->responseData['credit_line'] = $user_info['credit_line'];
+        $this->responseData['status'] = 1;
     }
     
     private function tradeHandler()
     {
+        global $db, $ecs;
         require(ROOT_PATH . 'includes/lib_order.php');
         include_once('includes/lib_clips.php');
         include_once('includes/lib_payment.php');
+        $amount = intval($_GET['amount']);
+        if($amount <= 0) {
+            $this->setError('提现金额必须大于0');
+            return;
+        }
+        $amount = $amount / 100;
+        $user_table = $ecs->table('users');
+        $record = $db->getRow("select user_id,user_money,pay_points,is_surplus_open,surplus_password from {$user_table} where user_name='{$this->cardNo}'");
+        if(empty($record)){
+            $this->setError("未找到卡号：{$this->cardNo}");
+            return;
+        }
+        if(!$record['is_surplus_open']){
+            $this->setError("该卡号没有开通支付密码，请先开通支付密码，然后提现");
+            return;
+        }
+        if(empty($_GET['surplus_pwd'])){
+            $this->setError('支付密码不能为空');
+            return;
+        }
+        if($record['surplus_password'] != $_GET['surplus_pwd']){
+            $this->setError('支付密码错误');
+            return;
+        }
+        if($amount > ($record['user_money'] + $record['pay_points'])){
+            $this->setError('余额不足');
+            return;
+        }
+        $pay_balance_id = $GLOBALS['db']->getOne('SELECT pay_id ' . ' FROM ' . $ecs->table('payment') . ' WHERE enabled = 1 and pay_code="balance"');
+        if(!$pay_balance_id){
+            $this->setError('服务器未开通余额支付方式，支付失败');
+            return;
+        }
+        if($record['user_money'] >= $amount){
+            $user_money = $record['user_money'] - $amount;
+            $pay_points = $record['pay_points'];
+            $surplus =  $amount;
+            $integral_money = '0.00';
+        }else{
+            $user_money = '0.00';
+            $pay_points = $record['user_money'] + $record['pay_points'] - $amount;
+            $surplus = $record['user_money'];
+            $integral_money = $amount - $record['user_money'];
+        }
+        $add_time = gmtime();
+        $user_id = $record['user_id'];
+        $order = array(
+            'pay_id'          => $pay_balance_id,
+            'goods_amount'    =>$amount,
+            'money_paid'      =>$amount,           //已支付金额
+            'surplus'         =>$surplus,          //余额支付金额
+            'integral_money'  =>$integral_money,   //积分金额支付，积分金额作为消费额度使用
+            'user_id'         =>$user_id,
+            'order_status'    =>OS_UNCONFIRMED,  //未确认
+            'shipping_status' =>SS_SHIPPED, //已发货
+            'pay_status'      =>PS_PAYING,  //付款中
+            'add_time'        =>$add_time,
+            'pay_time'        =>$add_time,
+            'pay_note'        =>'terminal',
+        );
+        do{
+            $order['order_sn'] = get_order_sn(); //获取新订单号
+            $db->autoExecute($ecs->table('order_info'), $order, 'INSERT');
+            $error_no = $db->errno();
+            if ($error_no > 0 && $error_no != 1062){
+                $this->setError($db->errorMsg());
+                return;
+            }
+        }
+        while ($error_no == 1062); //如果是订单号重复则重新提交数据
+        $order_id = $db->insert_id();
+        $db->query("update {$user_table} set user_money='{$user_money}', pay_points='{$pay_points}' where user_id={$user_id}");
+        $this->responseData['order_id'] = $order_id;
+        $this->responseData['order_sn'] = $order['order_sn'];
+        $this->responseData['order_status'] = $order['order_status'];
+        $this->responseData['create_time'] = date('Y-m-d H:i:s', $order['add_time']);
     }
 
     private function tradedoneHandler()
     {
-        if(empty($_GET['order_id'])){
-            $this->errMsg = '订单ID不能为空';
+        global $db, $ecs;
+        $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+        if($order_id < 1){
+            $this->setError('订单ID非法');
             return;
         }
+        $order_table = $ecs->table('order_info');
+        $order_sn = $db->getOne("select order_sn from {$order_table} where order_id={$order_id}");
+        if(!$order_sn){
+            $this->setError('订单不存在');
+            return;
+        }
+        $confirm_time = gmtime();
+        $db->query("update {$order_table} set order_status=" . OS_CONFIRMED . ', pay_status=' . PS_PAYED . ",confirm_time={$confirm_time} where order_id={$order_id}");
+        $this->responseData['order_id'] = $order_id;
+        $this->responseData['order_sn'] = $order_sn;
+        $this->responseData['order_status'] = OS_CONFIRMED;
+        $this->responseData['pay_status'] = PS_PAYED;
     }
     
     private function queryHandler()
@@ -190,11 +295,13 @@ class ApiMember
     {
         if(!$this->checkParams()){
             echo json_encode(array('err_code'=>$this->errCode, 'err_msg'=>$this->errMsg, 'data'=>$this->responseData));
+            //var_dump(array('err_code'=>$this->errCode, 'err_msg'=>$this->errMsg, 'data'=>$this->responseData));
             return;
         }
         $handler = "{$this->action}Handler";
         $this->$handler();
-        var_dump(array('err_code'=>$this->errCode, 'err_msg'=>$this->errMsg, 'data'=>$this->responseData));
+        echo json_encode(array('err_code'=>$this->errCode, 'err_msg'=>$this->errMsg, 'data'=>$this->responseData));
+        //var_dump(array('err_code'=>$this->errCode, 'err_msg'=>$this->errMsg, 'data'=>$this->responseData));
     }
 }
 $apiMember = new ApiMember();

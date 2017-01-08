@@ -65,3 +65,7 @@ ALTER TABLE `jd_ecshop`.`ecs_pos`
 CHANGE COLUMN `total` `address` VARCHAR(100) NOT NULL DEFAULT '' COMMENT '刷卡次数' ;
 ALTER TABLE `jd_ecshop`.`ecs_pos`
 ADD COLUMN `categary` VARCHAR(50) NOT NULL DEFAULT '' AFTER `address`;
+/*2017-01-08*/
+ALTER TABLE `jd_ecshop`.`ecs_order_info`
+CHANGE COLUMN `surplus` `surplus` DECIMAL(10,2) NOT NULL DEFAULT '0.00' COMMENT '余额支付金额' ,
+CHANGE COLUMN `integral_money` `integral_money` DECIMAL(10,2) NOT NULL DEFAULT '0.00' COMMENT '积分支付金额作为消费额度字段使用' ;
