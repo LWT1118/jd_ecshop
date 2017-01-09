@@ -520,6 +520,9 @@ function action_update ()
 	if(empty($username)){
 	    sys_msg('卡号不能为空');
 	}
+	if($db->getRow("select user_id from " . $ecs->table('users') . " where user_name='{$username}'")){
+		sys_msg('卡号重复');
+	}
 	/*$password = empty($_POST['password']) ? '' : trim($_POST['password']);
 	$email = empty($_POST['email']) ? '' : trim($_POST['email']);
 	$mobile_phone = empty($_POST['mobile_phone']) ? '' : trim($_POST['mobile_phone']);
