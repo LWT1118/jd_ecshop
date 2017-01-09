@@ -1045,45 +1045,40 @@ function user_list ()
 	if($result === false)
 	{
 		/* 过滤条件 */
-		$filter['keywords'] = empty($_REQUEST['keywords']) ? '' : trim($_REQUEST['keywords']);
+		$filter['card'] = empty($_REQUEST['card']) ? '' : trim($_REQUEST['card']);
+		$filter['user_name'] = empty($_REQUEST['user_name']) ? '' : trim($_REQUEST['user_name']);
+        $filter['mobile'] = empty($_REQUEST['mobile']) ? '' : trim($_REQUEST['mobile']);
+        $filter['status'] = isset($_REQUEST['status']) ? $_REQUEST['status'] : '';
 		if(isset($_REQUEST['is_ajax']) && $_REQUEST['is_ajax'] == 1)
 		{
-			$filter['keywords'] = json_str_iconv($filter['keywords']);
+			//$filter['card'] = json_str_iconv($filter['card']);
 		}
 		$filter['rank'] = empty($_REQUEST['rank']) ? 0 : intval($_REQUEST['rank']);
-		$filter['pay_points_gt'] = empty($_REQUEST['pay_points_gt']) ? 0 : intval($_REQUEST['pay_points_gt']);
-		$filter['pay_points_lt'] = empty($_REQUEST['pay_points_lt']) ? 0 : intval($_REQUEST['pay_points_lt']);
-		
+
 		$filter['sort_by'] = empty($_REQUEST['sort_by']) ? 'user_id' : trim($_REQUEST['sort_by']);
 		$filter['sort_order'] = empty($_REQUEST['sort_order']) ? 'DESC' : trim($_REQUEST['sort_order']);
 		
 		$ex_where = ' WHERE 1 ';
-		if($filter['keywords'])
+		if($filter['user_name'])
 		{
-			$ex_where .= " AND user_name LIKE '%" . mysql_like_quote($filter['keywords']) . "%' or email like  '%" . mysql_like_quote($filter['keywords']) . "%' or mobile_phone like  '%" . mysql_like_quote($filter['keywords']) . "%' ";
+			$ex_where .= " AND user_name LIKE '%" . mysql_like_quote($filter['user_name']) . "%' ";
 		}
 		if($filter['rank'])
 		{
-			$sql = "SELECT min_points, max_points, special_rank FROM " . $GLOBALS['ecs']->table('user_rank') . " WHERE rank_id = '$filter[rank]'";
-			$row = $GLOBALS['db']->getRow($sql);
-			if($row['special_rank'] > 0)
-			{
-				/* 特殊等级 */
-				$ex_where .= " AND user_rank = '$filter[rank]' ";
-			}
-			else
-			{
-				$ex_where .= " AND rank_points >= " . intval($row['min_points']) . " AND rank_points < " . intval($row['max_points']);
-			}
+			$ex_where .= " AND user_rank = '$filter[rank]' ";
 		}
-		if($filter['pay_points_gt'])
+		if($filter['card'])
 		{
-			$ex_where .= " AND pay_points >= '$filter[pay_points_gt]' ";
+			$ex_where .= " AND card LIKE '%" . mysql_like_quote($filter['card']) . "%' ";
 		}
-		if($filter['pay_points_lt'])
+		if($filter['mobile'])
 		{
-			$ex_where .= " AND pay_points < '$filter[pay_points_lt]' ";
+			$ex_where .= " AND mobile_phone LIKE '%" . $filter['mobile'] . "%' ";
 		}
+		if($filter['status'] != ''){
+			$ex_where .= " AND `status`={$filter['status']}";
+		}
+
 		
 		$filter['record_count'] = $GLOBALS['db']->getOne("SELECT COUNT(*) FROM " . $GLOBALS['ecs']->table('users') . $ex_where);
 		

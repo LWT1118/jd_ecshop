@@ -4,17 +4,25 @@
 <div class="form-div">
 	<form action="javascript:searchUser()" name="searchForm">
 		<img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+		审核状态
+		<select name="status">
+			<option value="">请选择</option>
+			<option value="0">未审核</option>
+			<option value="1">审核通过</option>
+			<option value="2">审核中</option>
+			<option value="3">审核不通过</option>
+		</select>
 		&nbsp;{$lang.label_rank_name}
 		<select name="user_rank">
 			<option value="0">{$lang.all_option}</option>
 			{html_options options=$user_ranks }
 		</select>
-		&nbsp;{$lang.label_pay_points_gt}&nbsp;
-		<input type="text" name="pay_points_gt" size="8" style="min-width: 150px;"/>
-		&nbsp;{$lang.label_pay_points_lt}&nbsp;
-		<input type="text" name="pay_points_lt" size="10" style="min-width: 150px;" />
-        {$lang.label_user_name}&nbsp;
-		<span style="position:relative"><input type="text" name="keyword" placeholder="手机号/用户名/邮箱" /></span>
+		&nbsp;{$lang.username}&nbsp;
+		<input type="text" name="user_name" style="min-width: 70px;" />
+		&nbsp;{$lang.mobile}&nbsp;
+		<input type="text" name="mobile" style="min-width: 70px;" />
+        身份证&nbsp;
+		<span style="position:relative"><input type="text" name="card" style="min-width: 100px;" /></span>
 		<input type="submit" class="button" value="{$lang.button_search}" />
 	</form>
 </div>
@@ -137,7 +145,7 @@
 			</tr>
 			{foreachelse}
 			<tr>
-				<td class="no-records" colspan="11">{$lang.no_records}</td>
+				<td class="no-records" colspan="13">{$lang.no_records}</td>
 			</tr>
 			{/foreach}
 			<tr>
@@ -174,10 +182,11 @@ onload = function()
  */
 function searchUser()
 {
-    listTable.filter['keywords'] = Utils.trim(document.forms['searchForm'].elements['keyword'].value);
+    listTable.filter['card'] = Utils.trim(document.forms['searchForm'].elements['card'].value);
     listTable.filter['rank'] = document.forms['searchForm'].elements['user_rank'].value;
-    listTable.filter['pay_points_gt'] = Utils.trim(document.forms['searchForm'].elements['pay_points_gt'].value);
-    listTable.filter['pay_points_lt'] = Utils.trim(document.forms['searchForm'].elements['pay_points_lt'].value);
+    listTable.filter['status'] = document.forms['searchForm'].elements['status'].value;
+    listTable.filter['user_name'] = Utils.trim(document.forms['searchForm'].elements['user_name'].value);
+    listTable.filter['mobile'] = Utils.trim(document.forms['searchForm'].elements['mobile'].value);
     listTable.filter['page'] = 1;
     listTable.loadList();
 }
