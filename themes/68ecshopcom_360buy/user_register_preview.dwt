@@ -115,12 +115,12 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
 			               	
 			                <tr>
 			                  <td align="right" bgcolor="#ffffff">身份证正面照：</td>
-			                  <td align="left" bgcolor="#ffffff" colspan="3"><img src="{$register_info.face_card}" /></td>
+			                  <td align="left" bgcolor="#ffffff" colspan="3"><img src="{$register_info.face_card}" onload="javascript:sumHeight()"></td>
 			               	</tr>
 			               				               	
  	    	                <tr>
 			                  <td align="right" bgcolor="#ffffff">身份证反面照：</td>
-			                  <td align="left" bgcolor="#ffffff" colspan="3"><img src="{$register_info.back_card}"></td>
+			                  <td align="left" bgcolor="#ffffff" colspan="3"><img src="{$register_info.back_card}" onload="javascript:sumHeight()"></td>
 			               	</tr>			              
 			               	
 			              </table>										
@@ -152,11 +152,12 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
 	var {$key} = "{$item}";
 	{/foreach}
 	var username_exist = "{$lang.username_exist}";
-	
+	function sumHeight(){
+	    $(".mcon").height($(".uc_box").height());
+	}
 	$().ready(function(){
 		//设置高度
-		$(".mcon").height($(".uc_box").height());
-		
+		sumHeight();
 		$("#formUser").submit(function(){
 			return register('{$register_type}');
 		});
