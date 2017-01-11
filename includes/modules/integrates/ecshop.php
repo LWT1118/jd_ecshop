@@ -95,6 +95,8 @@ class ecshop extends integrate
 		$this->field_credit_line = 'credit_line';
 		$this->field_user_rank = 'user_rank';
 		$this->field_status = 'status';
+		$this->field_is_surplus_open = 'is_surplus_open';
+		$this->field_surplus_password = 'surplus_password';
 		/* add by liuweitao end */
 	}
 
@@ -357,7 +359,7 @@ class ecshop extends integrate
 	    if((!empty($md5password)) && $this->field_pass != 'NULL')
 	    {
 	        $values[] = $this->field_pass . "='" . $this->compile_password(array('md5password' => $md5password)) . "'";
-	        // 重置ec_salt、salt
+	        //重置ec_salt、salt
 	        $values[] = "salt = 0";
 	        $values[] = "ec_salt = 0";
 	    }
@@ -366,6 +368,9 @@ class ecshop extends integrate
 	    $values[] = "{$this->field_credit_line}='{$credit_line}'";
 	    $values[] = "{$this->field_user_rank}='{$user_rank}'";
 	    $values[] = "{$this->field_status}='{$status}'";
+	    //$values[] = "{$this->field_is_surplus_open}=1";
+	    //$surplus_pwd = mt_rand(100000, 999999); //生成支付密码　
+	    //$values[] = "{$this->field_surplus_password}='{$surplus_pwd}'";
 	
 	    if($values)
 	    {

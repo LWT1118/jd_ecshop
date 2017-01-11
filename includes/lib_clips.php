@@ -629,6 +629,7 @@ function get_user_default($user_id)
     $info['username']  = stripslashes($_SESSION['user_name']);
     $info['shop_name'] = $GLOBALS['_CFG']['shop_name'];
     $info['integral']  = $row['pay_points'] . $GLOBALS['_CFG']['integral_name'];
+    $info['user_money'] = $row['user_money'];
     /* 增加是否开启会员邮件验证开关 */
     $info['is_validate'] = ($GLOBALS['_CFG']['member_email_validate'] && !$row['is_validated'])?0:1;
     $info['credit_line'] = $row['credit_line'];

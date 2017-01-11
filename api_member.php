@@ -39,6 +39,12 @@ class ApiMember
         if (isset($_GET['pos_no'])) {
             $this->posNo = $_GET['pos_no'];
         }
+        if(isset($_GET['random'])){
+            $this->random = $_GET['random'];
+        }
+        if(isset($_GET['keycode'])){
+            $this->keycode = $_GET['keycode'];
+        }
     }
 
     private function setError($msg, $errCode = -1)
@@ -290,18 +296,23 @@ class ApiMember
     {
         
     }
+
+    public function outputData()
+    {
+        $data = array('err_code'=>$this->errCode, 'err_msg'=>$this->errMsg, 'data'=>$this->responseData);
+        $json_data = json_encode($data);
+        header('Content-Length: ' . strlen($json_data));
+        die($json_data);
+    }
     
     public function processRequest()
     {
         if(!$this->checkParams()){
-            echo json_encode(array('err_code'=>$this->errCode, 'err_msg'=>$this->errMsg, 'data'=>$this->responseData));
-            //var_dump(array('err_code'=>$this->errCode, 'err_msg'=>$this->errMsg, 'data'=>$this->responseData));
-            return;
+            $this->outputData();
         }
         $handler = "{$this->action}Handler";
         $this->$handler();
-        echo json_encode(array('err_code'=>$this->errCode, 'err_msg'=>$this->errMsg, 'data'=>$this->responseData));
-        //var_dump(array('err_code'=>$this->errCode, 'err_msg'=>$this->errMsg, 'data'=>$this->responseData));
+        $this->outputData();
     }
 }
 $apiMember = new ApiMember();

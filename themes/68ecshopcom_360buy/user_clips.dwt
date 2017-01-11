@@ -41,19 +41,19 @@
           <div class="money">
             <ul class="clearfix">
               <li class="first">
-                <div class="title"><span>提现额度</span></div>
+                <div class="title"><span>消费额度</span></div>
                 <div class="pic"><a href="user.php?act=account_log"><i class="user_bg"></i></a></div>
-                <p><a href="user.php?act=account_log" class="_capitalAccount">{$info.surplus}</a></p>
+                <p><a href="user.php?act=account_log" class="_capitalAccount">{$info.integral}</a></p>
               </li>
               <li class="second">
-                <div class="title"><span>红包</span></div>
+                <div class="title"><span>提现额度</span></div>
                 <div class="pic"><a href="user.php?act=bonus"><i class="user_bg"></i></a></div>
-                <p><a href="user.php?act=bonus" class="_backAccount">{$info.bonus}</a>张</p>
+                <p><a href="user.php?act=bonus" class="_backAccount">{$info.credit_line}</a>张</p>
               </li>
               <li class="third">
-                <div class="title"><span>消费额度</span></div>
+                <div class="title"><span>账户余额</span></div>
                 <div class="pic"><i class="user_bg"></i></div>
-                <p><span class="_goldAccount">{$info.integral}</span></p>
+                <p><span class="_goldAccount">{$info.user_money}</span></p>
               </li>
             </ul>
           </div>
