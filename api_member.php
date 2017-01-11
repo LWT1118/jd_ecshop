@@ -96,22 +96,50 @@ class ApiMember
             $this->setError('充值金额必须大于0');
             return;
         }
+        if(empty($_GET['client_key'])){
+            $this->setError('client_key不能为空');
+            return;
+        }
+        $client_key = $_GET['client_key'];
         $user_table = $ecs->table('users');
+        $record_table = $ecs->table('deposit_record');
         $amount = $amount / 100;
-        $sql = "select user_id,user_money from {$user_table} where user_name='{$this->cardNo}'";
-        $record = $db->getRow($sql);
+        $record = $db->getRow("select user_id,user_money from {$user_table} where user_name='{$this->cardNo}'");
         if(empty($record)){
             $this->setError("未找到卡号：{$this->cardNo}");
             return;
         }
+        if($db->getRow("select record_id from {$record_table} where client_key='{$client_key}'")){
+            $this->setError('client_key不能重复');
+            return;
+        }
         $user_id = $record['user_id'];
         $money_value = $record['user_money'] + $amount;
-        $record_table = $ecs->table('deposit_record');
         if($db->query("update {$user_table} set user_money={$money_value} where user_id={$user_id}")){
             $create_time = time();
-            $db->query("insert into {$record_table} (user_id,card_no,pos_no,amount,create_time) values ({$user_id}, '{$this->cardNo}', '{$this->posNo}', '{$amount}', '{$create_time}')");
+            $db->query("insert into {$record_table} (user_id,card_no,pos_no,amount,client_key,create_time) values ({$user_id}, '{$this->cardNo}', '{$this->posNo}', '{$amount}', '{$client_key}', '{$create_time}')");
         }
         $this->responseData['user_money'] = $money_value;
+    }
+
+    private function query_depositHandler()
+    {
+        if(empty($_GET['client_key'])){
+            $this->setError('client_key不能为空');
+            return;
+        }
+        global $db, $ecs;
+        $client_key = $_GET['client_key'];
+        $record_table = $ecs->table('deposit_record');
+        $user_table = $ecs->table('users');
+        $record = $db->getRow("select record_id from {$record_table} where client_key='{$client_key}'");
+        if(!$record){
+            $this->setError('未找到充值记录');
+            return;
+        }
+        $user_money = $db->getOne("select user_money from {$user_table} where user_name='{$this->cardNo}'");
+        $this->responseData['record_id'] = $record['record_id'];
+        $this->responseData['user_money'] = $user_money;
     }
     
     private function cashHandler()
