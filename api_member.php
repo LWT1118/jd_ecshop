@@ -139,7 +139,7 @@ class ApiMember
         }
         $user_money = $db->getOne("select user_money from {$user_table} where user_name='{$this->cardNo}'");
         $this->responseData['record_id'] = $record['record_id'];
-        $this->responseData['user_money'] = $user_money;
+        $this->responseData['user_money'] = floatval($user_money);
     }
     
     private function cashHandler()
@@ -187,8 +187,8 @@ class ApiMember
             $db->query("insert into {$record_table} (user_id,card_no,pos_no,user_money,credit_line,create_time) values ({$user_id}, '{$this->cardNo}', '{$this->posNo}', '{$user_money}', '{$credit_line}', '{$create_time}')");
         }
         $this->responseData['record_id'] = $db->insert_id();
-        $this->responseData['user_money'] = $user_money;
-        $this->responseData['credit_line'] = $credit_line;
+        $this->responseData['user_money'] =  floatval($user_money);
+        $this->responseData['credit_line'] = floatval($credit_line);
     }
 
     private function cashdoneHandler()
@@ -209,8 +209,8 @@ class ApiMember
         $user_info = $db->getRow("select user_id,user_money,credit_line from {$user_table} where user_id={$user_id}");
         $db->query("update {$cash_table} set status=1 where record_id={$record_id}");
         $this->responseData['record_id'] = $record_id;
-        $this->responseData['user_money'] = $user_info['user_money'];
-        $this->responseData['credit_line'] = $user_info['credit_line'];
+        $this->responseData['user_money'] = floatval($user_info['user_money']);
+        $this->responseData['credit_line'] = floatval($user_info['credit_line']);
         $this->responseData['status'] = 1;
     }
     
@@ -267,7 +267,7 @@ class ApiMember
         $add_time = gmtime();
         $user_id = $record['user_id'];
         $order = array(
-            'pay_id'          => $pay_balance_id,
+            'pay_id'          =>$pay_balance_id,
             'goods_amount'    =>$amount,
             'money_paid'      =>$amount,           //已支付金额
             'surplus'         =>$surplus,          //余额支付金额
@@ -318,6 +318,11 @@ class ApiMember
         $this->responseData['order_sn'] = $order_sn;
         $this->responseData['order_status'] = OS_CONFIRMED;
         $this->responseData['pay_status'] = PS_PAYED;
+    }
+
+    private function randomHandler()
+    {
+        $number = mt_rand(100000, 666666);
     }
     
     private function queryHandler()
