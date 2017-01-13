@@ -81,6 +81,11 @@ class ApiMember
             $this->setError('随机数和校验码不能为空');
             return false;
         }
+        $timestamp = time();
+        if(($timestamp - $this->random) > 30){
+            $this->setError('随机数错误');
+            return false;
+        }
         if($this->keycode != md5("^{$this->cardNo}&{$this->random}$")){
             $this->setError('校验码错误');
             return false;
@@ -320,10 +325,6 @@ class ApiMember
         $this->responseData['pay_status'] = PS_PAYED;
     }
 
-    private function randomHandler()
-    {
-        $number = mt_rand(100000, 666666);
-    }
     
     private function queryHandler()
     {

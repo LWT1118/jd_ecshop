@@ -48,7 +48,7 @@
               <li class="second">
                 <div class="title"><span>提现额度</span></div>
                 <div class="pic"><a href="user.php?act=bonus"><i class="user_bg"></i></a></div>
-                <p><a href="user.php?act=bonus" class="_backAccount">{$info.credit_line}</a>张</p>
+                <p><a href="user.php?act=bonus" class="_backAccount">{$info.credit_line}</a></p>
               </li>
               <li class="third">
                 <div class="title"><span>账户余额</span></div>
