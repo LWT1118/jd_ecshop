@@ -3253,7 +3253,7 @@ function updateEndTime(){
           </table>
           <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem --> 
           <!-- {/if} --> 
-          <!-- {if $action eq "account_log"} -->
+          <!-- {if $action eq "deposite_log"} -->
           <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#E6E6E6">
             <tr align="center">
               <td bgcolor="#ffffff">{$lang.process_time}</td>
@@ -3264,7 +3264,7 @@ function updateEndTime(){
               <td bgcolor="#ffffff">{$lang.is_paid}</td>
               <td bgcolor="#ffffff">{$lang.handle}</td>
             </tr>
-            <!--{foreach from=$account_log item=item}-->
+            <!--{foreach from=$deposite_log item=item}-->
             <tr>
               <td align="center" bgcolor="#ffffff">{$item.add_time}</td>
               <td align="left" bgcolor="#ffffff">{$item.type}</td>

@@ -578,6 +578,41 @@ function get_account_log($user_id, $num, $start)
 }
 
 /**
+ * 查询会员充值记录
+ *
+ * @access  public
+ * @param   int     $user_id    会员ID
+ * @param   int     $num        每页显示数量
+ * @param   int     $start      开始显示的条数
+ * @return  array
+ */
+function get_deposit_log($user_id, $num, $start, $begin_time, $end_time)
+{
+    $deposit_log = array();
+    $sql = 'SELECT * FROM ' .$GLOBALS['ecs']->table('deposit_record').
+        " WHERE user_id = '$user_id' and create_time>={$begin_time} and create_time<={$end_time}" .
+        " ORDER BY create_time DESC";
+    $res = $GLOBALS['db']->selectLimit($sql, $num, $start);
+
+    if ($res)
+    {
+        while ($rows = $GLOBALS['db']->fetchRow($res))
+        {
+            $rows['create_time']         = local_date($GLOBALS['_CFG']['date_format'], $rows['create_time']);
+            $rows['amount']           = price_format(abs($rows['amount']), false);
+
+            $deposit_log[] = $rows;
+        }
+
+        return $deposit_log;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+/**
  *  删除未确认的会员帐目信息
  *
  * @access  public
