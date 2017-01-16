@@ -3626,18 +3626,22 @@ function action_deposit_log()
     global $action;
     include_once (ROOT_PATH . 'includes/lib_clips.php');
     $page = isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1;
-    $begin_time = strtotime(date('Y-m-01'));  //当前月份第一天
-    $end_time = strtotime(date('Y-m-t'));     //当前月份第二天
+    $begin_time = empty($_REQUEST['begin_time']) ?  strtotime(date('Y-m-01')) : strtotime($_REQUEST['begin_time']);  //当前月份第一天
+    $end_time = empty($_REQUEST['end_time']) ? strtotime(date('Y-m-t')) : strtotime($_REQUEST['end_time']);     //当前月份第二天
     /* 获取记录条数 */
     $sql = "SELECT COUNT(*) FROM " . $ecs->table('deposit_record') . " WHERE user_id = '$user_id'" . " AND create_time >={$begin_time} and create_time <= {$end_time}";
     $record_count = $db->getOne($sql);
 
     // 分页函数
-    $pager = get_pager('user.php', array('act' => $action, 'begin_time'=>$begin_time, 'end_time'=>$end_time), $record_count, $page);
+	$begin_date = date('Y-m-d', $begin_time);
+	$end_date = date('Y-m-d', $end_time);
+    $pager = get_pager('user.php', array('act' => $action, 'begin_time'=>$begin_date, 'end_time'=>$end_date), $record_count, $page);
     // 获取充值记录
     $deposit_log = get_deposit_log($user_id, $pager['size'], $pager['start'], $begin_time, $end_time);
 
     // 模板赋值
+	$smarty->assign('begin_time', $begin_date);
+	$smarty->assign('end_time', $end_date);
     $smarty->assign('deposit_log', $deposit_log);
     $smarty->assign('pager', $pager);
     $smarty->display('user_transaction.dwt');
@@ -3652,18 +3656,22 @@ function action_cash_log()
     global $action;
     include_once (ROOT_PATH . 'includes/lib_clips.php');
     $page = isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1;
-    $begin_time = strtotime(date('Y-m-01'));  //当前月份第一天
-    $end_time = strtotime(date('Y-m-t'));     //当前月份第二天
+    $begin_time = empty($_REQUEST['begin_time']) ?  strtotime(date('Y-m-01')) : strtotime($_REQUEST['begin_time']);  //当前月份第一天
+    $end_time = empty($_REQUEST['end_time']) ? strtotime(date('Y-m-t')) : strtotime($_REQUEST['end_time']);     //当前月份第二天
     /* 获取记录条数 */
     $sql = "SELECT COUNT(*) FROM " . $ecs->table('cash_record') . " WHERE user_id = '$user_id'" . " AND create_time >={$begin_time} and create_time <= {$end_time}";
     $record_count = $db->getOne($sql);
 
     // 分页函数
-    $pager = get_pager('user.php', array('act' => $action, 'begin_time'=>$begin_time, 'end_time'=>$end_time), $record_count, $page);
+    $begin_date = date('Y-m-d', $begin_time);
+    $end_date = date('Y-m-d', $end_time);
+    $pager = get_pager('user.php', array('act' => $action, 'begin_time'=>$begin_date, 'end_time'=>$end_date), $record_count, $page);
     // 获取充值记录
     $cash_log = get_cash_log($user_id, $pager['size'], $pager['start'], $begin_time, $end_time);
 
     // 模板赋值
+    $smarty->assign('begin_time', $begin_date);
+    $smarty->assign('end_time', $end_date);
     $smarty->assign('cash_log', $cash_log);
     $smarty->assign('pager', $pager);
     $smarty->display('user_transaction.dwt');
@@ -3678,18 +3686,22 @@ function action_trade_log()
     global $action;
     include_once (ROOT_PATH . 'includes/lib_clips.php');
     $page = isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1;
-    $begin_time = strtotime(date('Y-m-01'));  //当前月份第一天
-    $end_time = strtotime(date('Y-m-t'));     //当前月份第二天
+    $begin_time = empty($_REQUEST['begin_time']) ?  strtotime(date('Y-m-01')) : strtotime($_REQUEST['begin_time']);  //当前月份第一天
+    $end_time = empty($_REQUEST['end_time']) ? strtotime(date('Y-m-t')) : strtotime($_REQUEST['end_time']);     //当前月份第二天
     /* 获取记录条数 */
     $sql = "SELECT COUNT(*) FROM " . $ecs->table('order_info') . " WHERE pay_note='terminal' and user_id = '$user_id'" . " AND add_time >={$begin_time} and add_time <= {$end_time}";
     $record_count = $db->getOne($sql);
 
     // 分页函数
-    $pager = get_pager('user.php', array('act' => $action, 'begin_time'=>$begin_time, 'end_time'=>$end_time), $record_count, $page);
+    $begin_date = date('Y-m-d', $begin_time);
+    $end_date = date('Y-m-d', $end_time);
+    $pager = get_pager('user.php', array('act' => $action, 'begin_time'=>$begin_date, 'end_time'=>$end_date), $record_count, $page);
     // 获取充值记录
     $trade_log = get_trade_log($user_id, $pager['size'], $pager['start'], $begin_time, $end_time);
 
     // 模板赋值
+    $smarty->assign('begin_time', $begin_date);
+    $smarty->assign('end_time', $end_date);
     $smarty->assign('trade_log', $trade_log);
     $smarty->assign('pager', $pager);
     $smarty->display('user_transaction.dwt');

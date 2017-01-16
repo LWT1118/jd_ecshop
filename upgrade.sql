@@ -72,3 +72,6 @@ CHANGE COLUMN `integral_money` `integral_money` DECIMAL(10,2) NOT NULL DEFAULT '
 /*2017-01-11*/
 ALTER TABLE `jd_ecshop`.`ecs_deposit_record`
   ADD COLUMN `client_key` VARCHAR(45) NOT NULL DEFAULT '' AFTER `amount`;
+/*2017-01-16*/
+ALTER TABLE `jd_ecshop`.`ecs_order_info`
+  CHANGE COLUMN `pay_name` `pay_name` VARCHAR(120) NOT NULL DEFAULT '' COMMENT '如果是终端消费，则用来存储pos机编号' ;

@@ -287,6 +287,7 @@ class ApiMember
             'pay_status'      =>PS_PAYING,  //付款中
             'add_time'        =>$add_time,
             'pay_time'        =>$add_time,
+            'pay_name'        =>$this->posNo,
             'pay_note'        =>'terminal',
         );
         do{

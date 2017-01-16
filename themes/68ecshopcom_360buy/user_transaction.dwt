@@ -3144,9 +3144,18 @@ function updateEndTime(){
           </div>
           <div class="mar_top">
           <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#E6E6E6">
-            <!--{if $action eq "deposit_log"}-->
-            <!--{elseif $action eq "cash_log"}-->
-            <!--{elseif $action eq "trade_log"}-->
+            <!--{if $action eq "deposit_log" || $action eq "cash_log" || $action eq "trade_log"}-->
+            <script type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+            <form method="post" action="user.php">
+            <input type="hidden" name="act" value="{$action}">
+            <tr>
+              <td align="left" bgcolor="#ffffff">
+              开始日期：<input type="text" name="begin_time" value="{$begin_time}" onclick="javascript:WdatePicker();" readonly="readonly">
+              结束日期：<input type="text" name="end_time" value="{$end_time}" onclick="javascript:WdatePicker();" readonly="readonly">
+              <input type="submit" value="确定" />
+              </td>
+            </tr>
+            </form>
             <!--{else}-->
             <tr>
               <td align="right" bgcolor="#ffffff"><a href="user.php?act=account_deposit" class="f6">{$lang.surplus_type_0}</a> | <a href="user.php?act=account_raply" class="f6">{$lang.surplus_type_1}</a> | <a href="user.php?act=account_detail" class="f6">{$lang.add_surplus_log}</a> | <a href="user.php?act=account_log" class="f6">{$lang.view_application}</a></td>
