@@ -181,15 +181,19 @@ class ApiMember
         if($record['user_money'] >= $amount){
             $user_money = $record['user_money'] - $amount;
             $credit_line = $record['credit_line'];
+            $cash_money = $amount;
+            $credit_money = 0;
         }else{
             $user_money = '0.00';
             $credit_line = $record['user_money'] + $record['credit_line'] - $amount;
+            $cash_money = $record['user_money'];
+            $credit_money = $amount - $record['user_money'];
         }
         $user_id = $record['user_id'];
         $record_table = $ecs->table('cash_record');
         if($db->query("update {$user_table} set user_money={$user_money},credit_line={$credit_line} where user_id={$user_id}")){
             $create_time = time();
-            $db->query("insert into {$record_table} (user_id,card_no,pos_no,user_money,credit_line,create_time) values ({$user_id}, '{$this->cardNo}', '{$this->posNo}', '{$user_money}', '{$credit_line}', '{$create_time}')");
+            $db->query("insert into {$record_table} (user_id,card_no,pos_no,user_money,credit_line,create_time) values ({$user_id}, '{$this->cardNo}', '{$this->posNo}', '{$cash_money}', '{$credit_money}', '{$create_time}')");
         }
         $this->responseData['record_id'] = $db->insert_id();
         $this->responseData['user_money'] =  floatval($user_money);

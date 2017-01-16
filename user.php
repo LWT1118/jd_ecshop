@@ -36,7 +36,12 @@ $not_login_arr = array(
 
 /* 显示页面的action列表 */
 $ui_arr = array(
-	'login', 'profile', 'order_list', 'order_detail', 'address_list', 'collection_list', 'follow_shop', 'message_list', 'tag_list', 'get_password', 'reset_password', 'booking_list', 'add_booking', 'account_raply', 'account_deposit', 'account_log', 'deposit_log', 'account_detail', 'act_account', 'pay', 'default', 'bonus', 'group_buy', 'group_buy_detail', 'affiliate', 'comment_list', 'validate_email', 'track_packages', 'transform_points', 'qpassword_name', 'get_passwd_question', 'check_answer', 'check_register', 'back_order', 'back_list', 'back_order_detail', 'back_order_act', 'back_replay', 'my_comment', 'my_comment_send', 'shaidan_send', 'shaidan_sale', 'account_security', 'act_identity', 'check_phone', 'update_password', 're_binding', 'update_phone', 'update_email', 'act_update_email',
+	'login', 'profile', 'order_list', 'order_detail', 'address_list', 'collection_list', 'follow_shop', 'message_list', 'tag_list',
+	'get_password', 'reset_password', 'booking_list', 'add_booking', 'account_raply', 'account_deposit', 'account_log', 'deposit_log', 'cash_log', 'trade_log',
+	'account_detail', 'act_account', 'pay', 'default', 'bonus', 'group_buy', 'group_buy_detail', 'affiliate', 'comment_list', 'validate_email',
+	'track_packages', 'transform_points', 'qpassword_name', 'get_passwd_question', 'check_answer', 'check_register', 'back_order', 'back_list',
+	'back_order_detail', 'back_order_act', 'back_replay', 'my_comment', 'my_comment_send', 'shaidan_send', 'shaidan_sale', 'account_security',
+	'act_identity', 'check_phone', 'update_password', 're_binding', 'update_phone', 'update_email', 'act_update_email',
 	're_binding_email', 'ch_email', 'ck_email', 'step_1', 'forget_password', 'back_order_detail', 'del_back_order', 'back_order_detail_edit', 'add_huan_goods',
 /*余额额支付密码_更改_START_www.68ecshop.com*/
 'act_forget_pass', 're_pass', 'auction_list', 'forget_surplus_password', 'act_forget_surplus_password', 'update_surplus_password', 'act_update_surplus_password', 'verify_reset_surplus_email', 'get_verify_code'
@@ -1949,7 +1954,7 @@ function action_order_list ()
 	include_once (ROOT_PATH . 'includes/lib_order.php');
 	include_once (ROOT_PATH . 'includes/lib_clips.php');
 	
-	$ex_where = " and user_id=$user_id";
+	$ex_where = " and user_id=$user_id and pay_note<>'terminal' ";
 	
 	/* 已完成的订单 */
 	$order_count['finished'] = $db->GetOne('SELECT COUNT(*) FROM ' . $ecs->table('order_info') . " WHERE 1 $ex_where " . order_query_sql('finished'));
@@ -1973,7 +1978,7 @@ function action_order_list ()
 	$smarty->assign('status', $status);
 	
 	$composite_status = isset($_REQUEST['composite_status']) ? intval($_REQUEST['composite_status']) : - 1;
-	$where = '';
+	$where = " and pay_note<>'terminal' ";
 	switch($composite_status)
 	{
 		case CS_AWAIT_PAY:
@@ -1995,7 +2000,7 @@ function action_order_list ()
 	}
 	$page = isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1;
 	
-	$record_count = $db->getOne("SELECT COUNT(*) FROM " . $ecs->table('order_info') . " WHERE user_id = '$user_id'");
+	$record_count = $db->getOne("SELECT COUNT(*) FROM " . $ecs->table('order_info') . " WHERE user_id = '$user_id' and pay_note<>'terminal'");
 
 	/* 代码添加_68ECSHOP_20150909_STAR */
 	// 未确认
@@ -3614,47 +3619,78 @@ function action_account_log ()
 /*充值记录*/
 function action_deposit_log()
 {
-    $user = $GLOBALS['user'];
-    $_CFG = $GLOBALS['_CFG'];
-    $_LANG = $GLOBALS['_LANG'];
     $smarty = $GLOBALS['smarty'];
     $db = $GLOBALS['db'];
     $ecs = $GLOBALS['ecs'];
     $user_id = $_SESSION['user_id'];
     global $action;
-
     include_once (ROOT_PATH . 'includes/lib_clips.php');
-
     $page = isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1;
     $begin_time = strtotime(date('Y-m-01'));  //当前月份第一天
     $end_time = strtotime(date('Y-m-t'));     //当前月份第二天
-
     /* 获取记录条数 */
     $sql = "SELECT COUNT(*) FROM " . $ecs->table('deposit_record') . " WHERE user_id = '$user_id'" . " AND create_time >={$begin_time} and create_time <= {$end_time}";
     $record_count = $db->getOne($sql);
 
     // 分页函数
     $pager = get_pager('user.php', array('act' => $action, 'begin_time'=>$begin_time, 'end_time'=>$end_time), $record_count, $page);
-    /* /查看账户明细页面 获取会员用户的余额 jx 2015-1-1 */
-    /*$surplus_yue = get_user_yue($user_id);
-    if(empty($surplus_yue))
-    {
-        $surplus_yue = 0;
-    }*/
-    // 获取花费余额
-    /*$surplus_amount = get_user_payed($user_id);
-    if(empty($surplus_amount))
-    {
-        $surplus_amount = 0;
-    }*/
-
     // 获取充值记录
     $deposit_log = get_deposit_log($user_id, $pager['size'], $pager['start'], $begin_time, $end_time);
 
     // 模板赋值
-    //$smarty->assign('surplus_amount',$surplus_amount);
     $smarty->assign('deposit_log', $deposit_log);
-    //$smarty->assign('surplus_yue', $surplus_yue);
+    $smarty->assign('pager', $pager);
+    $smarty->display('user_transaction.dwt');
+}
+
+function action_cash_log()
+{
+    $smarty = $GLOBALS['smarty'];
+    $db = $GLOBALS['db'];
+    $ecs = $GLOBALS['ecs'];
+    $user_id = $_SESSION['user_id'];
+    global $action;
+    include_once (ROOT_PATH . 'includes/lib_clips.php');
+    $page = isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1;
+    $begin_time = strtotime(date('Y-m-01'));  //当前月份第一天
+    $end_time = strtotime(date('Y-m-t'));     //当前月份第二天
+    /* 获取记录条数 */
+    $sql = "SELECT COUNT(*) FROM " . $ecs->table('cash_record') . " WHERE user_id = '$user_id'" . " AND create_time >={$begin_time} and create_time <= {$end_time}";
+    $record_count = $db->getOne($sql);
+
+    // 分页函数
+    $pager = get_pager('user.php', array('act' => $action, 'begin_time'=>$begin_time, 'end_time'=>$end_time), $record_count, $page);
+    // 获取充值记录
+    $cash_log = get_cash_log($user_id, $pager['size'], $pager['start'], $begin_time, $end_time);
+
+    // 模板赋值
+    $smarty->assign('cash_log', $cash_log);
+    $smarty->assign('pager', $pager);
+    $smarty->display('user_transaction.dwt');
+}
+
+function action_trade_log()
+{
+    $smarty = $GLOBALS['smarty'];
+    $db = $GLOBALS['db'];
+    $ecs = $GLOBALS['ecs'];
+    $user_id = $_SESSION['user_id'];
+    global $action;
+    include_once (ROOT_PATH . 'includes/lib_clips.php');
+    $page = isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1;
+    $begin_time = strtotime(date('Y-m-01'));  //当前月份第一天
+    $end_time = strtotime(date('Y-m-t'));     //当前月份第二天
+    /* 获取记录条数 */
+    $sql = "SELECT COUNT(*) FROM " . $ecs->table('order_info') . " WHERE pay_note='terminal' and user_id = '$user_id'" . " AND add_time >={$begin_time} and add_time <= {$end_time}";
+    $record_count = $db->getOne($sql);
+
+    // 分页函数
+    $pager = get_pager('user.php', array('act' => $action, 'begin_time'=>$begin_time, 'end_time'=>$end_time), $record_count, $page);
+    // 获取充值记录
+    $trade_log = get_trade_log($user_id, $pager['size'], $pager['start'], $begin_time, $end_time);
+
+    // 模板赋值
+    $smarty->assign('trade_log', $trade_log);
     $smarty->assign('pager', $pager);
     $smarty->display('user_transaction.dwt');
 }

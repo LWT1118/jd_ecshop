@@ -3121,7 +3121,7 @@ function updateEndTime(){
           <!--{/if} --> 
           <!--#订单详情页 end--> 
           <!--#会员余额 start--> 
-          <!--{if $action eq "account_raply" || $action eq "account_log" || $action eq "account_deposit" || $action eq "account_detail"} --> 
+          <!--{if $action eq "account_raply" || $action eq "account_log" || $action eq "deposit_log" || $action eq "cash_log" || $action eq "trade_log" || $action eq "account_detail"} -->
           <script type="text/javascript">
           {foreach from=$lang.account_js item=item key=key}
             var {$key} = "{$item}";
@@ -3129,14 +3129,29 @@ function updateEndTime(){
         </script>
           <div class="tabmenu">
               <ul class="tab pngFix">
-                <li class="first active">{$lang.user_balance}</li>
+                <li class="first active">
+                <!--{if $action eq "deposit_log"}-->
+                充值记录
+                <!--{elseif $action eq "cash_log"}-->
+                提现记录
+                <!--{elseif $action eq "trade_log"}-->
+                终端消费记录
+                <!--{else}-->
+                {$lang.user_balance}
+                <!--{/if}-->
+                </li>
               </ul>
           </div>
           <div class="mar_top">
           <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#E6E6E6">
+            <!--{if $action eq "deposit_log"}-->
+            <!--{elseif $action eq "cash_log"}-->
+            <!--{elseif $action eq "trade_log"}-->
+            <!--{else}-->
             <tr>
               <td align="right" bgcolor="#ffffff"><a href="user.php?act=account_deposit" class="f6">{$lang.surplus_type_0}</a> | <a href="user.php?act=account_raply" class="f6">{$lang.surplus_type_1}</a> | <a href="user.php?act=account_detail" class="f6">{$lang.add_surplus_log}</a> | <a href="user.php?act=account_log" class="f6">{$lang.view_application}</a></td>
             </tr>
+            <!--{/if}-->
           </table>
           </div>
           <!-- {/if} --> 
@@ -3252,43 +3267,84 @@ function updateEndTime(){
             </tr>
           </table>
           <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem --> 
-          <!-- {/if} --> 
-          <!-- {if $action eq "deposite_log"} -->
+          <!-- {/if} -->
+
+          <!--充值记录 start-->
+          <!-- {if $action eq "deposit_log"} -->
           <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#E6E6E6">
             <tr align="center">
-              <td bgcolor="#ffffff">{$lang.process_time}</td>
-              <td bgcolor="#ffffff">{$lang.surplus_pro_type}</td>
-              <td bgcolor="#ffffff">{$lang.money}</td>
-              <td bgcolor="#ffffff">{$lang.process_notic}</td>
-              <td bgcolor="#ffffff">{$lang.admin_notic}</td>
-              <td bgcolor="#ffffff">{$lang.is_paid}</td>
-              <td bgcolor="#ffffff">{$lang.handle}</td>
+              <td bgcolor="#ffffff">充值记录ID</td>
+              <td bgcolor="#ffffff">终端机编号</td>
+              <td bgcolor="#ffffff">充值金额</td>
+              <td bgcolor="#ffffff">充值时间</td>
             </tr>
-            <!--{foreach from=$deposite_log item=item}-->
+            <!--{foreach from=$deposit_log item=item}-->
             <tr>
-              <td align="center" bgcolor="#ffffff">{$item.add_time}</td>
-              <td align="left" bgcolor="#ffffff">{$item.type}</td>
-              <td align="right" bgcolor="#ffffff">{$item.amount}</td>
-              <td align="left" bgcolor="#ffffff">{$item.short_user_note}</td>
-              <td align="left" bgcolor="#ffffff">{$item.short_admin_note}</td>
-              <td align="center" bgcolor="#ffffff">{$item.pay_status}</td>
-              <td align="right" bgcolor="#ffffff">{$item.handle} 
-                <!-- {if ($item.is_paid eq 0 && $item.process_type eq 1) || $item.handle} --> 
-                <a href="user.php?act=cancel&id={$item.id}" onclick="if (!confirm('{$lang.confirm_remove_account}')) return false;">{$lang.is_cancel}</a> 
-                <!-- {/if} --></td>
+              <td align="center" bgcolor="#ffffff">{$item.record_id}</td>
+              <td align="center" bgcolor="#ffffff">{$item.pos_no}</td>
+              <td align="center" bgcolor="#ffffff">{$item.amount}</td>
+              <td align="center" bgcolor="#ffffff">{$item.create_time}</td>
             </tr>
             <!--{/foreach}-->
-            <tr>
-              <td colspan="7" align="right" bgcolor="#ffffff">您当前消费的金额为：{$surplus_amount}</td>
-            </tr>
-            <!--资金管理余额-->
-            <tr>
-              <td colspan="7" align="right" bgcolor="#ffffff">{$lang.current_surplus}￥{$surplus_yue}</td>
-            </tr>
           </table>
-          <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem --> 
-          
-          <!-- {/if} --> 
+          <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+          <!-- {/if} -->
+          <!--充值记录 end-->
+
+          <!--提现记录 start-->
+          <!-- {if $action eq "cash_log"} -->
+          <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#E6E6E6">
+            <tr align="center">
+              <td bgcolor="#ffffff">提现记录ID</td>
+              <td bgcolor="#ffffff">终端机编号</td>
+              <td bgcolor="#ffffff">账户余额扣款</td>
+              <td bgcolor="#ffffff">提现额度扣款</td>
+              <td bgcolor="#ffffff">提现金额</td>
+              <td bgcolor="#ffffff">提现时间</td>
+            </tr>
+            <!--{foreach from=$cash_log item=item}-->
+            <tr>
+              <td align="center" bgcolor="#ffffff">{$item.record_id}</td>
+              <td align="center" bgcolor="#ffffff">{$item.pos_no}</td>
+              <td align="center" bgcolor="#ffffff">{$item.user_money}</td>
+              <td align="center" bgcolor="#ffffff">{$item.credit_line}</td>
+              <td align="center" bgcolor="#ffffff">{$item.amount}</td>
+              <td align="center" bgcolor="#ffffff">{$item.create_time}</td>
+            </tr>
+            <!--{/foreach}-->
+          </table>
+          <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+          <!-- {/if} -->
+          <!--提现记录 end-->
+
+          <!--终端消费记录 start-->
+            <!-- {if $action eq "trade_log"} -->
+            <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#E6E6E6">
+              <tr align="center">
+                <td bgcolor="#ffffff">订单号</td>
+                <td bgcolor="#ffffff">终端机编号</td>
+                <td bgcolor="#ffffff">余额支付金额</td>
+                <td bgcolor="#ffffff">消费额度支付金额</td>
+                <td bgcolor="#ffffff">消费金额</td>
+                <td bgcolor="#ffffff">消费时间</td>
+                <td bgcolor="#ffffff">订单状态</td>
+              </tr>
+              <!--{foreach from=$trade_log item=item}-->
+              <tr>
+                <td align="center" bgcolor="#ffffff">{$item.order_sn}</td>
+                <td align="center" bgcolor="#ffffff">{$item.pos_no}</td>
+                <td align="center" bgcolor="#ffffff">{$item.surplus}</td>
+                <td align="center" bgcolor="#ffffff">{$item.integral_money}</td>
+                <td align="center" bgcolor="#ffffff">{$item.money_paid}</td>
+                <td align="center" bgcolor="#ffffff">{$item.add_time}</td>
+                <td align="center" bgcolor="#ffffff">{$item.status_comment}</td>
+              </tr>
+              <!--{/foreach}-->
+            </table>
+            <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+            <!-- {/if} -->
+            <!--提现记录 end-->
+
           <!--#会员余额 end--> 
           <!--#收货地址页面 --> 
           <!--{if $action eq 'address_list'} --> 

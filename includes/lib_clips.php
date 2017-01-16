@@ -592,6 +592,7 @@ function get_deposit_log($user_id, $num, $start, $begin_time, $end_time)
     $sql = 'SELECT * FROM ' .$GLOBALS['ecs']->table('deposit_record').
         " WHERE user_id = '$user_id' and create_time>={$begin_time} and create_time<={$end_time}" .
         " ORDER BY create_time DESC";
+
     $res = $GLOBALS['db']->selectLimit($sql, $num, $start);
 
     if ($res)
@@ -605,6 +606,80 @@ function get_deposit_log($user_id, $num, $start, $begin_time, $end_time)
         }
 
         return $deposit_log;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+/**
+ * 查询会员提现记录
+ *
+ * @access  public
+ * @param   int     $user_id    会员ID
+ * @param   int     $num        每页显示数量
+ * @param   int     $start      开始显示的条数
+ * @return  array
+ */
+function get_cash_log($user_id, $num, $start, $begin_time, $end_time)
+{
+    $cash_log = array();
+    $sql = 'SELECT * FROM ' .$GLOBALS['ecs']->table('cash_record').
+        " WHERE user_id = '$user_id' and create_time>={$begin_time} and create_time<={$end_time}" .
+        " ORDER BY create_time DESC";
+
+    $res = $GLOBALS['db']->selectLimit($sql, $num, $start);
+    if ($res)
+    {
+        while ($rows = $GLOBALS['db']->fetchRow($res))
+        {
+            $rows['create_time']         = local_date($GLOBALS['_CFG']['date_format'], $rows['create_time']);
+            $rows['user_money']           = price_format(abs($rows['user_money']), false);
+            $rows['credit_line']           = price_format(abs($rows['credit_line']), false);
+            $rows['amount'] = price_format($rows['user_money'] + $rows['credit_line']);
+            $cash_log[] = $rows;
+        }
+        return $cash_log;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+/**
+ * 查询会员终端消费记录
+ *
+ * @access  public
+ * @param   int     $user_id    会员ID
+ * @param   int     $num        每页显示数量
+ * @param   int     $start      开始显示的条数
+ * @return  array
+ */
+function get_trade_log($user_id, $num, $start, $begin_time, $end_time)
+{
+    $trade_log = array();
+    $sql = 'SELECT * FROM ' .$GLOBALS['ecs']->table('order_info').
+        " WHERE pay_note='terminal' and user_id = '$user_id' and add_time>={$begin_time} and add_time<={$end_time}" .
+        " ORDER BY add_time DESC";
+
+    $res = $GLOBALS['db']->selectLimit($sql, $num, $start);
+    if ($res)
+    {
+        while ($rows = $GLOBALS['db']->fetchRow($res))
+        {
+            $rows['add_time']         = local_date($GLOBALS['_CFG']['date_format'], $rows['add_time']);
+            $rows['money_paid']           = price_format(abs($rows['money_paid']), false);
+            $rows['surplus']           = price_format(abs($rows['surplus']), false);
+            $rows['integral_money']           = price_format(abs($rows['integral_money']), false);
+            $rows['amount'] = price_format($rows['user_money'] + $rows['credit_line']);
+            if($rows['order_status'] == 0)  $rows['status_comment'] = '待确认';
+            if($rows['order_status'] == 1)  $rows['status_comment'] = '已确认';
+            if($rows['order_status'] == 2)  $rows['status_comment'] = '已取消';
+            $trade_log[] = $rows;
+        }
+        return $trade_log;
     }
     else
     {
