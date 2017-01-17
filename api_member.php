@@ -323,7 +323,7 @@ class ApiMember
             return;
         }
         $user_table = $ecs->table('users');
-        $record = $db->getRow("select user_id,user_money,credit_line from {$user_table} where user_name='{$this->cardNo}'");
+        $record = $db->getRow("select user_id,user_money,pay_points from {$user_table} where user_name='{$this->cardNo}'");
         if(empty($record)){
             $this->setError("未找到卡号：{$this->cardNo}");
             return;
@@ -335,14 +335,14 @@ class ApiMember
         $this->responseData['order_status'] = OS_CONFIRMED;
         $this->responseData['pay_status'] = PS_PAYED;
         $this->responseData['user_money'] = floatval($record['user_money']);
-        $this->responseData['credit_line'] = floatval($record['credit_line']);
+        $this->responseData['pay_points'] = floatval($record['pay_points']);
     }
 
     
     private function userHandler()
     {
         global $db, $ecs;
-        /*用户信息查询功能，即刷卡后显示 姓名、会员卡号、消费余额、提现余额，这个是不是要添加新接口？*/
+        /*用户信息查询功能，即刷卡后显示 姓名、会员卡号、消费余额、提现余额*/
         $user_table = $ecs->table('users');
         $record = $db->getRow("select user_id,user_name, real_name,user_money,credit_line,pay_points,is_surplus_open from {$user_table} where user_name='{$this->cardNo}'");
         if(!$record){
