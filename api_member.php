@@ -322,18 +322,39 @@ class ApiMember
             $this->setError('订单不存在');
             return;
         }
+        $user_table = $ecs->table('users');
+        $record = $db->getRow("select user_id,user_money,credit_line from {$user_table} where user_name='{$this->cardNo}'");
+        if(empty($record)){
+            $this->setError("未找到卡号：{$this->cardNo}");
+            return;
+        }
         $confirm_time = gmtime();
         $db->query("update {$order_table} set order_status=" . OS_CONFIRMED . ', pay_status=' . PS_PAYED . ",confirm_time={$confirm_time} where order_id={$order_id}");
         $this->responseData['order_id'] = $order_id;
         $this->responseData['order_sn'] = $order_sn;
         $this->responseData['order_status'] = OS_CONFIRMED;
         $this->responseData['pay_status'] = PS_PAYED;
+        $this->responseData['user_money'] = floatval($record['user_money']);
+        $this->responseData['credit_line'] = floatval($record['credit_line']);
     }
 
     
-    private function queryHandler()
+    private function userHandler()
     {
-        
+        global $db, $ecs;
+        /*用户信息查询功能，即刷卡后显示 姓名、会员卡号、消费余额、提现余额，这个是不是要添加新接口？*/
+        $user_table = $ecs->table('users');
+        $record = $db->getRow("select user_id,user_name, real_name,user_money,credit_line,pay_points,is_surplus_open from {$user_table} where user_name='{$this->cardNo}'");
+        if(!$record){
+            $this->setError("未找到卡号：{$this->cardNo}");
+            return;
+        }
+        $this->responseData['card_no'] = $record['user_name'];
+        $this->responseData['real_name'] = $record['real_name'];
+        $this->responseData['user_money'] = floatval($record['user_money']);
+        $this->responseData['credit_line'] = floatval($record['credit_line']);
+        $this->responseData['pay_points'] = floatval($record['pay_points']);
+        $this->responseData['is_surplus_open'] = intval($record['is_surplus_open']);
     }
 
     public function outputData()
