@@ -97,6 +97,11 @@ class ecshop extends integrate
 		$this->field_status = 'status';
 		$this->field_is_surplus_open = 'is_surplus_open';
 		$this->field_surplus_password = 'surplus_password';
+        $this->field_parent_id = 'parent_id';
+        $this->field_family1_name = 'family1_name';
+        $this->field_family1_mobile = 'family1_mobile';
+        $this->field_family2_name = 'family2_name';
+        $this->field_family2_mobile = 'family2_mobile';
 		/* add by liuweitao end */
 	}
 

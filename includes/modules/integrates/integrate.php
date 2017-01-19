@@ -424,7 +424,9 @@ class integrate
 	 * @param
 	 * @return int
 	 */
-	function add_user_by_realname ($realname, $mobile, $gender, $card, $bank_card_no, $country, $province, $city, $district, $address, $img_bank_card, $face_card, $back_card)
+	function add_user_by_realname ($realname, $mobile, $gender, $card, $bank_card_no, $country, $province, $city, $district,
+                                   $address, $img_bank_card, $face_card, $back_card, $parent_id=0, $family1_name, $family1_mobile,
+                                    $family2_name, $family2_mobile)
 	{
 	    /* 检查mobile是否重复 */
 	    $sql = "SELECT " . $this->field_id . " FROM " . $this->table($this->user_table) . " WHERE " . $this->field_mobile_phone . " = '$mobile'";
@@ -437,10 +439,14 @@ class integrate
 	
 	    /* 补充手机已验证 */
 	    $fields = array(
-	        $this->field_realname, $this->field_mobile_phone, $this->field_gender, $this->field_card, $this->field_bank_card_no, $this->field_country, $this->field_province, $this->field_city, $this->field_district, $this->field_address, $this->field_img_bank_card, $this->field_face_card, $this->field_back_card
+	        $this->field_realname, $this->field_mobile_phone, $this->field_gender, $this->field_card, $this->field_bank_card_no,
+            $this->field_country, $this->field_province, $this->field_city, $this->field_district, $this->field_address,
+            $this->field_img_bank_card, $this->field_face_card, $this->field_back_card,$this->field_parent_id,
+            $this->field_family1_name, $this->field_family1_mobile, $this->field_family2_name, $this->field_family2_mobile
 	    );
 	    $values = array(
-	        $realname, $mobile, $gender, $card, $bank_card_no, $country, $province, $city, $district, $address, $img_bank_card, $face_card, $back_card
+	        $realname, $mobile, $gender, $card, $bank_card_no, $country, $province, $city, $district, $address, $img_bank_card,
+            $face_card, $back_card, $parent_id, $family1_name, $family1_mobile, $family2_name, $family2_mobile
 	    );
 	    
 	    $fields[] = $this->field_reg_date;

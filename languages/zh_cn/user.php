@@ -450,7 +450,7 @@ $_LANG['username_exist'] = '用户名 %s 已经存在';
 $_LANG['username_not_allow'] = '用户名 %s 不允许注册';
 $_LANG['confirm_register'] = '确认注册';
 
-$_LANG['agreement'] = "我已看过并接受《<a href=\"article.php?cat_id=-1\" style=\"color:blue\" target=\"_blank\">用户协议</a>》";
+$_LANG['agreement'] = "我已看过并接受《<a href=\"article.php?cat_id=-1\" style=\"color:blue\" target=\"_blank\">审请协议</a>》";
 
 $_LANG['register_type_invalid'] = '无效的注册类型';
 $_LANG['email_empty'] = 'email为空';

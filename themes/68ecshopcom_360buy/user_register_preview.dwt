@@ -121,7 +121,26 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
  	    	                <tr>
 			                  <td align="right" bgcolor="#ffffff">身份证反面照：</td>
 			                  <td align="left" bgcolor="#ffffff" colspan="3"><img src="{$register_info.back_card}" onload="javascript:sumHeight()"></td>
-			               	</tr>			              
+			               	</tr>
+
+			               	<tr>
+                              <td align="right" bgcolor="#ffffff">第1直系亲属姓名：</td>
+                              <td align="left" bgcolor="#ffffff">{$register_info.family1_name}</td>
+                              <td align="right" bgcolor="#ffffff">第1直系亲属电话：</td>
+                              <td align="left" bgcolor="#ffffff">{$register_info.family1_mobile}</td>
+                            </tr>
+
+			               	<tr>
+                              <td align="right" bgcolor="#ffffff">第2直系亲属姓名：</td>
+                              <td align="left" bgcolor="#ffffff">{$register_info.family2_name}</td>
+                              <td align="right" bgcolor="#ffffff">第2直系亲属电话：</td>
+                              <td align="left" bgcolor="#ffffff">{$register_info.family2_mobile}</td>
+                            </tr>
+
+   							<tr>
+			                  <td align="right" bgcolor="#ffffff">邀请人手机号：</td>
+			                  <td align="left" bgcolor="#ffffff" colspan="3">{$register_info.inviter}</td>
+			               	</tr>
 			               	
 			              </table>										
 						
