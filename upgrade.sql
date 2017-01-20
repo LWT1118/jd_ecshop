@@ -75,3 +75,10 @@ ALTER TABLE `jd_ecshop`.`ecs_deposit_record`
 /*2017-01-16*/
 ALTER TABLE `jd_ecshop`.`ecs_order_info`
   CHANGE COLUMN `pay_name` `pay_name` VARCHAR(120) NOT NULL DEFAULT '' COMMENT '如果是终端消费，则用来存储pos机编号' ;
+/*2017-01-29*/
+ALTER TABLE `jd_ecshop`.`ecs_pos`
+  CHANGE COLUMN `create_time` `bank_no` VARCHAR(20) NOT NULL DEFAULT '' COMMENT '创建日期' AFTER `pos_no`;
+ALTER TABLE `jd_ecshop`.`ecs_pos`
+  ADD COLUMN `create_time` INT NOT NULL DEFAULT 0 AFTER `category`;
+insert into ecs_shop_config (parent_id,code,type,store_range,store_dir,value, sort_order) values (8, 'sms_audit_success','textarea', '', '', '恭喜您通过商联一卡通的审核成为普通会员，您可以使用%s，默认密码为：666666登录平台www.shanglianykt.com，进入会员中心的安全设置设置支付密码，支付密码设置成功后才可以使用您的卡进行消费和提现。', 25);
+insert into ecs_shop_config (parent_id,code,type,store_range,store_dir,value, sort_order) values (8, 'sms_audit_failed','textarea', '', '', '审核失败，请联系商联一卡通管理员。', 26);

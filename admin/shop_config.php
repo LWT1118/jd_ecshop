@@ -396,6 +396,7 @@ function get_settings($groups=null, $excludes=null, $excludeCodes=null)
         $item['name'] = isset($_LANG['cfg_name'][$item['code']]) ? $_LANG['cfg_name'][$item['code']] : $item['code'];
         $item['desc'] = isset($_LANG['cfg_desc'][$item['code']]) ? $_LANG['cfg_desc'][$item['code']] : '';
 
+
         if ($item['code'] == 'sms_shop_mobile')
         {
             $item['url'] = 1;
