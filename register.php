@@ -365,15 +365,18 @@ function action_default ()
  */
 function action_register_preview()
 {
+    $db = $GLOBALS['db'];
+    $ecs = $GLOBALS['ecs'];
     $_SESSION['register_info'] = $_POST; //存储post过来的数据，以便还原地区四级联动
     $_CFG = $GLOBALS['_CFG'];
     $_LANG = $GLOBALS['_LANG'];
     $smarty = $GLOBALS['smarty'];
+
     if(empty($_POST['agreement'])){
         show_message($_LANG['passport_js']['agreement']);
     }
-    foreach($_POST as $value){
-        if($value) continue;
+    foreach($_POST as $key=>$value){
+        if($value || $key == 'inviter') continue;
         show_message('请将资料填写完整后再提交，所有信息都必须填写');
     }
     if($_FILES['img_bank_card']['size'] == 0 || $_FILES['face_card'] == 0 || $_FILES['back_card'] == 0){
@@ -397,6 +400,14 @@ function action_register_preview()
         $captcha = new captcha();        	
         if(! $captcha->check_word(trim($_POST['captcha']))){
             show_message($_LANG['invalid_captcha']);
+        }
+    }
+    if(isset($_POST['inviter'])){
+        $user_id = $db->getOne('select user_id from ' . $ecs->table('users') . " where mobile_phone='{$_POST['inviter']}'");
+        if($user_id){
+            $_SESSION['register_info']['parent_id'] = $user_id;
+        }else{
+            show_message('邀请人手机号码不存在');
         }
     }
     include_once (ROOT_PATH . '/includes/cls_image.php');
@@ -461,7 +472,10 @@ function action_register ()
 		$back_act = isset($_POST['back_act']) ? trim($_POST['back_act']) : '';		
 		$mobile = $registerInfo['mobile'];
 		//$result = register_by_mobile($username, $password, $mobile_phone, $other);
-		$result = register_by_realname($realname, $mobile, $registerInfo['sex'], $registerInfo['card'], $registerInfo['bank_card_no'], $registerInfo['country'], $registerInfo['province'], $registerInfo['city'], $registerInfo['district'], $registerInfo['address'], $registerInfo['img_bank_card'], $registerInfo['face_card'], $registerInfo['back_card'], $other);
+		$result = register_by_realname($realname, $mobile, $registerInfo['sex'], $registerInfo['card'], $registerInfo['bank_card_no'],
+            $registerInfo['country'], $registerInfo['province'], $registerInfo['city'], $registerInfo['district'], $registerInfo['address'],
+            $registerInfo['img_bank_card'], $registerInfo['face_card'], $registerInfo['back_card'], $registerInfo['parent_id'],
+            $registerInfo['family1_name'], $registerInfo['family1_mobile'], $registerInfo['family2_name'], $registerInfo['family2_mobile'], $other);
 		if($result)
 		{		    
 		    unset($_SESSION['register_info']);
