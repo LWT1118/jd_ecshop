@@ -45,7 +45,7 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
       <div id="reg-pic" class="box-pic"></div>
       <div id="login-box" class="uc_box">
         <form name="formLogin" action="user.php" method="post" onSubmit="return userLogin()">
-          <h2><span>还没有账号？<a href="register.php">立即注册</a></span></h2>
+          <h2><span>还没有账号？<a href="register.php">立即申请一卡通会员</a></span></h2>
           <div class="form">
           
             <div class="item"> <span class="label">账户名</span>
@@ -82,7 +82,7 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
               <input type="submit" name="submit" class="btn-img btn-entry" id="loginsubmit" value="立即登录" />
             </div>
             <div class="blank"></div>
-            <div class="item">
+            <div class="item" style="display:none">
               <table width="300" border="0" cellpadding="5" cellspacing="0">
                 <tr>
 		          <td><a style="text-decoration:none" href="user.php?act=oath&type=weixin"><i class="weixin"></i>&nbsp;&nbsp;微信</a></td>
@@ -119,7 +119,7 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
         <script>var mobile_field=''; var mobile_field_sms='';</script>
         <form action="user.php" method="post" name="formUser" onsubmit="return register2();">
           <div class="form">
-	  <h2><strong>欢迎注册</strong><span>已有账号！<a href="user.php?act=login">立即登录</a></span></h2>
+	  <h2><strong>欢迎申请一卡通会员</strong><span>已有账号！<a href="user.php?act=login">立即登录</a></span></h2>
             <div class="item">
               <input name="username" type="text" id="username" placeholder="{$lang.label_username}" onblur="is_registered(this.value);" class="text" >
               <i class="i-name"></i>
@@ -209,7 +209,7 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
        		<div class="item">
               <input name="act" type="hidden" value="act_register" >
               <input type="hidden" name="back_act" value="{$back_act}" />
-              <input name="Submit" type="submit" class="btn-img btn-regist" id="registsubmit" value="立即注册" />
+              <input name="Submit" type="submit" class="btn-img btn-regist" id="registsubmit" value="立即申请" />
             </div>
         </div>
       </form>
