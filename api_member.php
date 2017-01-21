@@ -8,6 +8,7 @@ define('IN_ECS', true);
 require(dirname(__FILE__) . '/includes/init.php');
 require(ROOT_PATH . 'includes/lib_license.php');
 require_once('includes/cls_json.php');
+require_once (ROOT_PATH . 'sms/sms.php');
 
 class ApiMember
 { 
@@ -210,13 +211,16 @@ class ApiMember
         }
         $cash_table = $ecs->table('cash_record');
         $user_table = $ecs->table('users');
-        $user_id = $db->getOne("select user_id from {$cash_table} where record_id={$record_id}");
-        if(!$user_id){
+        $cash_record = $db->getRow("select user_id,user_money,credit_line create_time from {$cash_table} where record_id={$record_id}");
+        if(!$cash_record){
             $this->setError('未找到该充值记录');
             return;
         }
-        $user_info = $db->getRow("select user_id,user_money,credit_line from {$user_table} where user_id={$user_id}");
+        $user_info = $db->getRow("select user_id,user_money,credit_line,mobile_phone from {$user_table} where user_id={$cash_record['user_id']}");
         $db->query("update {$cash_table} set status=1 where record_id={$record_id}");
+        $msg_template = $db->getOne('select value from ' . $ecs->table('shop_config') . ' where id=1047');
+        $msg = sprintf($msg_template, date('Y-m-d H:i:s', $cash_record['create_time'], $cash_record['user_money'] + $cash_record['credit_line']));
+        sendSMS($user_info['mobile_phone'], $msg);
         $this->responseData['record_id'] = $record_id;
         $this->responseData['user_money'] = floatval($user_info['user_money']);
         $this->responseData['credit_line'] = floatval($user_info['credit_line']);
@@ -317,19 +321,23 @@ class ApiMember
             return;
         }
         $order_table = $ecs->table('order_info');
-        $order_sn = $db->getOne("select order_sn from {$order_table} where order_id={$order_id}");
-        if(!$order_sn){
+        $order_record = $db->getRow("select order_sn,add_time from {$order_table} where order_id={$order_id}");
+        if(!$order_record){
             $this->setError('订单不存在');
             return;
         }
+        $order_sn = $order_record['order_sn'];
         $user_table = $ecs->table('users');
-        $record = $db->getRow("select user_id,user_money,pay_points from {$user_table} where user_name='{$this->cardNo}'");
+        $record = $db->getRow("select user_id,mobile_phone,user_money,pay_points from {$user_table} where user_name='{$this->cardNo}'");
         if(empty($record)){
             $this->setError("未找到卡号：{$this->cardNo}");
             return;
         }
         $confirm_time = gmtime();
         $db->query("update {$order_table} set order_status=" . OS_CONFIRMED . ', pay_status=' . PS_PAYED . ",confirm_time={$confirm_time} where order_id={$order_id}");
+        $msg_template = $db->getOne('select value from ' . $ecs->table('shop_config') . ' where id=1038');
+        $msg = sprintf($msg_template);
+        sendSMS($record['mobile_phone'], $msg);
         $this->responseData['order_id'] = $order_id;
         $this->responseData['order_sn'] = $order_sn;
         $this->responseData['order_status'] = OS_CONFIRMED;
@@ -376,5 +384,6 @@ class ApiMember
     }
 }
 $apiMember = new ApiMember();
-$apiMember->processRequest();
+//$apiMember->processRequest();
+$apiMember->sendMessage();
 ?>

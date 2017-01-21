@@ -568,10 +568,11 @@ $_LANG['cfg_name']['sms_use_balance_reduce_tpl'] = '';
 /*add by liuweitao start*/
 $_LANG['cfg_name']['sms_audit_success'] = '审核通过短信提示';
 $_LANG['cfg_name']['sms_audit_failed'] = '审核失败短信提示';
-//$_LANG['cfg_name']['sms_use_balance_reduce_tpl'] = '';
+$_LANG['cfg_name']['sms_repay_success'] = '还款成功提示';
+$_LANG['cfg_name']['sms_invite_success'] = '邀请成功短信提示';
 /*add by liuwettao end*/
 $_LANG['deposit_balance_reduce'] = '用户提现余额减少';
-$_LANG['cfg_name']['sms_deposit_balance_reduce_tpl'] = '审请提现短信提示　';
+$_LANG['cfg_name']['sms_deposit_balance_reduce_tpl'] = '提现短信提示　';
 $_LANG['recharge_balance_add'] = '用户充值余额增加';
 $_LANG['cfg_name']['sms_recharge_balance_add_tpl'] = '';
 $_LANG['admin_operation'] = '管理员操作余额';
