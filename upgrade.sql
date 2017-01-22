@@ -86,3 +86,5 @@ insert into ecs_shop_config (parent_id,code,type,store_range,store_dir,value, so
 update ecs_shop_config set value='尊敬的%s用户:您于%s消费了%s元；您的卡消费额度为：%s元；提现额度为:%s元。' where id=1038;
 insert into ecs_shop_config (parent_id,code,type,store_range,store_dir,value, sort_order) values (8, 'sms_repay_success','textarea', '', '', '您已成功还款%s元。', 27);
 insert into ecs_shop_config (parent_id,code,type,store_range,store_dir,value, sort_order) values (8, 'sms_invite_success','textarea', '', '', '尊敬的%s用户:您推荐的%s已经成功审核通过。', 28);
+/*2017-01-22*/
+insert into ecs_shop_config (parent_id,code,type,store_range,store_dir,value, sort_order) values (8, 'sms_credit_improved','textarea', '', '', '您的额度已提升。', 29);
