@@ -383,7 +383,8 @@ class ApiMember
         $this->outputData();
     }
 }
-$apiMember = new ApiMember();
+//$apiMember = new ApiMember();
 //$apiMember->processRequest();
-$apiMember->sendMessage();
+$result = sendSMS('13426455395', '【商联一卡通】尊敬的尾号后六位卡号用户:您在pos机商户消费了金额元,回T退订');
+var_dump($result);
 ?>

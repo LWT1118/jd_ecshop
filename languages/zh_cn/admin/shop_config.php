@@ -570,6 +570,7 @@ $_LANG['cfg_name']['sms_audit_success'] = '审核通过短信提示';
 $_LANG['cfg_name']['sms_audit_failed'] = '审核失败短信提示';
 $_LANG['cfg_name']['sms_repay_success'] = '还款成功提示';
 $_LANG['cfg_name']['sms_invite_success'] = '邀请成功短信提示';
+$_LANG['cfg_name']['sms_credit_improved'] = '额度提升短信提示';
 /*add by liuwettao end*/
 $_LANG['deposit_balance_reduce'] = '用户提现余额减少';
 $_LANG['cfg_name']['sms_deposit_balance_reduce_tpl'] = '提现短信提示　';
