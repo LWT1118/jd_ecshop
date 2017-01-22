@@ -1,4 +1,4 @@
-      <tr id="{$var.code}" {if $var.code eq 'sms_deposit_balance_reduce_tpl' or $var.code eq 'sms_recharge_balance_add_tpl' or $var.code eq 'sms_admin_operation_tpl' or $var.code eq 'sms_return_goods_tpl'} style="display:none"{/if}>
+      <tr id="{$var.code}" {if $var.code eq 'sms_recharge_balance_add_tpl' or $var.code eq 'sms_admin_operation_tpl' or $var.code eq 'sms_return_goods_tpl'} style="display:none"{/if}>
         <td class="label" valign="top">
           {if $var.desc}
           <a href="javascript:showNotice('notice{$var.code}');" title="{$lang.form_notice}"><img src="images/notice.gif" width="16" height="16" border="0" alt="{$lang.form_notice}" /></a>

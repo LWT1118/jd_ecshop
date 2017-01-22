@@ -357,7 +357,6 @@ class ecshop extends integrate
 	    }
 	    $password = '666666';
 	    $md5password = md5($password);
-	    $post_username = $username;	    
 	
 	    $values = array();
 	    $values[] = "{$this->field_name}='{$username}'";
@@ -373,9 +372,6 @@ class ecshop extends integrate
 	    $values[] = "{$this->field_credit_line}='{$credit_line}'";
 	    $values[] = "{$this->field_user_rank}='{$user_rank}'";
 	    $values[] = "{$this->field_status}='{$status}'";
-	    //$values[] = "{$this->field_is_surplus_open}=1";
-	    //$surplus_pwd = mt_rand(100000, 999999); //生成支付密码　
-	    //$values[] = "{$this->field_surplus_password}='{$surplus_pwd}'";
 	
 	    if($values)
 	    {
