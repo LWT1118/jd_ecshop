@@ -402,7 +402,7 @@ function action_register_preview()
             show_message($_LANG['invalid_captcha']);
         }
     }
-    if(isset($_POST['inviter'])){
+    if(!empty($_POST['inviter'])){
         $user_id = $db->getOne('select user_id from ' . $ecs->table('users') . " where mobile_phone='{$_POST['inviter']}'");
         if($user_id){
             $_SESSION['register_info']['parent_id'] = $user_id;

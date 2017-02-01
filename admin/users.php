@@ -520,7 +520,8 @@ function action_update ()
 	if(empty($username)){
 	    sys_msg('卡号不能为空');
 	}
-	if($db->getRow("select user_id from " . $ecs->table('users') . " where user_name='{$username}'")){
+	$user_info = $db->getRow("select user_id,password from " . $ecs->table('users') . " where user_name='{$username}'");
+	if($user_info){
 		sys_msg('卡号重复');
 	}
 	/*$password = empty($_POST['password']) ? '' : trim($_POST['password']);
@@ -543,9 +544,21 @@ function action_update ()
 	$address = empty($_POST['address']) ? '' : trim($_POST['address']);*/
 	$status = $_POST['status'];
 	/* 代码增加2014-12-23 by www.68ecshop.com _end */
-	
-	$users = & init_users();
-	$users->audit_user($user_id, $username, $user_money, $pay_points, $credit_line, $rank, $status);
+    $users = & init_users();
+	if(empty($user_info['password'])){  //未设置过密码，待审核状态
+        $users->audit_user($user_id, $username, $user_money, $pay_points, $credit_line, $rank, $status);
+        if($status == 0){   //待审核状态
+
+		}elseif($status == 1){  //审核通过
+
+		}elseif($status == 3){ //审核不通过
+
+		}
+	}else{   //已经设置过密码，更新用户信息
+
+	}
+
+
 	
 	// 获取用户邮箱和手机号已经验证信息,如果手机号、邮箱变更则需验证，如果未变化则沿用原来的验证结果
 	/*$user = $users->get_profile_by_name($username);
