@@ -88,3 +88,6 @@ insert into ecs_shop_config (parent_id,code,type,store_range,store_dir,value, so
 insert into ecs_shop_config (parent_id,code,type,store_range,store_dir,value, sort_order) values (8, 'sms_invite_success','textarea', '', '', '尊敬的%s用户:您推荐的%s已经成功审核通过。', 28);
 /*2017-01-22*/
 insert into ecs_shop_config (parent_id,code,type,store_range,store_dir,value, sort_order) values (8, 'sms_credit_improved','textarea', '', '', '您的额度已提升。', 29);
+/*2017-02-03*/
+ALTER TABLE `jd_ecshop`.`ecs_users`
+DROP INDEX `user_name` ;
