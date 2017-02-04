@@ -88,7 +88,7 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
 			               	
 			                <tr>
 			                  <td align="right" bgcolor="#ffffff">银行卡正面照：</td>
-			                  <td align="left" bgcolor="#ffffff" colspan="3"><img src="{$register_info.img_bank_card}" style="width:740px;"></td>
+			                  <td align="left" bgcolor="#ffffff" colspan="3"><img src="{$register_info.img_bank_card}" style="width:150px;"></td>
 			               	</tr>				               				               			        
 			               	
 			               	 <tr>
@@ -108,12 +108,12 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
 			               	
 			                <tr>
 			                  <td align="right" bgcolor="#ffffff">身份证正面照：</td>
-			                  <td align="left" bgcolor="#ffffff" colspan="3"><img src="{$register_info.face_card}" onload="javascript:sumHeight()" style="width:740px"></td>
+			                  <td align="left" bgcolor="#ffffff" colspan="3"><img src="{$register_info.face_card}" onload="javascript:sumHeight()" style="width:150px"></td>
 			               	</tr>
 			               				               	
  	    	                <tr>
 			                  <td align="right" bgcolor="#ffffff">身份证反面照：</td>
-			                  <td align="left" bgcolor="#ffffff" colspan="3"><img src="{$register_info.back_card}" onload="javascript:sumHeight()" style="width:740px"></td>
+			                  <td align="left" bgcolor="#ffffff" colspan="3"><img src="{$register_info.back_card}" onload="javascript:sumHeight()" style="width:150px"></td>
 			               	</tr>
 
 			               	<tr>
