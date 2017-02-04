@@ -548,19 +548,19 @@ function action_update ()
 
 	if(empty($user_info['password'])){  //未设置过密码，待审核状态
         $audit_msg_id = null;
-        $users->audit_user($user_id, $username, $user_money, $pay_points, $credit_line, $rank, $status);
+        $result = $users->audit_user($user_id, $username, $user_money, $pay_points, $credit_line, $rank, $status);
         require_once (ROOT_PATH . 'sms/sms.php');
-        if($status == 1){  //审核通过
-            $msg_template = $db->getOne('select value from ' . $ecs->table('shop_config') . ' where id=1056');
-            $msg_content = sprintf($msg_template, $username);
-            sendSMS($user_info['mobile_phone'], $msg_content);
+        if($result && $status == '1'){  //审核通过
+            $msg_template = $db->getOne('select value from ' . $ecs->table('shop_config') . " where code='sms_audit_success'");
+			$msg_content = sprintf($msg_template, $user_info['mobile_phone']);
+			sendSMS($user_info['mobile_phone'], $msg_content);
             if(!empty($user_info['parent_id'])){
-                $msg_template = $db->getOne('select value from ' . $ecs->table('shop_config') . ' where id=1059');
+                $msg_template = $db->getOne('select value from ' . $ecs->table('shop_config') . " where code='sms_invite_success'");
                 $msg_content = sprintf($msg_template, $user_info['mobile_phone']);
                 sendSMS($user_info['mobile_phone'], $msg_content);
 			}
-		}elseif($status == 3){ //审核不通过
-            $msg_content = $db->getOne('select value from ' . $ecs->table('shop_config') . ' where id=1057');
+		}elseif($result && $status == '3'){ //审核不通过
+            $msg_content = $db->getOne('select value from ' . $ecs->table('shop_config') . " where code='sms_audit_failed'");
             sendSMS($user_info['mobile_phone'], $msg_content);
 		}
 	}else{   //已经设置过密码，更新用户信息

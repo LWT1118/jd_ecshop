@@ -218,7 +218,7 @@ class ApiMember
         }
         $user_info = $db->getRow("select user_id,user_money,credit_line,mobile_phone from {$user_table} where user_id={$cash_record['user_id']}");
         $db->query("update {$cash_table} set status=1 where record_id={$record_id}");
-        $msg_template = $db->getOne('select value from ' . $ecs->table('shop_config') . ' where id=1047');
+        $msg_template = $db->getOne('select value from ' . $ecs->table('shop_config') . " where code='sms_deposit_balance_reduce_tpl'");
         $msg = sprintf($msg_template, date('Y-m-d H:i:s', $cash_record['create_time'], $cash_record['user_money'] + $cash_record['credit_line']));
         sendSMS($user_info['mobile_phone'], $msg);
         $this->responseData['record_id'] = $record_id;
@@ -335,7 +335,7 @@ class ApiMember
         }
         $confirm_time = gmtime();
         $db->query("update {$order_table} set order_status=" . OS_CONFIRMED . ', pay_status=' . PS_PAYED . ",confirm_time={$confirm_time} where order_id={$order_id}");
-        $msg_template = $db->getOne('select value from ' . $ecs->table('shop_config') . ' where id=1038');
+        $msg_template = $db->getOne('select value from ' . $ecs->table('shop_config') . " where code='sms_order_pay_tpl'");
         $msg = sprintf($msg_template);
         sendSMS($record['mobile_phone'], $msg);
         $this->responseData['order_id'] = $order_id;
@@ -383,8 +383,7 @@ class ApiMember
         $this->outputData();
     }
 }
-//$apiMember = new ApiMember();
-//$apiMember->processRequest();
-$result = sendSMS('13426455395', '【商联一卡通】尊敬的尾号后六位卡号用户:您在pos机商户消费了金额元,回T退订');
-var_dump($result);
+$apiMember = new ApiMember();
+$apiMember->processRequest();
+//$result = sendSMS('13426455395', '【商联一卡通】尊敬的尾号后六位卡号用户:您在pos机商户消费了金额元,回T退订');
 ?>
