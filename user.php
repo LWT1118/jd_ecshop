@@ -954,12 +954,15 @@ function action_act_login ()
 	}*/
 	if(is_telephone($username))
 	{
-		$sql = "select user_name from " . $ecs->table('users') . " where mobile_phone='" . $username . "'";
+		$sql = "select user_name,status from " . $ecs->table('users') . " where mobile_phone='" . $username . "'";
 		$username_res = $db->query($sql);
 		$kkk = 0;
 		while($username_row = $db->fetchRow($username_res))
 		{
 			$username_e = $username_row['user_name'];
+			if($username_row['status'] != '1'){
+				show_message('您的账户尚未审请通过');
+			}
 			$kkk = $kkk + 1;
 		}
 		if($kkk > 1)

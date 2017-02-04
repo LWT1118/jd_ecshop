@@ -119,7 +119,7 @@
   	<td class="label">银行卡正面:</td>
     <td>
     <div style="padding:0px">
-    {if $user.img_bank_card neq ''}<img src="../{$user.img_bank_card}" />{else}暂无{/if}
+    {if $user.img_bank_card neq ''}<img src="../{$user.img_bank_card}" style="height:300px" />{else}暂无{/if}
     </div>
     </td>
   </tr>    
@@ -128,7 +128,7 @@
     <td>
     <!--input type="file" name="face_card"/><br /-->
     <div style="padding:0px">
-    {if $user.face_card neq ''}<img src="../{$user.face_card}" />{else}暂无{/if}
+    {if $user.face_card neq ''}<img src="../{$user.face_card}" style="height:300px" />{else}暂无{/if}
     </div>
     </td>
   </tr>
@@ -137,7 +137,7 @@
     <td>
     <!--input type="file" name="back_card" /><br /-->
     <div style="padding:0px">
-    {if $user.back_card neq ''}<img src="../{$user.back_card}" />{else}暂无{/if}
+    {if $user.back_card neq ''}<img src="../{$user.back_card}" style="height:300px" />{else}暂无{/if}
     </div>
     </td>
   </tr>
@@ -179,9 +179,9 @@
   	<td class="label">审核状态:</td>
     <td>
     	<select name="status">
-        	<option value="0" {if $user.status eq 0} selected="selected"{/if}>请选择审核状态</option>
+        	<!--option value="0" {if $user.status eq 0} selected="selected"{/if}>请选择审核状态</option-->
             <option value="1" {if $user.status eq 1} selected="selected"{/if}>审核通过</option>
-            <option value="2" {if $user.status eq 2} selected="selected"{/if}>审核中</option>
+            <!--option value="2" {if $user.status eq 2} selected="selected"{/if}>审核中</option-->
             <option value="3" {if $user.status eq 3} selected="selected"{/if}>审核不通过</option>      
         </select>
     </td>

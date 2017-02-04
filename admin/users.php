@@ -520,7 +520,7 @@ function action_update ()
 	if(empty($username)){
 	    sys_msg('卡号不能为空');
 	}
-	$user_info = $db->getRow("select user_id,password from " . $ecs->table('users') . " where user_name='{$username}'");
+	$user_info = $db->getRow("select user_id,password,parent_id,mobile_phone from " . $ecs->table('users') . " where user_name='{$username}'");
 	if($user_info){
 		sys_msg('卡号重复');
 	}
@@ -545,20 +545,27 @@ function action_update ()
 	$status = $_POST['status'];
 	/* 代码增加2014-12-23 by www.68ecshop.com _end */
     $users = & init_users();
+
 	if(empty($user_info['password'])){  //未设置过密码，待审核状态
+        $audit_msg_id = null;
         $users->audit_user($user_id, $username, $user_money, $pay_points, $credit_line, $rank, $status);
-        if($status == 0){   //待审核状态
-
-		}elseif($status == 1){  //审核通过
-
+        require_once (ROOT_PATH . 'sms/sms.php');
+        if($status == 1){  //审核通过
+            $msg_template = $db->getOne('select value from ' . $ecs->table('shop_config') . ' where id=1056');
+            $msg_content = sprintf($msg_template, $username);
+            sendSMS($user_info['mobile_phone'], $msg_content);
+            if(!empty($user_info['parent_id'])){
+                $msg_template = $db->getOne('select value from ' . $ecs->table('shop_config') . ' where id=1059');
+                $msg_content = sprintf($msg_template, $user_info['mobile_phone']);
+                sendSMS($user_info['mobile_phone'], $msg_content);
+			}
 		}elseif($status == 3){ //审核不通过
-
+            $msg_content = $db->getOne('select value from ' . $ecs->table('shop_config') . ' where id=1057');
+            sendSMS($user_info['mobile_phone'], $msg_content);
 		}
 	}else{   //已经设置过密码，更新用户信息
-
+		$users->edit_user_by_id($user_id, $username, $user_money, $pay_points, $credit_line, $rank, $status);
 	}
-
-
 	
 	// 获取用户邮箱和手机号已经验证信息,如果手机号、邮箱变更则需验证，如果未变化则沿用原来的验证结果
 	/*$user = $users->get_profile_by_name($username);

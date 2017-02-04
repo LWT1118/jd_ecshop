@@ -434,7 +434,7 @@ $_LANG['email_changed'] = '系统检测到您发送邮箱验证码的邮箱地�
 $_LANG['login_success'] = '登录成功';
 $_LANG['confirm_login'] = '确认登录';
 $_LANG['profile_lnk'] = '查看我的个人信息';
-$_LANG['login_failure'] = '用户名或密码错误';
+$_LANG['login_failure'] = '用户名或密码错误，或账户尚未审核';
 $_LANG['relogin_lnk'] = '重新登录';
 
 $_LANG['sex'] = '性　别';

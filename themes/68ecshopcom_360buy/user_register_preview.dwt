@@ -82,20 +82,13 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
 			                </tr>
 			                
 			                <tr>
-			               	  <td align="right" bgcolor="#ffffff">{$lang.backup_phone}：</td>
-			                  <td align="left" bgcolor="#ffffff">{$register_info.mobile}</td>
-			                  <td align="right" bgcolor="#ffffff">手机验证码：</td>
-			                  <td align="left" bgcolor="#ffffff">{$register_info.mobile_code}</td>			                
-			                </tr>
-			                
-			                <tr>
 			                  <td align="right" bgcolor="#ffffff">{$lang.label_bank_card_no}：</td>
 			                  <td align="left" bgcolor="#ffffff" colspan="3">{$register_info.bank_card_no}</td>
 			               	</tr>
 			               	
 			                <tr>
 			                  <td align="right" bgcolor="#ffffff">银行卡正面照：</td>
-			                  <td align="left" bgcolor="#ffffff" colspan="3"><img src="{$register_info.img_bank_card}"></td>
+			                  <td align="left" bgcolor="#ffffff" colspan="3"><img src="{$register_info.img_bank_card}" style="height:300px;"></td>
 			               	</tr>				               				               			        
 			               	
 			               	 <tr>
@@ -115,12 +108,12 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
 			               	
 			                <tr>
 			                  <td align="right" bgcolor="#ffffff">身份证正面照：</td>
-			                  <td align="left" bgcolor="#ffffff" colspan="3"><img src="{$register_info.face_card}" onload="javascript:sumHeight()"></td>
+			                  <td align="left" bgcolor="#ffffff" colspan="3"><img src="{$register_info.face_card}" style="height:300px"></td><!--onload="javascript:sumHeight()"-->
 			               	</tr>
 			               				               	
  	    	                <tr>
 			                  <td align="right" bgcolor="#ffffff">身份证反面照：</td>
-			                  <td align="left" bgcolor="#ffffff" colspan="3"><img src="{$register_info.back_card}" onload="javascript:sumHeight()"></td>
+			                  <td align="left" bgcolor="#ffffff" colspan="3"><img src="{$register_info.back_card}" style="height:300px"></td><!--onload="javascript:sumHeight()"-->
 			               	</tr>
 
 			               	<tr>
@@ -135,6 +128,13 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
                               <td align="left" bgcolor="#ffffff">{$register_info.family2_name}</td>
                               <td align="right" bgcolor="#ffffff">第2直系亲属电话：</td>
                               <td align="left" bgcolor="#ffffff">{$register_info.family2_mobile}</td>
+                            </tr>
+
+                            <tr>
+                              <td align="right" bgcolor="#ffffff">{$lang.backup_phone}：</td>
+                              <td align="left" bgcolor="#ffffff">{$register_info.mobile}</td>
+                              <td align="right" bgcolor="#ffffff">手机验证码：</td>
+                              <td align="left" bgcolor="#ffffff">{$register_info.mobile_code}</td>
                             </tr>
 
    							<tr>
