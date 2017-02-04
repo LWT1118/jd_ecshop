@@ -520,10 +520,10 @@ function action_update ()
 	if(empty($username)){
 	    sys_msg('卡号不能为空');
 	}
-	$user_info = $db->getRow("select user_id,password,parent_id,mobile_phone from " . $ecs->table('users') . " where user_name='{$username}'");
-	if($user_info){
+	if($db->getOne('select count(*) from ' . $ecs->table('users') . " where user_name='{$username}' and user_id != {$user_id}")){
 		sys_msg('卡号重复');
 	}
+    $user_info = $db->getRow("select password,parent_id,mobile_phone from " . $ecs->table('users') . " where user_id='{$user_id}'");
 	/*$password = empty($_POST['password']) ? '' : trim($_POST['password']);
 	$email = empty($_POST['email']) ? '' : trim($_POST['email']);
 	$mobile_phone = empty($_POST['mobile_phone']) ? '' : trim($_POST['mobile_phone']);
