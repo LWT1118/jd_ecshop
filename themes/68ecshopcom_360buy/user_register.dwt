@@ -93,26 +93,13 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
 			                </tr>
 			                
 			                <tr>
-			               	  <td align="right" bgcolor="#ffffff">{$lang.backup_phone}：</td>
-			                  <td align="left" bgcolor="#ffffff"><input name="mobile" type="text" class="inputBg" id="mobile" value="" /></td>
-			                  <td align="right" bgcolor="#ffffff">手机验证码：</td>
-			                  <td align="left" bgcolor="#ffffff">
-			                  <input id="mobile_code" class="inputBg" style="width:80px;" type="text" name="mobile_code">
-			                  <input id="zphone" class="zphone" style="height:30px;line-height:30px;" type="button" value="获取手机验证码 ">
-								<div>
-									<span id="mobile_phone_notice" class="label"></span>
-								</div>
-			                  </td>			       
-			                </tr>
-			                
-			                <tr>
 			                  <td align="right" bgcolor="#ffffff">{$lang.label_bank_card_no}：</td>
 			                  <td align="left" bgcolor="#ffffff" colspan="3"><input name="bank_card_no" type="text" class="inputBg" value="" style="width: 300px;"/></td>
 			               	</tr>
 			               	
 			                <tr>
 			                  <td align="right" bgcolor="#ffffff">银行卡正面照：</td>
-			                  <td align="left" bgcolor="#ffffff" colspan="3"><input name="img_bank_card" type="file">大小不能超过2M</td>
+			                  <td align="left" bgcolor="#ffffff" colspan="3"><input name="img_bank_card" type="file"></td>
 			               	</tr>				               				               			        
 			               	
 			               	 <tr>
@@ -157,12 +144,12 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
 			               	
 			                <tr>
 			                  <td align="right" bgcolor="#ffffff">身份证正面照：</td>
-			                  <td align="left" bgcolor="#ffffff" colspan="3"><input name="face_card" type="file">大小不能超过2M</td>
+			                  <td align="left" bgcolor="#ffffff" colspan="3"><input name="face_card" type="file"></td>
 			               	</tr>
 			               				               	
  	    	                <tr>
 			                  <td align="right" bgcolor="#ffffff">身份证反面照：</td>
-			                  <td align="left" bgcolor="#ffffff" colspan="3"><input name="back_card" type="file">大小不能超过2M</td>
+			                  <td align="left" bgcolor="#ffffff" colspan="3"><input name="back_card" type="file"></td>
 			               	</tr>
 
 			               	<tr>
@@ -181,8 +168,10 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
 
 			               	<tr>
                               <td align="right" bgcolor="#ffffff">邀请人手机号：</td>
-                              <td align="left" bgcolor="#ffffff" colspan="3"><input name="inviter" type="text" class="inputBg" palceholder="如果没有可以为空" /></td>
+                              <td align="left" bgcolor="#ffffff" colspan="3"><input name="inviter" type="text" class="inputBg" />如果没有可以不填</td>
                             </tr>
+
+
 			              
 			                <!-- 判断是否启用验证码{if $enabled_captcha} -->
 			                <tr>
@@ -195,6 +184,19 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
 			                  </td>
 			               	</tr>
 			               	<!--{/if}-->
+
+                            <tr>
+                              <td align="right" bgcolor="#ffffff">{$lang.backup_phone}：</td>
+                              <td align="left" bgcolor="#ffffff"><input name="mobile" type="text" class="inputBg" id="mobile" value="" /></td>
+                              <td align="right" bgcolor="#ffffff">手机验证码：</td>
+                              <td align="left" bgcolor="#ffffff">
+                              <input id="mobile_code" class="inputBg" style="width:80px;" type="text" name="mobile_code">
+                              <input id="zphone" class="zphone" style="height:30px;line-height:30px;" type="button" value="获取手机验证码 ">
+                                <div>
+                                    <span id="mobile_phone_notice" class="label"></span>
+                                </div>
+                              </td>
+                            </tr>
 			               	
 			              </table>						
 							

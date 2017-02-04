@@ -342,10 +342,31 @@ class ecshop extends integrate
 		
 		return true;
 	}
-	
+    /**
+     * 审核用户信息($username, $user_money, $pay_points, $user_rank, $status)
+     * @author liuweitao
+     * @return boolean
+     */
+    function edit_user_by_id($user_id, $username, $user_money, $pay_points, $credit_line, $user_rank, $status){
+        if(empty($username)){
+            return false;
+        }
+        $user_table = $this->table($this->user_table);
+        $values = array();
+        $values[] = "{$this->field_name}='{$username}'";
+        $values[] = "{$this->field_user_money}='{$user_money}'";
+        $values[] = "{$this->field_pay_points}='{$pay_points}'";
+        $values[] = "{$this->field_credit_line}='{$credit_line}'";
+        $values[] = "{$this->field_user_rank}='{$user_rank}'";
+        $values[] = "{$this->field_status}='{$status}'";
+        if($values) {
+            $sql = "UPDATE {$user_table} SET " . implode(', ', $values) . " WHERE user_id={$user_id} LIMIT 1";
+            $this->db->query($sql);
+        }
+        return true;
+    }
 	/**
-	 * 审核用户信息($username, $user_money, $pay_points, $user_rank, $status
-	 * $email_validated, $mobile_phonle_validated)
+	 * 审核用户信息($username, $user_money, $pay_points, $user_rank, $status)
 	 * @author liuweitao
 	 * @return boolean
 	 */

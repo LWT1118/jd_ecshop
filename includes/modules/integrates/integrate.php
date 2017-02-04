@@ -763,7 +763,7 @@ class integrate
 		{
 			$sql = "SELECT " . $this->field_id . " FROM " . $this->table($this->user_table) . " WHERE " . $this->field_name . "='" . $post_username . "' AND " . $this->field_pass . " ='" . $this->compile_password(array(
 				'password' => $password
-			)) . "'";
+			)) . "' AND status=1";
 			
 			return $this->db->getOne($sql);
 		}
