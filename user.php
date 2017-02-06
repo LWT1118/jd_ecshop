@@ -6139,7 +6139,7 @@ function get_user_backorders ($user_id, $num = 10, $start = 0)
 /* 代码增加2014-12-23 by www.68ecshop.com _star */
 function is_telephone ($phone)
 {
-	$chars = "/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/";
+	$chars = "/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}|177[0-9]{8}$/";
 	if(preg_match($chars, $phone))
 	{
 		return true;
