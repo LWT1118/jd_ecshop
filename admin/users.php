@@ -523,7 +523,7 @@ function action_update ()
 	if($db->getOne('select count(*) from ' . $ecs->table('users') . " where user_name='{$username}' and user_id != {$user_id}")){
 		sys_msg('卡号重复');
 	}
-    $user_info = $db->getRow("select password,parent_id,mobile_phone from " . $ecs->table('users') . " where user_id='{$user_id}'");
+    $user_info = $db->getRow("select password,parent_id,mobile_phone,real_name from " . $ecs->table('users') . " where user_id='{$user_id}'");
 	/*$password = empty($_POST['password']) ? '' : trim($_POST['password']);
 	$email = empty($_POST['email']) ? '' : trim($_POST['email']);
 	$mobile_phone = empty($_POST['mobile_phone']) ? '' : trim($_POST['mobile_phone']);
@@ -552,8 +552,13 @@ function action_update ()
         require_once (ROOT_PATH . 'sms/sms.php');
         if($result && $status == '1'){  //审核通过
             $msg_template = $db->getOne('select value from ' . $ecs->table('shop_config') . " where code='sms_audit_success'");
-			$msg_content = sprintf($msg_template, $user_info['mobile_phone']);
+            $msg_content = sprintf($msg_template, $user_info['real_name'],$pay_points, $credit_line);
+            sendSMS($user_info['mobile_phone'], $msg_content);
+
+            $msg_template = $db->getOne('select value from ' . $ecs->table('shop_config') . " where code='sms_audit_success2'");
+            $msg_content = sprintf($msg_template, $user_info['real_name'], $user_info['mobile_phone']);
 			sendSMS($user_info['mobile_phone'], $msg_content);
+
             if(!empty($user_info['parent_id'])){
                 $msg_template = $db->getOne('select value from ' . $ecs->table('shop_config') . " where code='sms_invite_success'");
                 $msg_content = sprintf($msg_template, $user_info['mobile_phone']);
@@ -1108,7 +1113,7 @@ function user_list ()
 		// $sql = "SELECT user_id, user_name, email, is_validated,
 		// validated,status,user_money, frozen_money, rank_points, pay_points,
 		// reg_time ".
-		$sql = "SELECT user_id, user_name, real_name, sex, card, credit_line, email, mobile_phone, is_validated, validated, user_money, frozen_money, user_rank, rank_points, pay_points, status, reg_time, froms ".
+		$sql = "SELECT user_id, user_name, real_name, sex, card, credit_line, email, mobile_phone, is_validated, validated, user_money, frozen_money, user_rank, rank_points, pay_points, status, reg_time, parent_id ".
 		        /* 代码增加2014-12-23 by www.68ecshop.com  _end  */
                 " FROM " . $GLOBALS['ecs']->table('users') . $ex_where . " ORDER by " . $filter['sort_by'] . ' ' . $filter['sort_order'] . " LIMIT " . $filter['start'] . ',' . $filter['page_size'];
 		
@@ -1143,7 +1148,7 @@ function user_list ()
 				$user_list[$i]['rank_name'] = $rank_list[$j]['rank_name'];
 			}
 		}
-		
+		$user_list[$i]['inviter'] = empty($user_list[$i]['parent_id']) ? '' : $GLOBALS['db']->getOne('select real_name from ' . $GLOBALS['ecs']->table('users') . " where user_id={$user_list[$i]['parent_id']}");
 	}
 	
 	$arr = array(

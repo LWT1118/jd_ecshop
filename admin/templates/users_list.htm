@@ -64,6 +64,7 @@
 					<a href="javascript:listTable.sort('reg_time'); ">{$lang.reg_date}</a>
 					{$sort_reg_time}
 				</th>
+				<th>邀请人</th>
 				<!-- #代码增加2014-12-23 by www.68ecshop.com  _star -->
 				<th>审核状态</th>
 				<!-- #代码增加2014-12-23 by www.68ecshop.com  _end -->
@@ -116,6 +117,7 @@
 				<td>{$user.pay_points}</td>
 				<td>{$user.credit_line}</td>
 				<td align="center">{$user.reg_time}</td>
+				<td>{$user.inviter}</td>
 				<!-- #代码增加2014-12-23 by www.68ecshop.com  _star -->
 				<td>{if $user.status eq 1}审核通过{elseif $user.status eq 2}审核中{elseif $user.status eq 3}审核不通过{else}未审核{/if}</td>
 				<!-- #代码增加2014-12-23 by www.68ecshop.com  _end -->

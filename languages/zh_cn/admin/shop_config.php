@@ -567,6 +567,7 @@ $_LANG['use_balance_reduce'] = '用户消费余额减少';
 $_LANG['cfg_name']['sms_use_balance_reduce_tpl'] = '';
 /*add by liuweitao start*/
 $_LANG['cfg_name']['sms_audit_success'] = '审核通过短信提示';
+$_LANG['cfg_name']['sms_audit_success2'] = '审核通过短信提示2';
 $_LANG['cfg_name']['sms_audit_failed'] = '审核失败短信提示';
 $_LANG['cfg_name']['sms_repay_success'] = '还款成功提示';
 $_LANG['cfg_name']['sms_invite_success'] = '邀请成功短信提示';
