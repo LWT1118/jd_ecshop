@@ -94,3 +94,5 @@ DROP INDEX `user_name` ;
 /*2017-02-06*/
 update ecs_shop_config set value='【商联一卡通】%s你好！你已通过香港商联金融商贸公司审计部审核，消费额度为%s元，提现额度为%s元的一卡通，卡片于3天內寄出，请注意查收并激活，感谢您对本公司的大力支持。' where code='sms_audit_success';
 insert into ecs_shop_config (parent_id,code,type,store_range,store_dir,value, sort_order) values (8, 'sms_audit_success2','textarea', '', '', '【商联一卡通】%s你好！你的商联一卡通的年费已提交，卡片已经激活，初次登录密码为666666，请使用你的手机号%s登录一卡通网站，更改密码，祝您购物愉快！', 25);
+/*2017-02-07*/
+update ecs_shop_config set value='【商联一卡通】%s你好！你已通过香港商联金融商贸公司审计部审核，商联一卡通的总额度为%s元，卡片于3天內寄出，请注意查收并缴纳年费激活使用，感谢您对本公司的大力支持。' where code='sms_audit_success';

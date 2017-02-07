@@ -552,12 +552,12 @@ function action_update ()
         require_once (ROOT_PATH . 'sms/sms.php');
         if($result && $status == '1'){  //审核通过
             $msg_template = $db->getOne('select value from ' . $ecs->table('shop_config') . " where code='sms_audit_success'");
-            $msg_content = sprintf($msg_template, $user_info['real_name'],$pay_points, $credit_line);
+            $msg_content = sprintf($msg_template, $user_info['real_name'],($pay_points + $credit_line));
             sendSMS($user_info['mobile_phone'], $msg_content);
 
-            $msg_template = $db->getOne('select value from ' . $ecs->table('shop_config') . " where code='sms_audit_success2'");
+            /*$msg_template = $db->getOne('select value from ' . $ecs->table('shop_config') . " where code='sms_audit_success2'");
             $msg_content = sprintf($msg_template, $user_info['real_name'], $user_info['mobile_phone']);
-			sendSMS($user_info['mobile_phone'], $msg_content);
+			sendSMS($user_info['mobile_phone'], $msg_content);*/
 
             if(!empty($user_info['parent_id'])){
                 $msg_template = $db->getOne('select value from ' . $ecs->table('shop_config') . " where code='sms_invite_success'");
