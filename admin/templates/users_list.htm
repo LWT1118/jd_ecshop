@@ -62,6 +62,7 @@
 				<th>{$lang.rank_points}</th-->
 				<th>{$lang.pay_points}</th>
 				<th>{$lang.credit_line}</th>
+				<th>还款金额</th>
 				<th>
 					<a href="javascript:listTable.sort('reg_time'); ">{$lang.reg_date}</a>
 					{$sort_reg_time}
@@ -118,6 +119,7 @@
 				<td>{$user.rank_points}</td-->
 				<td>{$user.pay_points}</td>
 				<td>{$user.credit_line}</td>
+				<td><a href="users.php?act=pay_list&uid={$user.user_id}">{$user.pay_money}</a></td>
 				<td align="center">{$user.reg_time}</td>
 				<td>{$user.inviter}</td>
 				<!-- #代码增加2014-12-23 by www.68ecshop.com  _star -->
@@ -157,7 +159,7 @@
 					<input type="hidden" name="act" value="batch_remove" />
 					<input type="submit" id="btnSubmit" value="{$lang.button_remove}" disabled="true" class="button" />
 				</td>
-				<td align="right" nowrap="true" colspan="11">{include file="page.htm"}</td>
+				<td align="right" nowrap="true" colspan="13">{include file="page.htm"}</td>
 			</tr>
 		</table>
 		{if $full_page}
