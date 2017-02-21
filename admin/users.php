@@ -1074,6 +1074,7 @@ function user_list ()
 		$filter['user_name'] = empty($_REQUEST['user_name']) ? '' : trim($_REQUEST['user_name']);
         $filter['mobile'] = empty($_REQUEST['mobile']) ? '' : trim($_REQUEST['mobile']);
         $filter['status'] = isset($_REQUEST['status']) ? $_REQUEST['status'] : '';
+        $filter['parent_id'] = isset($_REQUEST['parent_id']) ? intval($_REQUEST['parent_id']) : 0;
 		if(isset($_REQUEST['is_ajax']) && $_REQUEST['is_ajax'] == 1)
 		{
 			//$filter['card'] = json_str_iconv($filter['card']);
@@ -1103,7 +1104,9 @@ function user_list ()
 		if($filter['status'] != ''){
 			$ex_where .= " AND `status`={$filter['status']}";
 		}
-
+		if($filter['parent_id'] > 0){
+			$ex_where .= " AND parent_id={$filter['parent_id']}";
+		}
 		
 		$filter['record_count'] = $GLOBALS['db']->getOne("SELECT COUNT(*) FROM " . $GLOBALS['ecs']->table('users') . $ex_where);
 		

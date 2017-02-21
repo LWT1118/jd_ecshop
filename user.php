@@ -37,8 +37,8 @@ $not_login_arr = array(
 /* 显示页面的action列表 */
 $ui_arr = array(
 	'login', 'profile', 'order_list', 'order_detail', 'address_list', 'collection_list', 'follow_shop', 'message_list', 'tag_list',
-	'get_password', 'reset_password', 'booking_list', 'add_booking', 'account_raply', 'account_deposit', 'account_log', 'deposit_log', 'cash_log', 'trade_log',
-	'account_detail', 'act_account', 'pay', 'default', 'bonus', 'group_buy', 'group_buy_detail', 'affiliate', 'comment_list', 'validate_email',
+	'get_password', 'reset_password', 'booking_list', 'add_booking', 'account_raply', 'account_deposit', 'account_log', 'deposit_log', 'cash_log',
+	'trade_log', 'pay_log', 'account_detail', 'act_account', 'pay', 'default', 'bonus', 'group_buy', 'group_buy_detail', 'affiliate', 'comment_list', 'validate_email',
 	'track_packages', 'transform_points', 'qpassword_name', 'get_passwd_question', 'check_answer', 'check_register', 'back_order', 'back_list',
 	'back_order_detail', 'back_order_act', 'back_replay', 'my_comment', 'my_comment_send', 'shaidan_send', 'shaidan_sale', 'account_security',
 	'act_identity', 'check_phone', 'update_password', 're_binding', 'update_phone', 'update_email', 'act_update_email',

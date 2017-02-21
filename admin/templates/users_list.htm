@@ -119,7 +119,7 @@
 				<td>{$user.pay_points}</td>
 				<td>{$user.credit_line}</td>
 				<td align="center">{$user.reg_time}</td>
-				<td>{$user.inviter}</td>
+				<td><a href="#" onclick="javascript:searchUser({$user.parent_id});">{$user.inviter}</a></td>
 				<!-- #代码增加2014-12-23 by www.68ecshop.com  _star -->
 				<td>{if $user.status eq 1}审核通过{elseif $user.status eq 2}审核中{elseif $user.status eq 3}审核不通过{else}未审核{/if}</td>
 				<!-- #代码增加2014-12-23 by www.68ecshop.com  _end -->
@@ -184,13 +184,14 @@ onload = function()
 /**
  * 搜索用户
  */
-function searchUser()
+function searchUser(parent_id)
 {
     listTable.filter['card'] = Utils.trim(document.forms['searchForm'].elements['card'].value);
     listTable.filter['rank'] = document.forms['searchForm'].elements['user_rank'].value;
     listTable.filter['status'] = document.forms['searchForm'].elements['status'].value;
     listTable.filter['user_name'] = Utils.trim(document.forms['searchForm'].elements['user_name'].value);
     listTable.filter['mobile'] = Utils.trim(document.forms['searchForm'].elements['mobile'].value);
+	listTable.filter['parent_id'] = parent_id ? parent_id : 0;
     listTable.filter['page'] = 1;
     listTable.loadList();
 }
