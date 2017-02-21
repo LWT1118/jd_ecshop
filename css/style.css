@@ -1,0 +1,51 @@
+/* CSS Document */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td { margin:0; padding:0; }
+body,input{ font-family:"微软雅黑";font-size:12px; }
+h1, h2, h3, h4, h5, h6 { font-weight:normal; font-size:100%; }
+address, caption, cite, code, dfn, em, strong, th, var { font-style:normal; font-weight:normal;}
+a,a:hover {  text-decoration:none; }
+img { border:none; }
+ol,ul,li { list-style:none; }
+table { border-collapse:collapse; }
+/* css common */
+.clearfix:after {content: "."; display: block; height:0; clear:both; visibility: hidden;}
+.clearfix { *zoom:1; }
+.fl{ float:left;} .fr{ float:right;}
+.clfff{ color:#fff;} .cl000{ color:#000;}
+.ha-oh{ height:auto; overflow:hidden;}
+.tc{ text-align:center;}
+
+.box{ width:1000px; margin:0 auto; height:auto; overflow:hidden; text-align:center;}
+
+#subNav{position:fixed;top:0;left:0;z-index:1000;padding:24px 0 16px 0; width:100%; background:#fff;}
+#subNav ul{float:left; margin-left:64px;}
+#subNav ul li { float: left;position:relative;margin:0 8px 0 0; font-size: 14px;}
+#subNav ul li a { display:block; margin-left:14px; padding:14px 0px 12px 0px; width:60px; text-align:center; background-color: #fff; color: #333;}
+#subNav .wrap{width:1002px;}
+#subNav ul li a:hover,#subNav .adv_active a{border-bottom:3px solid #1c98c9;}
+#subNav .tel{ padding-top:6px;}
+
+#home{ margin-top:90px;background:#0d2e51; overflow:hidden; height:440px;}
+#comp_culture{ padding:90px 0;}
+#comp_culture li{ width:33%; display:inline-block;}
+#comp_culture .txt-intro{ text-align:center;color:#434343; line-height:24px;}
+#comp_culture .txt-intro b{ display:block; margin:26px 0 16px 0; font-size:22px; line-height:22px; font-weight:normal; }
+#tech_intro,#comp_brief{padding:70px 0; color:#fff; background:url(../images/ykt_page03bg.jpg) no-repeat center center;}
+#tech_intro .title,#comp_brief .title{ display:inline-block; font-size:36px; padding-bottom:14px; border-bottom:1px solid #bababa;}
+#tech_intro p,#comp_brief p{ line-height:36px; font-size:14px; margin-top:30px;}
+#check_condition{ padding:66px 0;}
+#check_condition b{ display:inline-block; font-size:34px; line-height:34px;}
+#check_condition p{ margin:26px 0 48px 0; font-size:18px;}
+#check_condition ul li{ width:25%; float:left;}
+#check_condition ul li img{ width:150px; height:150px; border-radius:75px;}
+#check_condition ul li em{ display:block; margin-top:20px; font-size:18px;}
+#check_condition ul li.active,#check_condition ul li:hover{ color:#219bca;}
+#comp_brief{ background:url(../images/ykt_page05bg.jpg) no-repeat center center; background-size:cover;}
+#news b{ display:block; font-size:36px; line-height:36px; margin:46px 0;}
+#news ul{ padding-bottom:34px;}
+#news ul li{ width:42%; padding:0 4%; float:left; margin-bottom:34px; text-align:left;}
+#news ul li img{ float:left; width:72px; height:72px; border-radius:36px; margin-right:12px;}
+#news ul li div{ line-height:18px colo
+#b2b2b2;}
+#news ul li div h3 a{ font-size:14px; line-height:26px; color:#858585;}
+.footer{ line-height:62px; color:#fff; background:#222324;}

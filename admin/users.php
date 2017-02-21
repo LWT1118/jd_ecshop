@@ -79,6 +79,13 @@ function action_list ()
 	$smarty->display('users_list.htm');
 }
 
+function action_pay_list()
+{
+    $smarty = $GLOBALS['smarty'];
+    $smarty->assign('full_page', 1);
+    $smarty->display('pay_list.htm');
+}
+
 /* ------------------------------------------------------ */
 // -- ajax返回用户列表
 /* ------------------------------------------------------ */
@@ -1143,14 +1150,17 @@ function user_list ()
 		for ($j = 0; $j < count($rank_list); $j ++)
 		{
 			$rank_id = $rank_list[$j]['rank_id'];
-			$rank_points = $user_list[$i]['rank_points'];
-			$min_point = $rank_list[$j]['min_points'];
-			$max_point = $rank_list[$j]['max_points'];
+			//$rank_points = $user_list[$i]['rank_points'];
+			//$min_point = $rank_list[$j]['min_points'];
+			//$max_point = $rank_list[$j]['max_points'];
 			if($rank_id == $user_list[$i]['user_rank'])  //($rank_points <= $max_point && $rank_points >= $min_point) // by liuweitao
 			{
 				$user_list[$i]['rank_name'] = $rank_list[$j]['rank_name'];
 			}
 		}
+		$credit_money = $GLOBALS['db']->getOne('select sum(credit_line) from ' . $GLOBALS['ecs']->table('cash_record') . " where user_id={$user_list[$i]['user_id']} and status=1");
+		$trade_money = $GLOBALS['db']->getOne('select sum(integral_money) from ' . $GLOBALS['ecs']->table('order_info') . " where user_id={$user_list[$i]['user_id']} and order_status=1");
+		$user_list[$i]['pay_money'] = $credit_money + $trade_money;
 		$user_list[$i]['inviter'] = empty($user_list[$i]['parent_id']) ? '' : $GLOBALS['db']->getOne('select real_name from ' . $GLOBALS['ecs']->table('users') . " where user_id={$user_list[$i]['parent_id']}");
 	}
 	
