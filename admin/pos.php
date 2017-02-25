@@ -245,6 +245,7 @@ function pos_list ()
     for($i = 0; $i < $count; $i ++)
     {
         $pos_list[$i]['create_time'] = local_date($GLOBALS['_CFG']['date_format'], $pos_list[$i]['create_time']);
+        $pos_list[$i]['total'] = $GLOBALS['db']->getOne('select count(*) from ' . $GLOBALS['ecs']->table('order_info') . " where pay_note='terminal' and pay_name='{$pos_list[$i]['pos_no']}'");
     }
 
     $arr = array(
