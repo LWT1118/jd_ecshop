@@ -235,7 +235,7 @@ class ApiMember
         include_once('includes/lib_payment.php');
         $amount = intval($_GET['amount']);
         if($amount <= 0) {
-            $this->setError('提现金额必须大于0');
+            $this->setError('金额必须大于0');
             return;
         }
         $amount = $amount / 100;

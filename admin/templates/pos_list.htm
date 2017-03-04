@@ -27,11 +27,11 @@
                 <th>地址</th>
                 <th>创建时间</th>
                 <th>{$lang.handler}</th>
-            <tr>
+            </tr>
             {foreach from=$pos_list item=pos}
             <tr>
                 <td align="center"><input type="checkbox" name="checkboxes[]" value="{$pos.pos_id}" />{$pos.pos_id}</td>
-                <td align="center"><a href="pos.php?act=record&id={$pos.pos_id}">{$pos.pos_no}</a></td>
+                <td align="center"><a href="pos.php?act=record&pos_no={$pos.pos_no}">{$pos.pos_no}</a></td>
                 <td align="center">{$pos.bank_no}</td>
                 <td align="center">{$pos.contact}</td>
                 <td align="center">{$pos.mobile}</td>

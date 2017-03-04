@@ -1,60 +1,55 @@
 {if $full_page}
 <!-- $Id: pos_list.htm 17053 2010-03-15 06:50:26Z sxc_shop $ -->
 {include file="pageheader.htm"} {insert_scripts files="../js/utils.js,listtable.js,placeholder.js"}
+<script type="text/javascript" src="../js/calendar.php"></script>
+<link href="../js/calendar/calendar.css" rel="stylesheet" type="text/css" />
 <div class="form-div">
-    <form action="javascript:searchPos()" name="searchForm">
+    <form action="javascript:searchRecord()" name="searchForm">
         <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
-        <span style="position:relative"><input type="text" name="pos_no" placeholder="POS编号" /></span>
+        <span style="position:relative">
+		<input type="text" name="start_time" maxlength="60" size="30" id="start_time_id" placeholder="开始日期" />
+		<input name="start_time_btn" type="button" id="start_time_btn" onclick="return showCalendar('start_time_id', '%Y-%m-%d %H:%M', '24', false, 'start_time_btn');" value="{$lang.btn_select}" class="button"/>
+		</span>
+        <span style="position:relative">
+		<input type="text" name="end_time" maxlength="60" size="30" id="end_time_id" placeholder="结束日期" />
+		<input name="end_time_btn" type="button" id="end_time_btn" onclick="return showCalendar('end_time_id', '%Y-%m-%d %H:%M', '24', false, 'end_time_btn');" value="{$lang.btn_select}" class="button"/>
+		</span>
         <input type="submit" class="button" value="{$lang.button_search}" />
     </form>
 </div>
 <form method="POST" action="" name="listForm" onsubmit="return confirm_bath()">
-    <!-- start pos list -->
+    <!-- start record list -->
     <div class="list-div" id="listDiv">
         {/if}
-        <!--pos列表部分-->
+        <!--record列表部分-->
         <table cellpadding="3" cellspacing="1">
+			<tr>
+				<th colspan="5" style="text-align:left;padding-left:10px">刷卡总金额：{$total}</th>
+			</tr>
             <tr>
-                <th>POS机编号</th>
-                <th>银行卡号</th>
-                <th>联系人姓名</th>
-                <th>电话</th>
-                <th>刷卡次数</th>
-                <th>经营分类</th>
-                <th>地址</th>
-                <th>创建时间</th>
-                <th>{$lang.handler}</th>
+                <th>订单编号</th>
+                <th>消费金额</th>
+                <th>余额支付</th>
+                <th>消费支付</th>
+                <th>刷卡日期</th>
+                <!--th>卡号</th-->
+            </tr>
+                {foreach from=$record_list item=record}
             <tr>
-                {foreach from=$pos_list item=pos}
-            <tr>
-                <td align="center"><a href="pos.php?act=record&id={$pos.pos_id}">{$pos.pos_no}</a></td>
-                <td align="center">{$pos.bank_no}</td>
-                <td align="center">{$pos.contact}</td>
-                <td align="center">{$pos.mobile}</td>
-                <td align="center">{$pos.total}</td>
-                <td align="center">{$pos.category}</td>
-                <td align="center">{$pos.address}</td>
-                <td align="center">{$pos.create_time}</td>
-                <td align="center">
-                    <a href="pos.php?act=edit&id={$pos.pos_id}" title="{$lang.edit}">
-                        <img src="images/icon_edit.gif" border="0" height="16" width="16" />
-                    </a>
-                    <a href="javascript:confirm_redirect('{$lang.remove_pos_confirm}', 'pos.php?act=remove&id={$pos.pos_id}')" title="{$lang.remove}">
-                        <img src="images/icon_drop.gif" border="0" height="16" width="16" />
-                    </a>
-                </td>
+                <td align="center">{$record.order_sn}</td>
+                <td align="center">{$record.money_paid}</td>
+                <td align="center">{$record.surplus}</td>
+                <td align="center">{$record.integral_money}</td>
+                <td align="center">{$record.add_time_format}</td>
+                <!--td align="center"></td-->
             </tr>
             {foreachelse}
             <tr>
-                <td class="no-records" colspan="9">{$lang.no_records}</td>
+                <td class="no-records" colspan="5">{$lang.no_records}</td>
             </tr>
             {/foreach}
             <tr>
-                <td colspan="2">
-                    <input type="hidden" name="act" value="batch_remove" />
-                    <input type="submit" id="btnSubmit" value="{$lang.button_remove_selected}" disabled="true" class="button" />
-                </td>
-                <td align="right" nowrap="true" colspan="11">{include file="page.htm"}</td>
+                <td align="right" nowrap="true" colspan="5">{include file="page.htm"}</td>
             </tr>
         </table>
         {if $full_page}
@@ -63,6 +58,8 @@
 </form>
 <script type="text/javascript" language="JavaScript">
     <!--
+	listTable.query = 'query_record';
+	listTable.url += '&pos_no={$pos_no}';
     listTable.recordCount = {$record_count};
     listTable.pageCount = {$page_count};
 
@@ -73,17 +70,15 @@
     {literal}
     onload = function()
     {
-        document.forms['searchForm'].elements['pos_no'].focus();
+        //document.forms['searchForm'].elements['pos_no'].focus();
         // 开始检查订单
         startCheckOrder();
     }
 
-    /**
-     * 搜索POS机
-     */
-    function searchPos()
+    function searchRecord()
     {
-        listTable.filter['pos_no'] = Utils.trim(document.forms['searchForm'].elements['pos_no'].value);
+        listTable.filter['start_time'] = Utils.trim(document.forms['searchForm'].elements['start_time'].value);
+        listTable.filter['end_time'] = Utils.trim(document.forms['searchForm'].elements['end_time'].value);
         listTable.filter['page'] = 1;
         listTable.loadList();
     }

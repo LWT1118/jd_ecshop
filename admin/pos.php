@@ -49,6 +49,7 @@ function action_list ()
 /* add by liuweitao 未加权限验证 */
 function action_record()
 {
+	$pos_no = $_GET['pos_no'];
     // 全局变量
     $_LANG = $GLOBALS['_LANG'];
     $smarty = $GLOBALS['smarty'];
@@ -56,21 +57,44 @@ function action_record()
     /*  暂时注掉检查权限 */
     //admin_priv('pos_manage');
 
-    $smarty->assign('ur_here', $_LANG['02_pos_list']);
+    $smarty->assign('ur_here', "POS机{$pos_no}刷卡记录");
     $smarty->assign('action_link', array(
-        'text' => $_LANG['04_pos_add'],'href' => 'pos.php?act=add'
+        'text' => $_LANG['03_pos_list'],'href' => 'pos.php?act=list'
     ));
 
-    $pos_list = pos_list();
+    $record_list = pos_record($pos_no);
 
-    $smarty->assign('pos_list', $pos_list['pos_list']);
-    $smarty->assign('filter', $pos_list['filter']);
-    $smarty->assign('record_count', $pos_list['record_count']);
-    $smarty->assign('page_count', $pos_list['page_count']);
+	$smarty->assign('pos_no', $pos_no);
+	$smarty->assign('total', $record_list['total']);
+    $smarty->assign('record_list', $record_list['record_list']);
+    $smarty->assign('filter', $record_list['filter']);
+    $smarty->assign('record_count', $record_list['record_count']);
+    $smarty->assign('page_count', $record_list['page_count']);
     $smarty->assign('full_page', 1);
 
     assign_query_info();
-    $smarty->display('pos_list.htm');
+    $smarty->display('pos_record.htm');
+}
+
+/* add by liuweitao */
+function action_query_record ()
+{
+    // 全局变量
+    $smarty = $GLOBALS['smarty'];
+
+    $record_list = pos_record($_GET['pos_no']);
+
+    $smarty->assign('record_list', $record_list['record_list']);
+    $smarty->assign('filter', $record_list['filter']);
+    $smarty->assign('record_count', $record_list['record_count']);
+    $smarty->assign('page_count', $record_list['page_count']);
+
+    $sort_flag = sort_flag($record_list['filter']);
+    $smarty->assign($sort_flag['tag'], $sort_flag['img']);
+
+    make_json_result($smarty->fetch('pos_record.htm'), '', array(
+        'filter' => $record_list['filter'],'page_count' => $record_list['page_count']
+    ));
 }
 
 function action_query ()
@@ -230,6 +254,69 @@ function action_update ()
     $links[1]['text'] = $_LANG['go_back'];
     $links[1]['href'] = 'javascript:history.back()';
     sys_msg($_LANG['update_pos_success'], 0, $links);
+}
+/* add by liuweitao */
+function pos_record ($pos_no)
+{
+    $result = get_filter();
+    if($result === false)
+    {
+        /* 过滤条件 */
+		$table = $GLOBALS['ecs']->table('order_info');
+        $filter['start_time'] = empty($_REQUEST['start_time']) ? '' : trim($_REQUEST['start_time']);
+        if(isset($_REQUEST['is_ajax']) && $_REQUEST['is_ajax'] == 1)
+        {
+            $filter['start_time'] = json_str_iconv($filter['start_time']);
+        }
+        $filter['end_time'] = empty($_REQUEST['end_time']) ? '' : trim($_REQUEST['end_time']);
+        if(isset($_REQUEST['is_ajax']) && $_REQUEST['is_ajax'] == 1)
+        {
+            $filter['end_time'] = json_str_iconv($filter['end_time']);
+        }
+        $ex_where = " WHERE pay_name='{$pos_no}' and pay_status = " . PS_PAYED;
+        if($filter['start_time'])
+        {
+            $ex_where .= ' AND add_time >= ' . strtotime($filter['start_time']);
+        }
+		if($filter['end_time'])
+		{
+			$ex_where .= ' AND add_time <= ' . strtotime($filter['end_time']);
+		}
+
+        $filter['record_count'] = $GLOBALS['db']->getOne("SELECT COUNT(*) FROM {$table}{$ex_where}");
+
+        /* 分页大小 */
+        $filter = page_and_size($filter);
+        $sql = "SELECT * FROM {$table}{$ex_where} LIMIT " . $filter['start'] . ',' . $filter['page_size'];
+
+		$filter['pos_no'] = $pos_no;
+        $filter['start_time'] = stripslashes($filter['start_time']);
+        $filter['end_time'] = stripslashes($filter['end_time']);
+
+        set_filter($filter, $sql);
+    }
+    else
+    {
+        $sql = $result['sql'];
+        $filter = $result['filter'];
+    }
+
+    $record_list = $GLOBALS['db']->getAll($sql);
+
+    $count = count($record_list);
+	$total = 0;
+    for($i = 0; $i < $count; $i ++)
+    {
+        //$record_list[$i]['add_time'] = local_date($GLOBALS['_CFG']['date_format'], $record_list[$i]['add_time']);
+        $record_list[$i]['add_time_format'] = date('Y-m-d H:i:s', $record_list[$i]['add_time']);
+		$total += $record_list[$i]['money_paid'];
+	}
+
+    $arr = array(
+        'record_list' => $record_list, 'filter' => $filter, 'page_count' => $filter['page_count'], 'record_count' => $filter['record_count'], 'total'=>$total
+    );
+
+    return $arr;
 }
 
 function pos_list ()
