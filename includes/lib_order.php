@@ -1592,6 +1592,7 @@ function user_info($user_id)
 //            $user['user_money'] = 0;
 //        }
         $user['formated_user_money'] = price_format($user['user_money'], false);
+        $user['formated_pay_points'] = price_format($user['pay_points'], false);
         $user['formated_frozen_money'] = price_format($user['frozen_money'], false);
     }
 

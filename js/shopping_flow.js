@@ -672,15 +672,15 @@ function checkOrderForm(frm) {
 	}
 
 	// 检查是否选择了支付配送方式
-	for (i = 0; i < frm.elements.length; i++) {
+	//for (i = 0; i < frm.elements.length; i++) {
 		// if (frm.elements[i].name == 'shipping' && frm.elements[i].checked)
 		// {
 		// shippingSelected = true;
 		// }
 
-		if (frm.elements[i].name == 'payment' && frm.elements[i].checked) {
+	//	if (frm.elements[i].name == 'payment' && frm.elements[i].checked) {
 			/* 代码修改_start By www.68ecshop.com */
-			if (frm.elements[i].value == '0') {
+	/*		if (frm.elements[i].value == '0') {
 				if (have_other == true) {
 					paymentSelected = true;
 				} else {
@@ -691,13 +691,13 @@ function checkOrderForm(frm) {
 					paymentSelected = true;
 				} else {
 					paymentSelected = false;
-				}
-			} else {
+				}*/
+	//		} else {
 				paymentSelected = true;
-			}
+	//		}
 			/* 代码修改_end By www.68ecshop.com */
-		}
-	}
+	//	}
+	//}
 
 	
 	$('.shipping').each(function() {

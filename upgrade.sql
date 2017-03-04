@@ -96,3 +96,6 @@ update ecs_shop_config set value='【商联一卡通】%s你好！你已通过�
 insert into ecs_shop_config (parent_id,code,type,store_range,store_dir,value, sort_order) values (8, 'sms_audit_success2','textarea', '', '', '【商联一卡通】%s你好！你的商联一卡通的年费已提交，卡片已经激活，初次登录密码为666666，请使用你的手机号%s登录一卡通网站，更改密码，祝您购物愉快！', 25);
 /*2017-02-07*/
 update ecs_shop_config set value='【商联一卡通】%s你好！你已通过香港商联金融商贸公司审计部审核，商联一卡通的总额度为%s元，卡片于3天內寄出，请注意查收并缴纳年费激活使用，感谢您对本公司的大力支持。' where code='sms_audit_success';
+/*2017-03-04*/
+ALTER TABLE `jd_ecshop`.`ecs_users`
+CHANGE COLUMN `user_money` `user_money` DECIMAL(10,2) NOT NULL DEFAULT '0.00' COMMENT '可用资金字段作为用户余额' ;

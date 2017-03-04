@@ -1284,16 +1284,18 @@ elseif ($_REQUEST['step'] == 'checkout')
         && $_SESSION['user_id'] > 0
         && $user_info['user_money'] > 0)
     {
+    	$smarty->assign('is_enough', ($user_info['user_money'] + $user_info['pay_points']) >= $total['amount']);
         // 能使用余额
-
         $smarty->assign('your_surplus', $user_info['user_money']);
+        $smarty->assign('pay_points', $user_info['pay_points']);
     }
 	if($_CFG['use_surplus'] == '1'){
 		$smarty->assign('allow_use_surplus', 1);
 	}
 
     /* 如果使用积分，取得用户可用积分及本订单最多可以使用的积分 */
-    if ((!isset($_CFG['use_integral']) || $_CFG['use_integral'] == '1')
+    /* pay_points用户积分作为消费额度使用，所以禁用积分支付 */
+    /*if ((!isset($_CFG['use_integral']) || $_CFG['use_integral'] == '1')
         && $_SESSION['user_id'] > 0
         && $user_info['pay_points'] > 0
         && ($flow_type != CART_GROUP_BUY_GOODS && $flow_type != CART_EXCHANGE_GOODS))
@@ -1307,7 +1309,7 @@ elseif ($_REQUEST['step'] == 'checkout')
         $smarty->assign('allow_use_integral', 1);
         //$smarty->assign('order_max_integral', $keyong);
         $smarty->assign('your_integral',      $user_info['pay_points']); // 用户积分
-    }
+    }*/
 
 	if ((!isset($_CFG['use_bonus']) || $_CFG['use_bonus'] == '1')
         && ($flow_type != CART_GROUP_BUY_GOODS && $flow_type != CART_EXCHANGE_GOODS && $flow_type != CART_PRE_SALE_GOODS))
@@ -1705,19 +1707,19 @@ elseif ($_REQUEST['step'] == 'select_payment')
 /*余额额支付密码_添加_START_www.68ecshop.com*/
 elseif ($_REQUEST['step'] == 'check_surplus_open')
 {
-    $pay_code = $_SESSION['flow_order']['pay_code'];
-    $surplus = $_SESSION['flow_order']['surplus'];
-    if($pay_code == 'balance'||$surplus > 0){
+    //$pay_code = $_SESSION['flow_order']['pay_code'];
+    //$surplus = $_SESSION['flow_order']['surplus'];
+    //if($pay_code == 'balance'||$surplus > 0){
         $sql = 'SELECT `is_surplus_open`'.
             'FROM `ecs_users`'.
             'WHERE `user_id` = \''.$_SESSION['user_id'].'\''.
             'LIMIT 1';
         $is_surplus_open = $GLOBALS['db']->getOne($sql);
         echo $is_surplus_open;
-    }
-    else
+    //}
+    //else
     {
-        echo '0';
+        //echo '0';
     }
     exit;
 }
@@ -2322,7 +2324,7 @@ elseif ($_REQUEST['step'] == 'done')
 
 	    $order = array(
 	        //'shipping_id'     => intval($_POST['shipping']),
-	        'pay_id'          => intval($_POST['payment']),
+	        'pay_id'          => $pay_balance_id,  //intval($_POST['payment']) 全部改成余额支付
 	        'pack_id'         => isset($_POST['pack']) ? intval($_POST['pack']) : 0,
 	        'card_id'         => isset($_POST['card']) ? intval($_POST['card']) : 0,
 	        'card_message'    => trim($_POST['card_message']),
@@ -2412,8 +2414,13 @@ elseif ($_REQUEST['step'] == 'done')
 	    if ($user_id > 0)
 	    {
 	        $user_info = user_info($user_id);
+	        /* add by liuweitao start */
+	        $order['surplus'] = 0;
+	        $order['integral'] = 0;
+	        /* add by liuweitao end */
 
-	        $order['surplus'] = min($order['surplus'], $user_info['user_money'] + $user_info['credit_line']);
+	        /* comment by liuweitao start */
+	        /*$order['surplus'] = min($order['surplus'], $user_info['user_money'] + $user_info['credit_line']);
 	        if ($order['surplus'] < 0)
 	        {
 	            $order['surplus'] = 0;
@@ -2427,7 +2434,8 @@ elseif ($_REQUEST['step'] == 'done')
 	        if ($order['integral'] < 0)
 	        {
 	            $order['integral'] = 0;
-	        }
+	        }*/
+	        /* comment by liuweitao end */
 	    }
 	    else
 	    {
@@ -2515,10 +2523,10 @@ elseif ($_REQUEST['step'] == 'done')
 			//前台的总余额减去每一个平台方或入驻商家使用的余额,结果做为下一个商家使用的余额
 			$order_surplus = $order_surplus - $order['surplus'];
 		}
-		if($total['amount'] <= 0){
+		//if($total['amount'] <= 0){
 			//余额全部支付，让支付方式修改为余额支付
 			$order['pay_id'] = $pay_balance_id;//余额支付方式的id
-		}
+		//}
 	    $order['tax']          = $total['tax'];
 
 	    // 购物车中的商品能享受红包支付的总额
@@ -2580,7 +2588,7 @@ elseif ($_REQUEST['step'] == 'done')
     	/*增值税发票_添加_END_www.68ecshop.com*/
 
     	/* 如果全部使用余额支付，检查余额是否足够 */
-	    if ($payment['pay_code'] == 'balance' && $order['order_amount'] > 0)
+	    //if ($payment['pay_code'] == 'balance' && $order['order_amount'] > 0)
 		//if ($order['order_amount'] > 0)
 	    {
 	        if($order['surplus'] >0) //余额支付里如果输入了一个金额
@@ -2588,15 +2596,23 @@ elseif ($_REQUEST['step'] == 'done')
 	            $order['order_amount'] = $order['order_amount'] + $order['surplus'];
 	            $order['surplus'] = 0;
 	        }
-	        if ($order['order_amount'] > ($user_info['user_money'] + $user_info['credit_line']))
+	        if ($order['order_amount'] > ($user_info['user_money'] +  $user_info['pay_points']))      //$user_info['credit_line']))
 	        {
 	            show_message($_LANG['balance_not_enough']);
 	        }
 	        else
 	        {
-	            $order['surplus'] = $order['order_amount'];
+	            if($user_info['user_money'] >= $order['order_amount']){
+                    $order['surplus'] = $order['order_amount'];
+                    $user_info['user_money'] -= $order['order_amount'];
+				}else{
+	            	$order['surplus'] = $user_info['user_money'];
+	            	$user_info['user_money'] = 0;
+	            	$user_info['pay_points'] -= ($order['order_amount'] - $user_info['user_money']);
+				}
 				//是否开启余额变动给客户发短信-用户消费
-				if($_CFG['sms_user_money_change'] == 1)
+				/* comment by liuweitao start */
+				/*if($_CFG['sms_user_money_change'] == 1)
 				{
 					$sql = "SELECT user_money,mobile_phone FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id = '" . $order['user_id'] . "'";
 					$users = $GLOBALS['db']->getRow($sql);
@@ -2606,8 +2622,10 @@ elseif ($_REQUEST['step'] == 'done')
 						require_once (ROOT_PATH . 'sms/sms.php');
 						sendSMS($users['mobile_phone'],$content);
 					}
-				}
-	            $order['order_amount'] = 0;
+				}*/
+				/* comment by liuweitao end */
+
+                $order['order_amount'] = 0;
 	        }
 	    }
 
@@ -2685,7 +2703,9 @@ elseif ($_REQUEST['step'] == 'done')
     }
     //组装拆分的子订单数组信息end
 
-
+	/* add by liuweitao start */
+	$GLOBALS['db']->query('update ' . $GLOBALS['ecs']->table('users') . " set user_money='{$user_info['user_money']}',pay_points='{$user_info['pay_points']}' where user_id={$_SESSION['user_id']}");
+    /* add by liuweitao end */
 
     //判断是否拆分为多个订单,多个订单就生成父订单id号
     $del_patent_id = 0;
@@ -2773,7 +2793,7 @@ elseif ($_REQUEST['step'] == 'done')
 	    {
 	        log_account_change($order['user_id'], $order['surplus'] * (-1), 0, 0, 0, sprintf($_LANG['pay_order'], $order['order_sn']));
 			//是否开启余额变动给客户发短信-用户消费
-			if($_CFG['sms_user_money_change'] == 1)
+			/*if($_CFG['sms_user_money_change'] == 1)
 			{
 				$sql = "SELECT user_money,mobile_phone FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id = '" . $order['user_id'] . "'";
 				$users = $GLOBALS['db']->getRow($sql);
@@ -2783,7 +2803,7 @@ elseif ($_REQUEST['step'] == 'done')
 					require_once (ROOT_PATH . 'sms/sms.php');
 					sendSMS($users['mobile_phone'],$content);
 				}
-			}
+			}*/
 	    }
 
 	    if ($order['user_id'] > 0 && $order['integral'] > 0)
