@@ -15,9 +15,6 @@
         <!--pos列表部分-->
         <table cellpadding="3" cellspacing="1">
             <tr>
-                <th>
-                    <input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox">
-                </th>
                 <th>POS机编号</th>
                 <th>银行卡号</th>
                 <th>联系人姓名</th>
@@ -28,9 +25,8 @@
                 <th>创建时间</th>
                 <th>{$lang.handler}</th>
             <tr>
-            {foreach from=$pos_list item=pos}
+                {foreach from=$pos_list item=pos}
             <tr>
-                <td align="center"><input type="checkbox" name="checkboxes[]" value="{$pos.pos_id}" />{$pos.pos_id}</td>
                 <td align="center"><a href="pos.php?act=record&id={$pos.pos_id}">{$pos.pos_no}</a></td>
                 <td align="center">{$pos.bank_no}</td>
                 <td align="center">{$pos.contact}</td>
@@ -50,7 +46,7 @@
             </tr>
             {foreachelse}
             <tr>
-                <td class="no-records" colspan="11">{$lang.no_records}</td>
+                <td class="no-records" colspan="9">{$lang.no_records}</td>
             </tr>
             {/foreach}
             <tr>

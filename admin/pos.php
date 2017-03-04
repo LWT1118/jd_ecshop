@@ -46,6 +46,32 @@ function action_list ()
     assign_query_info();
     $smarty->display('pos_list.htm');
 }
+/* add by liuweitao 未加权限验证 */
+function action_record()
+{
+    // 全局变量
+    $_LANG = $GLOBALS['_LANG'];
+    $smarty = $GLOBALS['smarty'];
+
+    /*  暂时注掉检查权限 */
+    //admin_priv('pos_manage');
+
+    $smarty->assign('ur_here', $_LANG['02_pos_list']);
+    $smarty->assign('action_link', array(
+        'text' => $_LANG['04_pos_add'],'href' => 'pos.php?act=add'
+    ));
+
+    $pos_list = pos_list();
+
+    $smarty->assign('pos_list', $pos_list['pos_list']);
+    $smarty->assign('filter', $pos_list['filter']);
+    $smarty->assign('record_count', $pos_list['record_count']);
+    $smarty->assign('page_count', $pos_list['page_count']);
+    $smarty->assign('full_page', 1);
+
+    assign_query_info();
+    $smarty->display('pos_list.htm');
+}
 
 function action_query ()
 {
