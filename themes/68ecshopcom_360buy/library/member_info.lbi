@@ -6,5 +6,5 @@
 {else} 
 <em>{$lang.welcome}!</em>
 <a class="sn-login" href="user.php" target="_top">请登录</a>
-<a class="sn-register" href="register.php" target="_top" style="font-size:15px;color:red">一卡通审请</a>
+<a class="sn-register" href="register.php" target="_top" style="font-size:15px;color:red">一卡通申请</a>
 {/if}

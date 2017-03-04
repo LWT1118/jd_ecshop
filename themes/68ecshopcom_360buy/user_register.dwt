@@ -40,7 +40,7 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
 	<div class="Logo-r">
 		<div class="Logo-info-r">
 			<a href="./" class="logo"></a>
-            <span class="findpw">审请资料</span>
+            <span class="findpw">申请资料</span>
 			<!-- #BeginLibraryItem "/library/user_right.lbi" --><!-- #EndLibraryItem -->
 		</div>
 	</div>
@@ -62,7 +62,7 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
                 	<form action="register.php" method="post" id="formRegister" name="formRegister">
                         <input type="hidden" id="register_type" name="register_type" value="${register_type}" />
                         <ul class="register_tab">
-                            <li id="li_register_type_mobile" class="tab_item fl" register_type="mobile">审请资料<span class="bg_ff"></span></li>
+                            <li id="li_register_type_mobile" class="tab_item fl" register_type="mobile">申请资料<span class="bg_ff"></span></li>
                             <!--li id="li_register_type_email" class="tab_item cur fl" register_type="email">邮箱注册<span class="bg_ff"></span></li-->
                             <li class="have_account fr">已有账号！<a href="user.php?act=login">登录</a></li>
                         </ul>
@@ -286,7 +286,7 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
 							<div class="item">
 								<input name="act" type="hidden" value="register_preview">
 								<input type="hidden" name="back_act" value="user.php" />
-								<input type="submit" id="btn_submit" name="Submit" class="btn-img btn-regist" value="提交审请" />
+								<input type="submit" id="btn_submit" name="Submit" class="btn-img btn-regist" value="提交申请" />
 							</div>
 						</div>
 					</form>

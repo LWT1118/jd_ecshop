@@ -48,7 +48,7 @@ var process_request = "{$lang.process_request}";
 			qs.style.display="none";
 		}
 	  </script>
-      <li class="menu-item">
+      <li class="menu-item" style="display:none">
       	<div class="sn-menu">
         <a aria-haspopup="menu-6" tabindex="0" class="menu-hd sn-mobile-link" href="" target="_top">手机版<b></b></a>
         <div class="menu-bd sn-qrcode" id="menu-5">
@@ -66,7 +66,7 @@ var process_request = "{$lang.process_request}";
         </div>
         </div>
       </li>
-      <li class="sn-seller menu-item">
+      <li class="sn-seller menu-item" style="display:none">
         <div class="sn-menu J_DirectPromo">
         <a aria-haspopup="menu-6" tabindex="0" class="menu-hd" href="" target="_top">商家支持<b></b></a>
         <div class="menu-bd" id="menu-6">
@@ -84,7 +84,7 @@ var process_request = "{$lang.process_request}";
           </ul>
         </div>
       </li>
-      <li class="sn-sitemap">
+      <li class="sn-sitemap" style="display:none">
         <div class="sn-menu">
           <h3 class="menu-hd" tabindex="0" aria-haspopup="menu-8"><span class="sn-site-link">网站导航</span><b></b></h3>
           <div class="menu-bd sn-sitemap-bd" id="menu-8">

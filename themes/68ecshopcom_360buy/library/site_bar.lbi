@@ -104,7 +104,7 @@ function collectResponses(result)
           </div>
           <span class="cart_arrow"><b class="arrow-1"></b> <b class="arrow-2"></b></span></div>
       </div>
-      <div class="mod vote_list J-stie-68"> <a href="javascript:;" class="btn">
+      <div class="mod vote_list J-stie-68" style="display:none"> <a href="javascript:;" class="btn">
         <table>
           <tbody>
             <tr>
@@ -129,7 +129,7 @@ function collectResponses(result)
       <div class="mod reserve" style="height:135px;" id="ECS_CARTINFO">
       {insert name='cart_info'}
       </div>
-      <div class="mod traffic"> <span class="btn">
+      <div class="mod traffic" style="display:none"> <span class="btn">
         <table>
           <tbody>
             <tr>
@@ -156,7 +156,7 @@ function collectResponses(result)
         </table>
         </span> </div>
       
-       <div class="mod qrcode J-stie-68"> <a href="javascript:;" class="btn">
+       <div class="mod qrcode J-stie-68" style="display:none"> <a href="javascript:;" class="btn">
         <table>
           <tbody>
             <tr>

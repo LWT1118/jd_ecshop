@@ -64,7 +64,7 @@
     <dd class="ghs_clear"></dd>
   </dl>
   {/if}-->{if $servicephone}
-  <dl id="hotline">
+  <dl id="hotline" style="display:none">
     <dt>客服电话&nbsp;&nbsp;&nbsp;&nbsp;</dt>
     <dd>{$servicephone}</dd>
     <dd class="ghs_clear"></dd>

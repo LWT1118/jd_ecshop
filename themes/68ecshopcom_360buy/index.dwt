@@ -54,11 +54,13 @@ var select_spe = "{$lang.select_spe}";
 						</li>
 					</ul>
 					<div class="tabs-panel">
-						<a href="apply_index.php" title="申请商家入驻；已提交申请，可查看当前审核状态。" class="store-join-btn" target="_blank"> </a>
+						<div style="display:none">
+                        <a href="apply_index.php" title="申请商家入驻；已提交申请，可查看当前审核状态。" class="store-join-btn" target="_blank"> </a>
 						<a href="supplier" target="_blank" class="store-join-help">
 							<i class="icon-cog"></i>
 							登录商家管理中心
 						</a>
+                        </div>
 					</div>
 					<!-- TemplateBeginEditable name="首页主广告右侧公告" -->
 					<!-- #BeginLibraryItem "/library/cat_articles.lbi" -->

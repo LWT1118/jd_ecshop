@@ -7,11 +7,7 @@
         	<strong class="cat{$smarty.foreach.cat0.iteration} Left">
             	<a href="{$cat.url}" target="_blank" title="进入{$cat.name}频道">{$cat.name}</a>
             </strong>
-    		<p> 
-      		<!--{foreach from=$cat.cat_id item=child name=namechild}--> 
-      			<a href="{$child.url}" target="_blank" title="{$child.name|escape:html}">{$child.name|escape:html}</a> 
-      		<!--{/foreach}--> 
-    		</p>
+    		
   		</dt>
 	</dl>
 	<textarea id="JS_side_cat_textarea_{$smarty.foreach.cat0.iteration}" class="none">

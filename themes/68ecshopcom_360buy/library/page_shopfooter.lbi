@@ -2,7 +2,7 @@
 <!-- service end  -->
 <div class="site-footer">
   <div class="wrapper">
-    <div class="footer-info clearfix">
+    <div class="footer-info clearfix" style="display:none">
       <div class="info-text">
       <!--{if $img_links  or $txt_links }--> 
         <p>友情链接：
