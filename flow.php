@@ -1278,11 +1278,8 @@ elseif ($_REQUEST['step'] == 'checkout')
 
     $user_info = user_info($_SESSION['user_id']);
 
-
     /* 如果使用余额，取得用户余额 */
-    if ((!isset($_CFG['use_surplus']) || $_CFG['use_surplus'] == '1')
-        && $_SESSION['user_id'] > 0
-        && $user_info['user_money'] > 0)
+    if ((!isset($_CFG['use_surplus']) || $_CFG['use_surplus'] == '1') && $_SESSION['user_id'] > 0) //  && $user_info['user_money'] > 0
     {
     	$smarty->assign('is_enough', ($user_info['user_money'] + $user_info['pay_points']) >= $total['amount']);
         // 能使用余额

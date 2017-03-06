@@ -860,7 +860,7 @@ else
         </tr>
         <!-- {/if} --> 
 		{if $goodsinfo.shipping_html}
-        <tr>
+        <!--tr>
 			<td colspan=4 bgcolor="#ffffff" align="left" class="shipping_type">
 			{$goodsinfo.shipping_html}
 			<!--如果有自提点 star-->
@@ -871,7 +871,7 @@ else
 			<p class="shipping_desc" id="desc_{$key}">您可以选择离您最近的自提点上门提货：运费5元，满99元免邮</p>
 			<script>selectShipping($('#pay_ship_{$goodsinfo.goodlist[0].supplier_id}').val(),{$key});</script>
 			</td>
-		</tr>
+		</tr-->
 		{/if}
         <!-- {if ($allow_use_bonus || $allow_use_integral) && $goodsinfo.goodlist } 是否使用红包或者积分 -->
         <tr>

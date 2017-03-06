@@ -815,10 +815,11 @@ function order_fee($order, $goods, $consignee)
 		krsort($total['supplier_shipping']);
 		
 		$total['shipping_fee']    = 0;
-		foreach($total['supplier_shipping'] AS $supp_shipping)
+		/* comment by liuweitao */
+		/*foreach($total['supplier_shipping'] AS $supp_shipping)
 		{
 			$total['shipping_fee'] += $supp_shipping['shipping_fee'];
-		}
+		}*/
 		$total['shipping_fee_formated']    = price_format($total['shipping_fee'], false);
 	}
 	
@@ -2110,6 +2111,13 @@ function last_shipping_and_payment()
     return $row;
 }
 
+/* add by liuweitao */
+function get_default_shipping()
+{
+	$scalor = $GLOBALS['db']->getOne('select shipping_id from ' . $GLOBALS['ecs']->table('shipping') . " where shipping_code='pups'");
+	return $scalor ? $scalor : 0;
+}
+
 /**
  * 取得当前用户应该得到的红包总额
  * @param array $supplier_money_info 各个店铺对应的商品的总钱信息
@@ -2232,6 +2240,7 @@ function flow_order_info()
 {
     $order = isset($_SESSION['flow_order']) ? $_SESSION['flow_order'] : array();
 
+
     /* 初始化配送和支付方式 */
     if (!isset($order['shipping_id']) || !isset($order['pay_id']))
     {
@@ -2239,6 +2248,7 @@ function flow_order_info()
         if ($_SESSION['user_id'] > 0)
         {
             /* 用户已经登录了，则获得上次使用的配送和支付 */
+
             $arr = last_shipping_and_payment();
 
             if (!isset($order['shipping_id']))
