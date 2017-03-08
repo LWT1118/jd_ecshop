@@ -194,7 +194,7 @@ class ApiMember
         $record_table = $ecs->table('cash_record');
         if($db->query("update {$user_table} set user_money={$user_money},credit_line={$credit_line} where user_id={$user_id}")){
             $create_time = time();
-            $db->query("insert into {$record_table} (user_id,card_no,pos_no,user_money,credit_line,create_time) values ({$user_id}, '{$this->cardNo}', '{$this->posNo}', '{$cash_money}', '{$credit_money}', '{$create_time}')");
+            $db->query("insert into {$record_table} (user_id,card_no,pos_no,user_money,credit_line,add_time) values ({$user_id}, '{$this->cardNo}', '{$this->posNo}', '{$cash_money}', '{$credit_money}', '{$create_time}')");
         }
         $this->responseData['record_id'] = $db->insert_id();
         $this->responseData['user_money'] =  floatval($user_money);

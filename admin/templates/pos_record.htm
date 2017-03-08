@@ -4,14 +4,16 @@
 <script type="text/javascript" src="../js/calendar.php"></script>
 <link href="../js/calendar/calendar.css" rel="stylesheet" type="text/css" />
 <div class="form-div">
-    <form action="javascript:searchRecord()" name="searchForm">
+    <form action="pos.php" name="searchForm" method="post"><!--javascript:searchRecord()"-->
+		<input type="hidden" name="pos_no" value="{$pos_no}">
+		<input type="hidden" name="act" value="record">
         <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
         <span style="position:relative">
-		<input type="text" name="start_time" maxlength="60" size="30" id="start_time_id" placeholder="开始日期" />
-		<input name="start_time_btn" type="button" id="start_time_btn" onclick="return showCalendar('start_time_id', '%Y-%m-%d %H:%M', '24', false, 'start_time_btn');" value="{$lang.btn_select}" class="button"/>
+		<input type="text" name="start_time" maxlength="60" size="30" id="start_time_id" placeholder="开始日期" value="{$start_time}" />
+		<input name="start_time_btn" type="button" id="start_time_btn" onclick="return showCalendar('start_time_id', '%Y-%m-%d %H:%M', '24', false, 'start_time_btn');" value="{$lang.btn_select}" class="button" />
 		</span>
         <span style="position:relative">
-		<input type="text" name="end_time" maxlength="60" size="30" id="end_time_id" placeholder="结束日期" />
+		<input type="text" name="end_time" maxlength="60" size="30" id="end_time_id" placeholder="结束日期" value="{$end_time}" />
 		<input name="end_time_btn" type="button" id="end_time_btn" onclick="return showCalendar('end_time_id', '%Y-%m-%d %H:%M', '24', false, 'end_time_btn');" value="{$lang.btn_select}" class="button"/>
 		</span>
         <input type="submit" class="button" value="{$lang.button_search}" />
@@ -24,34 +26,28 @@
         <!--record列表部分-->
         <table cellpadding="3" cellspacing="1">
 			<tr>
-				<th colspan="5" style="text-align:left;padding-left:10px">刷卡总金额：{$total}</th>
+				<th colspan="5" style="text-align:left;padding-left:10px">刷卡总金额：{$total},终端消费金额：{$terminal_money}，商城消费金额：{$trade_money}，终端提现金额：{$cash_money}</th>
 			</tr>
             <tr>
-                <th>订单编号</th>
-                <th>消费金额</th>
-                <th>余额支付</th>
-                <th>消费支付</th>
-                <th>刷卡日期</th>
-                <!--th>卡号</th-->
+                <th>订单号/卡号</th>
+                <th>金额</th>
+                <th>类型</th>
+                <th>日期</th>
             </tr>
                 {foreach from=$record_list item=record}
             <tr>
                 <td align="center">{$record.order_sn}</td>
-                <td align="center">{$record.money_paid}</td>
-                <td align="center">{$record.surplus}</td>
-                <td align="center">{$record.integral_money}</td>
-                <td align="center">{$record.add_time_format}</td>
+                <td align="center">{$record.total}</td>
+                <td align="center">{$record.type}</td>
+                <td align="center">{$record.add_time}</td>
                 <!--td align="center"></td-->
             </tr>
             {foreachelse}
             <tr>
-                <td class="no-records" colspan="5">{$lang.no_records}</td>
+                <td class="no-records" colspan="5">输入起止时间可查询明细</td>
             </tr>
             {/foreach}
-            <tr>
-                <td align="right" nowrap="true" colspan="5">{include file="page.htm"}</td>
-            </tr>
-        </table>
+          </table>
         {if $full_page}
     </div>
     <!-- end pos list -->
@@ -75,13 +71,13 @@
         startCheckOrder();
     }
 
-    function searchRecord()
+    /*function searchRecord()
     {
         listTable.filter['start_time'] = Utils.trim(document.forms['searchForm'].elements['start_time'].value);
         listTable.filter['end_time'] = Utils.trim(document.forms['searchForm'].elements['end_time'].value);
         listTable.filter['page'] = 1;
         listTable.loadList();
-    }
+    }*/
 
     function confirm_bath()
     {

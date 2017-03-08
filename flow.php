@@ -2394,16 +2394,19 @@ elseif ($_REQUEST['step'] == 'done')
 		/*检查配送方式是否选择*/
             // 如果是虚拟商品不需要选择配送方式
         if( $_SESSION['extension_code'] != 'virtual_good'){
-	    if(!isset($_POST['pay_ship'][$ckey])){
-	    	show_message('请选择各个商家的配送方式！');
-	    }else{
-	    	$shipid = $db->getOne("select shipping_id from ".$ecs->table('shipping')." where shipping_id=".$_POST['pay_ship'][$ckey]." and supplier_id=".$ckey);
-	    	if($shipid){
-	    		$order['shipping_id'] = intval($shipid);
-	    	}else{
-	    		show_message('配送方式存在不可用，请重新选择！');
-	    	}
-	    }
+			$order['shipping_id'] = $db->getOne('select shipping_id from ' . $ecs->table('shipping') . "where shipping_code='pups'"); //全部设为自提 by liuweitao
+			/* comment by liuweitao start */
+			/*if(!isset($_POST['pay_ship'][$ckey])){
+				show_message('请选择各个商家的配送方式！');
+			}else{
+				$shipid = $db->getOne("select shipping_id from ".$ecs->table('shipping')." where shipping_id=".$_POST['pay_ship'][$ckey]." and supplier_id=".$ckey);
+				if($shipid){
+					$order['shipping_id'] = intval($shipid);
+				}else{
+					show_message('配送方式存在不可用，请重新选择！');
+				}
+			}*/
+			/* comment by liuweitao end*/
         }
 
 	    /* 检查积分余额是否合法 */

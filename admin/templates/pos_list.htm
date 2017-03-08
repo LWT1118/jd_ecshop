@@ -22,7 +22,7 @@
                 <th>银行卡号</th>
                 <th>联系人姓名</th>
                 <th>电话</th>
-                <th>刷卡次数</th>
+                <!--th>刷卡次数</th-->
                 <th>经营分类</th>
                 <th>地址</th>
                 <th>创建时间</th>
@@ -35,7 +35,7 @@
                 <td align="center">{$pos.bank_no}</td>
                 <td align="center">{$pos.contact}</td>
                 <td align="center">{$pos.mobile}</td>
-                <td align="center">{$pos.total}</td>
+                <!--td align="center">{$pos.total}</td-->
                 <td align="center">{$pos.category}</td>
                 <td align="center">{$pos.address}</td>
                 <td align="center">{$pos.create_time}</td>
@@ -58,7 +58,7 @@
                     <input type="hidden" name="act" value="batch_remove" />
                     <input type="submit" id="btnSubmit" value="{$lang.button_remove_selected}" disabled="true" class="button" />
                 </td>
-                <td align="right" nowrap="true" colspan="11">{include file="page.htm"}</td>
+                <td align="right" nowrap="true" colspan="7">{include file="page.htm"}</td>
             </tr>
         </table>
         {if $full_page}

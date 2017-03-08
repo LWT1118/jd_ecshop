@@ -99,3 +99,6 @@ update ecs_shop_config set value='【商联一卡通】%s你好！你已通过�
 /*2017-03-04*/
 ALTER TABLE `jd_ecshop`.`ecs_users`
 CHANGE COLUMN `user_money` `user_money` DECIMAL(10,2) NOT NULL DEFAULT '0.00' COMMENT '可用资金字段作为用户余额' ;
+/*2017-03-08*/
+ALTER TABLE `jd_ecshop`.`ecs_cash_record` 
+CHANGE COLUMN `create_time` `add_time` INT(11) NOT NULL DEFAULT '0' COMMENT '提现时间' ;

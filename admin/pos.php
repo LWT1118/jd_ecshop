@@ -49,7 +49,7 @@ function action_list ()
 /* add by liuweitao 未加权限验证 */
 function action_record()
 {
-	$pos_no = $_GET['pos_no'];
+	$pos_no = $_REQUEST['pos_no'];
     // 全局变量
     $_LANG = $GLOBALS['_LANG'];
     $smarty = $GLOBALS['smarty'];
@@ -61,15 +61,38 @@ function action_record()
     $smarty->assign('action_link', array(
         'text' => $_LANG['03_pos_list'],'href' => 'pos.php?act=list'
     ));
+	$order_table = $GLOBALS['ecs']->table('order_info');
+	$cash_table = $GLOBALS['ecs']->table('cash_record');
+	$ex_where = '';
+	if($_POST['start_time']){
+		$ex_where .= ' AND add_time >= ' . strtotime($_POST['start_time']);
+	}
+	if($_POST['end_time']){
+		$ex_where .= ' AND add_time <= ' . strtotime($_POST['end_time']);
+	}
+    $terminal_result = $GLOBALS['db']->getRow("select min(add_time) as add_time, sum(money_paid) as total from {$order_table} WHERE pay_name='{$pos_no}' and pay_note='terminal' and pay_status = " . PS_PAYED . $ex_where);
+	$trade_result = $GLOBALS['db']->getRow("select min(add_time) as add_time, sum(goods_amount-surplus) as total from {$order_table} where pay_note!='terminal' and pay_status=" . PS_PAYED . $ex_where);
+	$cash_result = $GLOBALS['db']->getRow("select min(add_time) as add_time,sum(credit_line) as total from {$cash_table} where status=1 and pos_no='{$pos_no}'{$ex_were}");
+  	
+	$terminal_list = empty($ex_where) ? array() : $GLOBALS['db']->getAll("select order_sn, FROM_UNIXTIME(add_time) as add_time, money_paid as total, '终端消费' as type from {$order_table} WHERE pay_name='{$pos_no}' and pay_note='terminal' and pay_status = " . PS_PAYED . $ex_where);
+	$trade_list = empty($ex_where) ? array() : $GLOBALS['db']->getAll("select order_sn, FROM_UNIXTIME(add_time) as add_time, (goods_amount-surplus) as total, '商城消费' as type from {$order_table} where pay_note!='terminal' and pay_status=" . PS_PAYED);
+	$cash_list = empty($ex_where) ? array() : $GLOBALS['db']->getAll("select card_no as order_sn, FROM_UNIXTIME(add_time) as add_time, credit_line as total, '终端提现' as type from {$cash_table} where status=1 and pos_no='{$pos_no}'");
 
-    $record_list = pos_record($pos_no);
 
+    $record_list = empty($ex_where) ? array() : array_merge($terminal_list, $trade_list, $cash_list);
+
+	$smarty->assign('start_time', isset($_POST['start_time']) ? $_POST['start_time'] : '');
+	$smarty->assign('end_time', isset($_POST['end_time']) ? $_POST['end_time'] : '');
 	$smarty->assign('pos_no', $pos_no);
-	$smarty->assign('total', $record_list['total']);
-    $smarty->assign('record_list', $record_list['record_list']);
-    $smarty->assign('filter', $record_list['filter']);
+	$smarty->assign('start_time', date('Y-m-d H:i:s', min($terminal_result['add_time'], $trade_result['add_time'], $cash_result['add_time'])));
+	$smarty->assign('terminal_money', $terminal_result['total']);
+	$smarty->assign('trade_money', $trade_result['total']);
+	$smarty->assign('cash_money', $cash_result['total']);
+	$smarty->assign('total', $terminal_result['total'] + $trade_result['total'] + $cash_result['total']);
+    $smarty->assign('record_list', $record_list);
+    /*$smarty->assign('filter', $record_list['filter']);
     $smarty->assign('record_count', $record_list['record_count']);
-    $smarty->assign('page_count', $record_list['page_count']);
+    $smarty->assign('page_count', $record_list['page_count']);*/
     $smarty->assign('full_page', 1);
 
     assign_query_info();
@@ -262,8 +285,9 @@ function pos_record ($pos_no)
     if($result === false)
     {
         /* 过滤条件 */
-		$table = $GLOBALS['ecs']->table('order_info');
-        $filter['start_time'] = empty($_REQUEST['start_time']) ? '' : trim($_REQUEST['start_time']);
+		$order_table = $GLOBALS['ecs']->table('order_info');
+        $cash_table = $GLOBALS['ecs']->table('cash_record');
+		$filter['start_time'] = empty($_REQUEST['start_time']) ? '' : trim($_REQUEST['start_time']);
         if(isset($_REQUEST['is_ajax']) && $_REQUEST['is_ajax'] == 1)
         {
             $filter['start_time'] = json_str_iconv($filter['start_time']);
@@ -273,7 +297,7 @@ function pos_record ($pos_no)
         {
             $filter['end_time'] = json_str_iconv($filter['end_time']);
         }
-        $ex_where = " WHERE pay_name='{$pos_no}' and pay_status = " . PS_PAYED;
+        $ex_where = '';
         if($filter['start_time'])
         {
             $ex_where .= ' AND add_time >= ' . strtotime($filter['start_time']);
@@ -282,12 +306,15 @@ function pos_record ($pos_no)
 		{
 			$ex_where .= ' AND add_time <= ' . strtotime($filter['end_time']);
 		}
+		$terminal_result = $GLOBALS['db']->getAll("select order_sn, add_time, money_paid as total, '终端消费' as type from {$order_table} WHERE pay_name='{$pos_no}' and pay_note='terminal' and pay_status = " . PS_PAYED . $ex_where);
+		$trade_result = $GLOBALS['db']->getAll("select order_sn, add_time, (goods_amount-surplus) as total, '商城消费' as type from {$order_table} where pay_note!='terminal' and pay_status=" . PS_PAYED);
+		$cash_result = $GLOBALS['db']->getAll("select pos_no as order_sn, add_time, credit_line as total, '终端提现' as type from {$cash_table} where status=1 and pos_no='{$pos_no}'");
 
-        $filter['record_count'] = $GLOBALS['db']->getOne("SELECT COUNT(*) FROM {$table}{$ex_where}");
+        //$filter['record_count'] = $GLOBALS['db']->getOne("SELECT COUNT(*) FROM {$table}{$ex_where}");
 
         /* 分页大小 */
         $filter = page_and_size($filter);
-        $sql = "SELECT * FROM {$table}{$ex_where} LIMIT " . $filter['start'] . ',' . $filter['page_size'];
+        //$sql = "SELECT * FROM {$table}{$ex_where} LIMIT " . $filter['start'] . ',' . $filter['page_size'];
 
 		$filter['pos_no'] = $pos_no;
         $filter['start_time'] = stripslashes($filter['start_time']);
@@ -301,15 +328,15 @@ function pos_record ($pos_no)
         $filter = $result['filter'];
     }
 
-    $record_list = $GLOBALS['db']->getAll($sql);
+    //$record_list = $GLOBALS['db']->getAll($sql);
+	$record_list = array_merge($terminal_result, $trade_result, $cash_result);
+
 
     $count = count($record_list);
-	$total = 0;
     for($i = 0; $i < $count; $i ++)
     {
         //$record_list[$i]['add_time'] = local_date($GLOBALS['_CFG']['date_format'], $record_list[$i]['add_time']);
         $record_list[$i]['add_time_format'] = date('Y-m-d H:i:s', $record_list[$i]['add_time']);
-		$total += $record_list[$i]['money_paid'];
 	}
 
     $arr = array(
@@ -358,7 +385,7 @@ function pos_list ()
     for($i = 0; $i < $count; $i ++)
     {
         $pos_list[$i]['create_time'] = local_date($GLOBALS['_CFG']['date_format'], $pos_list[$i]['create_time']);
-        $pos_list[$i]['total'] = $GLOBALS['db']->getOne('select count(*) from ' . $GLOBALS['ecs']->table('order_info') . " where pay_note='terminal' and pay_name='{$pos_list[$i]['pos_no']}'");
+        //$pos_list[$i]['total'] = $GLOBALS['db']->getOne('select count(*) from ' . $GLOBALS['ecs']->table('order_info') . " where pay_note='terminal' and pay_name='{$pos_list[$i]['pos_no']}'");
     }
 
     $arr = array(
