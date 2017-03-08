@@ -359,6 +359,9 @@ if ($_REQUEST['act'] == 'edit')
     $smarty->assign('form_act',    'update');
     $smarty->assign('cat_select',  $cat_info['is_virtual']?get_virtual_cat_select():cat_list(0, $cat_info['parent_id'], true));
     $smarty->assign('goods_type_list',  goods_type_list(0)); // 取得商品类型
+	/* add by liuweitao */
+	$smarty->assign('special_ranks', get_rank_list(false));
+	/* add by liueeitao */
 
     /* 显示页面 */
     assign_query_info();
@@ -421,6 +424,9 @@ if ($_REQUEST['act'] == 'update')
 	$cat['attr_wwwecshop68com']  = !empty($_POST['attr_qq']) ? $_POST['attr_qq'] : '';
 	 /*  代码增加_end By www.ecshop68.com */
 	/* 代码增加_start Byjdy */
+	/* add by liuweitao start */
+	$cat['user_rank'] = empty($_POST['user_rank']) ? 0 : intval($_POST['user_rank']);
+	/* add by liuweitao end */
 	
 	
 	/* 代码增加_start  By   www.68ecshop.com  */

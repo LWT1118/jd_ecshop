@@ -38,6 +38,13 @@
         <td class="label">{$lang.sort_order}:</td>
         <td><input type="text" name='sort_order' {if $cat_info.sort_order}value='{$cat_info.sort_order}'{else} value="50"{/if} size="15" /></td>
       </tr>
+	  <tr>
+	  	<td class="label">会员级别:</td>
+	    <td><select name="user_rank">
+			  <option value="0">{$lang.not_special_rank}</option>
+			  {html_options options=$special_ranks selected=$cat_info.user_rank}
+			</select></td>
+	  </tr>
       <tr>
         <td class="label">{$lang.is_show}:</td>
         <td><input type="radio" name="is_show" value="1" {if $cat_info.is_show neq 0} checked="true"{/if}/>

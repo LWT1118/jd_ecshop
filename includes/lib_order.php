@@ -44,6 +44,21 @@ function unserialize_config($cfg)
         return false;
     }
 }
+/** 
+   add by liuweitao
+   检测该会员级别是可以购买该商品分类
+ */
+function check_user_rank($cat_id, $user_rank)
+{
+	$category = $GLOBALS['db']->getRow('select cat_id,user_rank,parent_id from ' . $GLOBALS['ecs']->table('category') . " where cat_id={$cat_id}");
+	if($category['user_rank'] == 0 || $user_rank >= $category['user_rank']){
+		if($category['parent_id'] > 0){
+			return check_user_rank($category['parent_id'], $user_rank);
+		}
+		return true;
+	}
+	return false;
+}
 /**
  * 取得已安装的配送方式
  * @return  array   已安装的配送方式

@@ -102,3 +102,5 @@ CHANGE COLUMN `user_money` `user_money` DECIMAL(10,2) NOT NULL DEFAULT '0.00' CO
 /*2017-03-08*/
 ALTER TABLE `jd_ecshop`.`ecs_cash_record` 
 CHANGE COLUMN `create_time` `add_time` INT(11) NOT NULL DEFAULT '0' COMMENT '提现时间' ;
+ALTER TABLE `jd_ecshop`.`ecs_category` 
+ADD COLUMN `user_rank` TINYINT(3) NOT NULL DEFAULT 0 AFTER `type_img`;

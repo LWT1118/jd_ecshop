@@ -421,6 +421,13 @@ if ($_REQUEST['step'] == 'add_to_cart')
     }
 
     $goods = $json->decode($_POST['goods']);
+	$cat_id = $GLOBALS['db']->getOne('select cat_id from ' . $GLOBALS['ecs']->table('goods') . " where goods_id={$goods->goods_id}");
+    $user_info = user_info($_SESSION['user_id']);
+	if(!check_user_rank($cat_id, $user_info['user_rank'])){
+		$result['error'] = 999;
+		$result['message'] = '您的会员级不能购买此类商品';
+		die($json->encode($result));
+	}
 
     /* 判断是否为正在预售的商品 */
     if(!isset($goods->extCode) || $goods->extCode != 'pre_sale')
@@ -945,6 +952,7 @@ elseif ($_REQUEST['step'] == 'checkout')
 		}
 		//验证购物车中提交过来的商品中参加的活动是否都正常end
     }
+    $user_info = user_info($_SESSION['user_id']);
 
     /* 检查购物车中是否有商品 */
     /* 代码增加_end  By www.68ecshop.com */
@@ -967,6 +975,11 @@ elseif ($_REQUEST['step'] == 'checkout')
 		$goods_list = $db->getAll($sql);
 		foreach($goods_list as $k => $v)
 		{
+			$cat_id = $GLOBALS['db']->getOne('select cat_id from ' . $GLOBALS['ecs']->table('goods') . " where goods_id={$v['goods_id']}");
+			$result = check_user_rank($cat_id, $user_info['user_rank']);
+			if(!check_user_rank($cat_id, $user_info['user_rank'])){
+				show_message('您的会员级不能购买此类商品', '', '', 'warning');
+			}
 			if($v['is_buy'] == 1 && $v['buymax'] >0 && $v['buymax_start_date'] < $time_xg_now  && $v['buymax_end_date'] > $time_xg_now )
 			{
 				$num_cart_old=$GLOBALS['db']->getOne("select sum(og.goods_number) from ". $GLOBALS['ecs']->table('order_goods') ." AS og , ". $GLOBALS['ecs']->table('order_info') ." AS o where o.user_id='$_SESSION[user_id]' and o.order_id = og.order_id and add_time > ". $v['buymax_start_date'] ." and add_time < ". $v['buymax_end_date'] ."  and og.goods_id = " . $v['goods_id'] );
@@ -1276,7 +1289,6 @@ elseif ($_REQUEST['step'] == 'checkout')
         }
     }
 
-    $user_info = user_info($_SESSION['user_id']);
 
     /* 如果使用余额，取得用户余额 */
     if ((!isset($_CFG['use_surplus']) || $_CFG['use_surplus'] == '1') && $_SESSION['user_id'] > 0) //  && $user_info['user_money'] > 0
