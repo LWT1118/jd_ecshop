@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>一卡通</title>
 <link href="css/style.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/jquery.js"></script>
 </head>
 <body>
 <div id="subNav" class="fixedSubNav">
@@ -13,48 +13,55 @@
   <ul>
     <li class="adv_active"><a href="#home" class="adv_door adv_active">首页</a></li>
     <li><a href="#comp_culture" class="adv_cul">企业文化</a></li>
-    <li><a href="#tech_intro" class="adv_tech">技术介绍</a></li>
+    <li><a href="#tech_intro" class="adv_tech">企业简介</a></li>
     <li><a href="#check_condition" class="adv_check">审核条件</a></li>
-    <li><a href="#comp_brief" class="adv_brief">企业简介</a></li>
+    <li><a href="#comp_brief" class="adv_brief">管理层</a></li>
     <li><a href="index.php" class="adv_news">消费商城</a></li>
     <li><a href="user.php" class="adv_news">会员系统</a></li>
   </ul>
   <p class="tel fr"><a href="tel:400-007-5966"><img src="images/ykt_tel.png" alt=""/></a></p>
 </div>
 </div>
-<div id="home">
-  <div class="box">
-    <img src="images/ykt_banner.jpg" alt=""/>
-  </div>
+<!-- 代码 开始 -->
+<div class="slide-main" id="touchMain">
+<div class="slide-box" id="slideContent">
+		<div class="slide"><img src="images/banner.png" /></div>
+		<div class="slide"><img src="images/banner.png" /></div>
+		<div class="slide"><img src="images/banner.png" /></div>
+
+	</div>	
+	<div class="item">
+		<a class="cur" stat="item1001" href="javascript:;"></a><a href="javascript:;" stat="item1002"></a><a href="javascript:;" stat="item1003"></a>
+	</div>
 </div>
+<!-- 代码 结束 -->
+<script type="text/javascript" src="js/lrtk.js"></script>
+
 <!--home end--> 
 
 <div id="comp_culture">
 <ul class="box">
         <li><img src="images/ykt_page02_01.png"  alt=""/><div class="txt-intro"><b>公司使命</b>
-            搭建交流展示平台<br>
-            聚集各行业项目、人才及天使投资<br>
-            人，筛选优秀项目</div></li>
-        <li><img src="images/ykt_page02_02.png"  alt=""/><div class="txt-intro"><b>公司愿景</b>
-            给创业者提供一个<br>
-            “敢于创业，乐于创业，善于创业”的<br>
-            开放性交流展示平台。</div></li>
-        <li><img src="images/ykt_page02_03.png"  alt=""/><div class="txt-intro"><b>公司价值观</b>
-            激情创业，重诺守信；<br>
-            诚信为先，以德服人；树立品牌，注重形象；<br>
-            任人唯贤，共享发展</div></li>
+            服务发展;为客户创造最大价值<br>
+            </div></li>
+        <li><img src="images/ykt_page02_02.png"  alt=""/><div class="txt-intro"><b>企业精神</b>
+            诚于中;捷于行;开放性交流展示平台。<br>
+            
+            </div></li>
+        <li><img src="images/ykt_page02_03.png"  alt=""/><div class="txt-intro"><b>风险观</b>
+            谨慎均衡;科学管控<br></div></li>
       </ul>
+
 </div>
 <!--comp_culture end--> 
 
 <div id="tech_intro">
  <div class="box">
-        <b class="title">技术介绍</b>
-        <p>一卡通管理系统是将成熟先进的非接触式智能卡技术、计算机技术、网络通讯技术相结合，<br>
-          将客户、卡片、读卡设备以及管理需求紧密联系在一起，<br>
-          实现一卡通用、集中管理；客户只需一张卡就可以实现多种功能实现，<br>
-          比如考勤管理、门禁管理、消费管理、水控管理和人事资料管理。<br>
-          管理人员通过一卡通平台实现实时监控和智能管理。</p>
+        <b class="title">公司介绍</b>
+        <p>香港商联科技有限公司（简称"商联科技"）是香港商联国际集团的下属子公司。香港工商局注册编号：2466991，公司注册资金10亿元，是立足于商业数字化改革、网络供需匹配以及为众多创业者提供资金和平台服务的优秀企业。 
+  <p>公司汇聚了一大批既熟悉专业技术，又精通国内外供应链管理实务的高素质人才，并以"更快 更专 更好"的服务理念、"诚于中，捷于行"的企业精神，始终为客户提供满意的产品和贴心的服务，致力成为互联网集散，资源整合专家，保持持续健康发展的步伐！
+<p>公司地址：中国香港中西区中环皇后大道中15号
+<p>电话： 4000075966</p>
       </div>
 </div>
 <!--tech_intro end--> 
@@ -75,12 +82,8 @@
 
 <div id="comp_brief">
 <div class="box">
-        <b class="title">企业简介</b>
-        <p>本公司成立于1998，是一家具有国际水平的智能卡制造商和解决方案提供商（智能标签，接触和非接触式智能卡，<br>
-            双界面卡及各种PVC卡）生产，个性化的应用。<br>
-            公司的飞速发展，充分发挥地处特区，毗领港澳的优势，立足深圳，辐射全国；<br>
-            公司不断引进国内外先进的生产设备，努力探索制卡新技术，再加上企业内部拥有高素质人才队伍，<br>
-            树立了产品种类多、优质、价廉、高效、以及售后周全、信誉好的公司形象。</p>
+        <b class="title">公司管理层</b>
+        <p><img src="zzjg.png"></p>
         </div>
 </div>
 <!--comp_brief end--> 
@@ -110,7 +113,8 @@ Apple Watch 要等到 4 月底才能上市，就算去苹果零售店围观也�
         </ul>
 	</div>
 </div>
-<div class="footer"><div class="box">Copyright © 商联一卡通有限公司 2009-2016 All Rights Reserved. 备案号：桂ICP备17001076号	</div></div>
+<div class="footer"><div class="box">Copyright © 商联一卡通有限公司&nbsp;&nbsp;  公司地址：中国香港中西区中环皇后大道中15号
+&nbsp;&nbsp;电话：4000075966 &nbsp;&nbsp;  2009-2017 All Rights Reserved. 备案号：桂ICP备17001076号	</div></div>
 <!--news end--> 
 <script>
 $(function(){

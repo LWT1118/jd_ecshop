@@ -98,7 +98,7 @@ var select_spe = "{$lang.select_spe}";
 		<!-- #BeginLibraryItem "/library/index_ad_group.lbi" -->
 		<!-- #EndLibraryItem -->
 		<div class="blank5"></div>
-		<div class="fp-brand-rec main-container" id="J_FpBrandRec">
+		<div class="fp-brand-rec main-container" id="J_FpBrandRec" style="display:none">
 			<a class="brand-title" href="stores.php">热门品牌</a>
 			<div class="brand-content clearfix">
 				<div class="module">

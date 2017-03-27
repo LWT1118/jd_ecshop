@@ -1091,7 +1091,7 @@ class cls_template
             /* 在头部加入版本信息 */
             $source = preg_replace('/<head>/i', "<head>\r\n<meta name=\"Generator\" content=\"" . APPNAME .' ' . VERSION . "\" />",  $source);
 			/* By www.68ecshop.com 代码增加_start */
-			$source = preg_replace('/<head>/i', "<head>\r\n<base href=\"". $GLOBALS['ecs']->url() ."\" />",  $source);
+			//$source = preg_replace('/<head>/i', "<head>\r\n<base href=\"". $GLOBALS['ecs']->url() ."\" />",  $source);
 			/* By www.68ecshop.com 代码增加_end */
 			
             /* 修正css路径 */

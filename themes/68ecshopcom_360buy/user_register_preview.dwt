@@ -97,7 +97,7 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
 			                </tr>
 			                
 			                <tr>
-			                  <td align="right" bgcolor="#ffffff">{$lang.detailed_address}：</td>
+			                  <td align="right" bgcolor="#ffffff">现居住地址：</td>
 			                  <td align="left" bgcolor="#ffffff" colspan="3">{$register_info.address}</td>
 			               	</tr>
 			               			             
