@@ -337,7 +337,7 @@ function action_edit ()
 	/* 检查权限 */
 	admin_priv('users_manage');
 	
-	$sql = "SELECT u.user_name, u.sex, u.birthday, u.pay_points, u.rank_points, u.user_rank , u.user_money, u.frozen_money, u.credit_line, u.parent_id, u2.user_name as parent_username, u.qq, u.msn, u.office_phone, u.home_phone, u.mobile_phone" . " FROM " . $ecs->table('users') . " u LEFT JOIN " . $ecs->table('users') . " u2 ON u.parent_id = u2.user_id WHERE u.user_id='$_GET[id]'";
+	$sql = "SELECT u.user_name, u.sex, u.birthday, u.pay_points, u.rank_points, u.user_rank , u.user_money, u.frozen_money, u.credit_line, u.parent_id, u2.user_name as parent_username, u.qq, u.msn, u.office_phone, u.home_phone,u.family1_name,u.family1_mobile,u.family2_name,u.family2_mobile,u.mobile_phone" . " FROM " . $ecs->table('users') . " u LEFT JOIN " . $ecs->table('users') . " u2 ON u.parent_id = u2.user_id WHERE u.user_id='$_GET[id]'";
 	
 	$row = $db->GetRow($sql);
 	$row['user_name'] = addslashes($row['user_name']);
@@ -345,7 +345,7 @@ function action_edit ()
 	$user = $users->get_user_info($row['user_name']);
 	/* 代码增加2014-12-23 by www.68ecshop.com _star */
 	$sql = "SELECT u.user_id, u.sex, u.birthday, u.pay_points, u.rank_points, u.user_rank , u.user_money, u.frozen_money, u.credit_line, u.parent_id, u2.user_name as parent_username, u.qq, u.msn,
-    u.office_phone, u.home_phone, u.mobile_phone,u.real_name,u.card,u.bank_card_no,u.img_bank_card,u.face_card,u.back_card,u.country,u.province,u.city,u.district,u.address,u.status " . " FROM " . $ecs->table('users') . " u LEFT JOIN " . $ecs->table('users') . " u2 ON u.parent_id = u2.user_id WHERE u.user_id='$_GET[id]'";
+    u.office_phone, u.home_phone, u.mobile_phone,u.real_name,u.card,u.bank_card_no,u.img_bank_card,u.face_card,u.back_card,u.family1_name,u.family1_mobile,u.family2_name,u.family2_mobile,u.country,u.province,u.city,u.district,u.address,u.status " . " FROM " . $ecs->table('users') . " u LEFT JOIN " . $ecs->table('users') . " u2 ON u.parent_id = u2.user_id WHERE u.user_id='$_GET[id]'";
 	/* 代码增加2014-12-23 by www.68ecshop.com _end */
 	
 	$row = $db->GetRow($sql);
@@ -386,6 +386,10 @@ function action_edit ()
 		/* add by liuweitao start */
 		$user['bank_card_no'] = $row['bank_card_no'];
 		$user['img_bank_card'] = $row['img_bank_card'];
+		$user['family1_name'] = $row['family1_name'];
+		$user['family1_mobile'] = $row['family1_mobile'];
+		$user['family2_name'] = $row['family2_name'];
+		$user['family2_mobile'] = $row['family2_mobile'];
 		$user['formated_pay_points'] = price_format($row['pay_points']);
 		/* add by liuweitao end */
 	}

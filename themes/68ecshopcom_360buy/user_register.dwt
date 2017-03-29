@@ -134,7 +134,7 @@ function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sTy
 			                
 			                <tr>
 			                  <td align="right" bgcolor="#ffffff">现居住地址：</td>
-			                  <td align="left" bgcolor="#ffffff" colspan="3"><input name="address" type="text" class="inputBg" value="" style="width: 300px;"/></td>
+			                  <td align="left" bgcolor="#ffffff" colspan="3"><input name="address" type="text" class="inputBg" value="" style="width: 300px;"/><span style="color:red">邮寄地址</span></td>
 			               	</tr>
 			               			             
    							<tr>

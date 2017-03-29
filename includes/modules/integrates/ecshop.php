@@ -140,6 +140,10 @@ class ecshop extends integrate
 			{
 				return 0;
 			}
+			if($row['password'] != md5($password)){
+				return 0;
+			}
+			return $row['user_id']; /* add by liuweitao */
 			
 			if(empty($row['salt']))
 			{
