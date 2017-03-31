@@ -151,6 +151,9 @@ class ApiMember
     private function cashHandler()
     {
         global $db, $ecs;
+        require(ROOT_PATH . 'includes/lib_order.php');
+        include_once('includes/lib_clips.php');
+        include_once('includes/lib_payment.php');
         $amount = intval($_GET['amount']);
         if($amount <= 0) {
             $this->setError('提现金额必须大于0');
@@ -191,12 +194,36 @@ class ApiMember
             $credit_money = $amount - $record['user_money'];
         }
         $user_id = $record['user_id'];
-        $record_table = $ecs->table('cash_record');
-        if($db->query("update {$user_table} set user_money={$user_money},credit_line={$credit_line} where user_id={$user_id}")){
-            $create_time = time();
-            $db->query("insert into {$record_table} (user_id,card_no,pos_no,user_money,credit_line,add_time) values ({$user_id}, '{$this->cardNo}', '{$this->posNo}', '{$cash_money}', '{$credit_money}', '{$create_time}')");
+        $create_time = time();
+        $order = array(
+            'pay_id'          =>'0',
+            'postscript'      =>$this->cardNo,  //订单附言字段用来保存卡号
+            'goods_amount'    =>$amount,
+            'money_paid'      =>$amount,           //已支付金额
+            'surplus'         =>$cash_money,       //用户余额提现的金额
+            'integral_money'  =>$credit_money,     //积分金额作为授信额度使用
+            'user_id'         =>$user_id,
+            'order_status'    =>OS_UNCONFIRMED,  //未确认
+            'shipping_status' =>SS_SHIPPED,      //已发货
+            'pay_status'      =>PS_PAYING,       //付款中
+            'add_time'        =>$create_time,
+            'pay_time'        =>$create_time,
+            'pay_name'        =>$this->posNo,
+            'pay_note'        =>'cash',          //标记该交易为提现交易
+        );
+        do{
+            $order['order_sn'] = get_order_sn(); //获取新订单号
+            $db->autoExecute($ecs->table('order_info'), $order, 'INSERT');
+            $error_no = $db->errno();
+            if ($error_no > 0 && $error_no != 1062){
+                $this->setError($db->errorMsg());
+                return;
+            }
         }
-        $this->responseData['record_id'] = $db->insert_id();
+        while ($error_no == 1062); //如果是订单号重复则重新提交数据
+        $order_id = $db->insert_id();
+        $db->query("update {$user_table} set user_money={$user_money},credit_line={$credit_line} where user_id={$user_id}");
+        $this->responseData['record_id'] = $order_id;
         $this->responseData['user_money'] =  floatval($user_money);
         $this->responseData['credit_line'] = floatval($credit_line);
     }
@@ -209,17 +236,18 @@ class ApiMember
             $this->setError('充值ID非法');
             return;
         }
-        $cash_table = $ecs->table('cash_record');
+        $order_table = $ecs->table('order_info');
         $user_table = $ecs->table('users');
-        $cash_record = $db->getRow("select user_id,user_money,credit_line create_time from {$cash_table} where record_id={$record_id}");
+        $cash_record = $db->getRow("select user_id,goods_amount,surplus,integral_money, add_time from {$order_table} where order_id={$record_id}");
         if(!$cash_record){
             $this->setError('未找到该充值记录');
             return;
         }
         $user_info = $db->getRow("select user_id,user_money,credit_line,mobile_phone from {$user_table} where user_id={$cash_record['user_id']}");
-        $db->query("update {$cash_table} set status=1 where record_id={$record_id}");
+        $confirm_time = gmtime();
+        $db->query("update {$order_table} set order_status=" . OS_CONFIRMED . ', pay_status=' . PS_PAYED . ",confirm_time={$confirm_time} where order_id={$record_id}");
         $msg_template = $db->getOne('select value from ' . $ecs->table('shop_config') . " where code='sms_deposit_balance_reduce_tpl'");
-        $msg = sprintf($msg_template, date('Y-m-d H:i:s', $cash_record['create_time'], $cash_record['user_money'] + $cash_record['credit_line']));
+        $msg = sprintf($msg_template, date('Y-m-d H:i:s', $cash_record['add_time'], $cash_record['surplus'] + $cash_record['integral_money']));
         sendSMS($user_info['mobile_phone'], $msg);
         $this->responseData['record_id'] = $record_id;
         $this->responseData['user_money'] = floatval($user_info['user_money']);
@@ -292,7 +320,7 @@ class ApiMember
             'add_time'        =>$add_time,
             'pay_time'        =>$add_time,
             'pay_name'        =>$this->posNo,
-            'pay_note'        =>'terminal',
+            'pay_note'        =>'terminal',    //标记该交易为终端刷卡交易
         );
         do{
             $order['order_sn'] = get_order_sn(); //获取新订单号
