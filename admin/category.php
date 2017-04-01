@@ -425,7 +425,7 @@ if ($_REQUEST['act'] == 'update')
 	 /*  代码增加_end By www.ecshop68.com */
 	/* 代码增加_start Byjdy */
 	/* add by liuweitao start */
-	$cat['user_rank'] = empty($_POST['user_rank']) ? 0 : intval($_POST['user_rank']);
+	$cat['user_rank'] = empty($_POST['user_rank']) ? '' : $_POST['user_rank'];
 	/* add by liuweitao end */
 	
 	

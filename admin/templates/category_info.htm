@@ -39,11 +39,8 @@
         <td><input type="text" name='sort_order' {if $cat_info.sort_order}value='{$cat_info.sort_order}'{else} value="50"{/if} size="15" /></td>
       </tr>
 	  <tr>
-	  	<td class="label">会员级别:</td>
-	    <td><select name="user_rank">
-			  <option value="0">{$lang.not_special_rank}</option>
-			  {html_options options=$special_ranks selected=$cat_info.user_rank}
-			</select></td>
+	  	<td class="label">会员级别ID:</td>
+	    <td><input type="text" name="user_rank" value="{$cat_info.user_rank}">多个会员级别ID用英文逗号分隔</td>
 	  </tr>
       <tr>
         <td class="label">{$lang.is_show}:</td>

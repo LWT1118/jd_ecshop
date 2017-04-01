@@ -612,7 +612,33 @@ function get_deposit_log($user_id, $num, $start, $begin_time, $end_time)
         return false;
     }
 }
+/* 查询还款记录 */
+function get_repay_log($user_id) //, $num, $start, $begin_time, $end_time
+{
+    $repay_log = array();
+    $sql = 'SELECT * FROM ' .$GLOBALS['ecs']->table('order_info').
+        " WHERE user_id = '$user_id' and pay_status=2 and repayment>0" .
+        " ORDER BY add_time DESC";
 
+    $res = $GLOBALS['db']->getAll($sql);
+    if ($res)
+    {
+        foreach ($res as $row)
+        {
+            $year_month = date("Y年m月", $row['add_time']);
+            if(!isset($repay_log[$year_month])){
+                $repay_log[$year_month] = 0;
+            }
+            $repay_log[$year_month] += $row['integral_money'];
+            $repay_log[$year_month] = price_format($repay_log[$year_month], false);
+        }
+        return $repay_log;
+    }
+    else
+    {
+        return false;
+    }
+}
 /**
  * 查询会员提现记录
  *
@@ -625,19 +651,20 @@ function get_deposit_log($user_id, $num, $start, $begin_time, $end_time)
 function get_cash_log($user_id, $num, $start, $begin_time, $end_time)
 {
     $cash_log = array();
-    $sql = 'SELECT * FROM ' .$GLOBALS['ecs']->table('cash_record').
-        " WHERE user_id = '$user_id' and create_time>={$begin_time} and create_time<={$end_time}" .
-        " ORDER BY create_time DESC";
+    $sql = 'SELECT * FROM ' .$GLOBALS['ecs']->table('order_info').
+        " WHERE user_id = '$user_id' and add_time>={$begin_time} and add_time<={$end_time} and pay_note='cash'" .
+        " ORDER BY add_time DESC";
 
     $res = $GLOBALS['db']->selectLimit($sql, $num, $start);
     if ($res)
     {
         while ($rows = $GLOBALS['db']->fetchRow($res))
         {
-            $rows['create_time']         = local_date($GLOBALS['_CFG']['date_format'], $rows['create_time']);
-            $rows['user_money']           = price_format(abs($rows['user_money']), false);
-            $rows['credit_line']           = price_format(abs($rows['credit_line']), false);
-            $rows['amount'] = price_format($rows['user_money'] + $rows['credit_line']);
+            $rows['add_time']         = local_date($GLOBALS['_CFG']['date_format'], $rows['add_time']);
+            $rows['surplus']           = price_format(abs($rows['surplus']), false);
+            $rows['integral_money']           = price_format(abs($rows['integral_money']), false);
+            $rows['goods_amount'] = price_format($rows['goods_amount']);
+            $rows['status_text'] = $rows['order_status'] == '1' ? '已确认' : '未确认';
             $cash_log[] = $rows;
         }
         return $cash_log;
@@ -661,7 +688,7 @@ function get_trade_log($user_id, $num, $start, $begin_time, $end_time)
 {
     $trade_log = array();
     $sql = 'SELECT * FROM ' .$GLOBALS['ecs']->table('order_info').
-        " WHERE pay_note='terminal' and user_id = '$user_id' and add_time>={$begin_time} and add_time<={$end_time}" .
+        " WHERE pay_note!='cash' and user_id = '$user_id' and add_time>={$begin_time} and add_time<={$end_time}" .
         " ORDER BY add_time DESC";
 
     $res = $GLOBALS['db']->selectLimit($sql, $num, $start);
@@ -740,6 +767,10 @@ function get_user_default($user_id)
     $info['shop_name'] = $GLOBALS['_CFG']['shop_name'];
     $info['integral']  = $row['pay_points'] . $GLOBALS['_CFG']['integral_name'];
     $info['user_money'] = $row['user_money'];
+    $begin_time = strtotime(date('Y-m-01'));
+    $end_time = strtotime(date("Y-m-t"));
+    $repay_money = $GLOBALS['db']->getOne('select sum(integral_money) from ' . $GLOBALS['ecs']->table('order_info') . " where pay_status=2 and user_id={$user_id} and repayment=0 and add_time>={$begin_time} and add_time <={$end_time}");
+    $info['repay_money'] = price_format(floatval($repay_money), false);
     /* 增加是否开启会员邮件验证开关 */
     $info['is_validate'] = ($GLOBALS['_CFG']['member_email_validate'] && !$row['is_validated'])?0:1;
     $info['credit_line'] = $row['credit_line'];

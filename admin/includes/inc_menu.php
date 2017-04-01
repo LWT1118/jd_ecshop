@@ -126,7 +126,7 @@ $modules['07_content']['article_auto'] = 'article_auto.php?act=list';
 // $modules['07_content']['shop_info'] = 'shopinfo.php?act=list';
 
 $modules['08_members']['03_users_list'] = 'users.php?act=list';
-
+$modules['08_members']['03_users_pay'] = 'users.php?act=pay';
 $modules['08_members']['04_users_export'] = 'users_export.php'; // 代码增加
                                                                             // By
                                                                             // www.68ecshop.com

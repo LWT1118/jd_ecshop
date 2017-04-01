@@ -13,8 +13,8 @@
         <a href="user.php?act=deposit_log" class="item {if $action eq 'deposit_log'}curs{/if}"><span>充值记录</span><i></i></a>
         <!--a href="user.php?act=bonus" class="item {if $action eq 'bonus'}curs{/if}"><span>{$lang.label_bonus}</span><i></i></a-->
         <a href="user.php?act=cash_log" class="item {if $action eq 'bonus'}curs{/if}"><span>提现记录</span><i></i></a>
-        <a href="user.php?act=trade_log" class="item {if $action eq 'bonus'}curs{/if}"><span>消费记录</span><i></i></a>
-        <a href="user.php?act=pay_log" class="item {if $action eq 'bonus'}curs{/if}"><span>还款记录</span><i></i></a>
+        <!--a href="user.php?act=trade_log" class="item {if $action eq 'bonus'}curs{/if}"><span>消费记录</span><i></i></a-->
+        <a href="user.php?act=repay_log" class="item {if $action eq 'bonus'}curs{/if}"><span>还款记录</span><i></i></a>
         <!--{if $show_transform_points}--> 
         <a href="user.php?act=transform_points" class="item {if $action eq 'transform_points'}curs{/if}"><span>{$lang.label_transform_points}</span><i></i></a>
         <!--{/if}--> 

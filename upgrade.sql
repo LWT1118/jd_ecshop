@@ -104,3 +104,11 @@ ALTER TABLE `jd_ecshop`.`ecs_cash_record`
 CHANGE COLUMN `create_time` `add_time` INT(11) NOT NULL DEFAULT '0' COMMENT '提现时间' ;
 ALTER TABLE `jd_ecshop`.`ecs_category` 
 ADD COLUMN `user_rank` TINYINT(3) NOT NULL DEFAULT 0 AFTER `type_img`;
+/*2017-03-31*/
+ALTER TABLE `jd_ecshop`.`ecs_order_info`
+ADD COLUMN `repayment` TINYINT NOT NULL DEFAULT 0 AFTER `shipping_time_end`;
+ALTER TABLE `jd_ecshop`.`ecs_order_info`
+CHANGE COLUMN `repayment` `repayment` INT NOT NULL DEFAULT '0' ;
+/* 2017-04-01 */
+ALTER TABLE `jd_ecshop`.`ecs_category`
+CHANGE COLUMN `user_rank` `user_rank` VARCHAR(50) NOT NULL DEFAULT '' ;

@@ -79,13 +79,141 @@ function action_list ()
 	$smarty->display('users_list.htm');
 }
 
-function action_pay_list()
+function action_pay()
 {
+    $db = $GLOBALS['db'];
+    $ecs = $GLOBALS['ecs'];
+    $user_table = $ecs->table('users');
+    $order_table = $ecs->table('order_info');
+    $repay_date = $_GET['date'];
+    if(!empty($repay_date) && ($user_id = intval($_GET['uid'])) > 0){ //还款
+    	$year = substr($repay_date, 0, 4);
+    	$month = trim(substr($repay_date, 4), "年月");
+    	$repay_begin_time = strtotime("{$year}-{$month}-01");
+    	$repay_end_time = strtotime("{$year}-{$month}-" . date('t', $repay_begin_time)) + 86400;
+    	$timestamp = time();
+    	$repay_condition = "user_id={$user_id} and pay_status=2 and add_time>={$repay_begin_time} and add_time<{$repay_end_time} and repayment=0";
+    	$repay_data = $db->getAll("select sum(integral_money) as money, pay_note from {$order_table} where {$repay_condition} group by pay_note ");
+    	$credit_money = 0;
+    	$pay_money = 0;
+    	foreach($repay_data as $row){
+    		if($row['pay_note'] == 'cash') $credit_money += $row['money'];
+    		else $pay_money += $row['money'];
+		}
+		$fields = array();
+		if($credit_money > 0){   //提现额度
+            $fields[] = "credit_line=credit_line+{$credit_money}";
+		}
+		if($pay_money > 0){  //消费额度
+			$fields[] = "pay_points=pay_points+{$pay_money}";
+		}
+		if(count($fields) > 0){
+            $db->query("update {$user_table} set " . implode(',', $fields) . " where user_id={$user_id}");
+		}
+    	$db->query("update {$order_table} set repayment={$timestamp} where {$repay_condition}");
+	}
     $smarty = $GLOBALS['smarty'];
+    if(!empty($_POST['begin_date']) && !empty($_POST['end_date'])){
+    	$begin_time = strtotime($_POST['begin_date']);
+    	$end_time = strtotime($_POST['end_date']);
+	}elseif(!empty($_POST['begin_date']) && empty($_POST['end_date'])){
+    	$begin_time = strtotime($_POST['begin_date']);
+        $end_time = time();
+	}elseif(empty($_POST['begin_date']) && !empty($_POST['end_date'])){
+		$begin_time = 0;
+		$end_time = strtotime($_POST['end_date']);
+	}else{
+        $day = date('j');
+        $begin_date = date('Y-m', strtotime("-{$day} day")) . '-01';
+        $end_date = date('Y-m-d', strtotime('-' . ($day - 1) . ' day'));
+        $begin_time = strtotime($begin_date);
+        $end_time = strtotime($end_date);
+	}
+    $user_list = array();
+	$condition = "pay_status=2 and add_time>={$begin_time} and add_time<{$end_time} and repayment=0";  //PS_PAYED = 2
+	$order_list = $db->getAll("select user_id,add_time,integral_money from {$order_table} where {$condition}");
+	foreach($order_list as $order){
+		$year_month = date('Y年m月', $order['add_time']);
+		if(!isset($user_list[$year_month])){
+			$user_list[$year_month] = array();
+		}
+		if(isset($user_list[$year_month][$order['user_id']])){
+			$repay_money = $user_list[$year_month][$order['user_id']]['repay_money'];
+            $repay_money += $order['integral_money'];
+            $user_list[$year_month][$order['user_id']]['repay_money'] = $repay_money = sprintf("%.2f", $repay_money);
+		}else{
+            $user = $db->getRow("select user_id, user_name,real_name,mobile_phone from {$user_table} where user_id ={$order['user_id']}");
+            $user['repay_money'] = $order['integral_money'];
+            $user_list[$year_month][$order['user_id']] = $user;
+		}
+	}
+    $smarty->assign('record_list', $user_list);
     $smarty->assign('full_page', 1);
     $smarty->display('pay_list.htm');
 }
+function action_detail()
+{
+    $db = $GLOBALS['db'];
+    $ecs = $GLOBALS['ecs'];
+    $smarty = $GLOBALS['smarty'];
 
+    $query_date = $_GET['date'];
+    $user_id = intval($_REQUEST['uid']);
+    $order_table = $ecs->table('order_info');
+    if(!empty($query_date)){
+        $year = substr($query_date, 0, 4);
+        $month = trim(substr($query_date, 4), "年月");
+        $begin_time = strtotime("{$year}-{$month}-01");
+        $end_time = strtotime("{$year}-{$month}-" . date('t', $repay_begin_time)) + 86400;
+	}elseif(!empty($_POST['begin_date']) && !empty($_POST['end_date'])){
+        $begin_time = strtotime($_POST['begin_date']);
+        $end_time = strtotime($_POST['end_date']);
+    }elseif(!empty($_POST['begin_date']) && empty($_POST['end_date'])){
+        $begin_time = strtotime($_POST['begin_date']);
+        $end_time = time();
+    }elseif(empty($_POST['begin_date']) && !empty($_POST['end_date'])){
+        $begin_time = 0;
+        $end_time = strtotime($_POST['end_date']);
+    }else{
+        $day = date('j');
+        $begin_date = date('Y-m', strtotime("-{$day} day")) . '-01';
+        $end_date = date('Y-m-d', strtotime('-' . ($day - 1) . ' day'));
+        $begin_time = strtotime($begin_date);
+        $end_time = strtotime($end_date);
+    }
+    $record_list = array();
+    $condition = "user_id={$user_id} and pay_status=2 and add_time>={$begin_time} and add_time<{$end_time} and repayment=0";  //PS_PAYED = 2
+    $order_list = $db->getAll("select order_id, order_sn,add_time, pay_name, surplus, goods_amount, integral_money,add_time,pay_note from {$order_table} where {$condition}");
+    $total_money = array();
+    foreach($order_list as $order){
+        $year_month = date('Y年m月', $order['add_time']);
+        if(!isset($total_money[$year_month])){
+        	$total_money[$year_month] = 0;
+		}
+        if(!isset($record_list[$year_month])){
+            $record_list[$year_month] = array();
+        }
+        if($order['pay_note'] == 'cash'){
+            $order['pay_note_name'] = '提现';
+		}elseif($order['pay_note'] == ''){
+        	$order['pay_note_name'] = '终端购物';
+		}else{
+			$order['pay_note_name'] = '商城购物';
+		}
+        $order['add_time'] = date('Y-m-d H:i:s', $order['add_time']);
+        $order['surplus'] = sprintf("%.2f", $order['surplus']);
+        $order['goods_amount'] = sprintf("%.2f", $order['goods_amount']);
+        $total_money[$year_month] += $order['integral_money'];
+        $total_money[$year_month] = sprintf("%.2f", $total_money[$year_month]);
+        $order['integral_money'] = sprintf("%.2f", $order['integral_money']);
+        $record_list[$year_month][] = $order;
+    }
+    $smarty->assign('total_money', $total_money);
+    $smarty->assign('user_id', $user_id);
+    $smarty->assign('record_list', $record_list);
+    $smarty->assign('full_page', 1);
+    $smarty->display('pay_detail.htm');
+}
 /* ------------------------------------------------------ */
 // -- ajax返回用户列表
 /* ------------------------------------------------------ */

@@ -49,52 +49,55 @@ function action_list ()
 /* add by liuweitao 未加权限验证 */
 function action_record()
 {
-	$pos_no = $_REQUEST['pos_no'];
-    // 全局变量
+    $db = $GLOBALS['db'];
+    $ecs = $GLOBALS['ecs'];
     $_LANG = $GLOBALS['_LANG'];
     $smarty = $GLOBALS['smarty'];
 
-    /*  暂时注掉检查权限 */
+    $pos_no = $_REQUEST['pos_no'];
+    /*  暂时注掉检查权限 by liuweitao */
     //admin_priv('pos_manage');
 
     $smarty->assign('ur_here', "POS机{$pos_no}刷卡记录");
     $smarty->assign('action_link', array(
         'text' => $_LANG['03_pos_list'],'href' => 'pos.php?act=list'
     ));
-	$order_table = $GLOBALS['ecs']->table('order_info');
-	$cash_table = $GLOBALS['ecs']->table('cash_record');
-	$ex_where = '';
-	if($_POST['start_time']){
-		$ex_where .= ' AND add_time >= ' . strtotime($_POST['start_time']);
-	}
-	if($_POST['end_time']){
-		$ex_where .= ' AND add_time <= ' . strtotime($_POST['end_time']);
-	}
-    $terminal_result = $GLOBALS['db']->getRow("select min(add_time) as add_time, sum(money_paid) as total from {$order_table} WHERE pay_name='{$pos_no}' and pay_note='terminal' and pay_status = " . PS_PAYED . $ex_where);
-	$trade_result = $GLOBALS['db']->getRow("select min(add_time) as add_time, sum(goods_amount-surplus) as total from {$order_table} where pay_note!='terminal' and pay_status=" . PS_PAYED . $ex_where);
-	$cash_result = $GLOBALS['db']->getRow("select min(add_time) as add_time,sum(credit_line) as total from {$cash_table} where status=1 and pos_no='{$pos_no}'{$ex_were}");
-  	
-	$terminal_list = empty($ex_where) ? array() : $GLOBALS['db']->getAll("select order_sn, FROM_UNIXTIME(add_time) as add_time, money_paid as total, '终端消费' as type from {$order_table} WHERE pay_name='{$pos_no}' and pay_note='terminal' and pay_status = " . PS_PAYED . $ex_where);
-	$trade_list = empty($ex_where) ? array() : $GLOBALS['db']->getAll("select order_sn, FROM_UNIXTIME(add_time) as add_time, (goods_amount-surplus) as total, '商城消费' as type from {$order_table} where pay_note!='terminal' and pay_status=" . PS_PAYED);
-	$cash_list = empty($ex_where) ? array() : $GLOBALS['db']->getAll("select card_no as order_sn, FROM_UNIXTIME(add_time) as add_time, credit_line as total, '终端提现' as type from {$cash_table} where status=1 and pos_no='{$pos_no}'");
-
-
-    $record_list = empty($ex_where) ? array() : array_merge($terminal_list, $trade_list, $cash_list);
-
-	$smarty->assign('start_time', isset($_POST['start_time']) ? $_POST['start_time'] : '');
-	$smarty->assign('end_time', isset($_POST['end_time']) ? $_POST['end_time'] : '');
+	$order_table = $ecs->table('order_info');
+	$user_table = $ecs->table('users');
+    //PS_PAYED = 2
+    $order_list = $total_money = array();
+    $cash_total = $trade_total = 0;
+    $record_list = $db->getAll("select a.order_id, a.order_sn,a.surplus,a.goods_amount,a.integral_money,a.add_time,a.pay_note,b.user_name,b.mobile_phone from {$order_table} a inner join {$user_table} b on a.user_id=b.user_id where a.pay_name='{$pos_no}' and a.pay_status=2 and (a.pay_note='cash' or a.pay_note='terminal')");
+    foreach($record_list as $order){
+        $year_month = date('Y年m月', $order['add_time']);
+        if(!isset($total_money[$year_month])){
+            $total_money[$year_month] = 0;
+        }
+        if(!isset($order_list[$year_month])){
+            $order_list[$year_month] = array();
+        }
+        if($order['pay_note'] == 'cash'){
+            $cash_total += $order['integral_money'];
+            $order['pay_note_name'] = '提现';
+        }elseif($order['pay_note'] == ''){
+            $trade_total += $order['integral_money'];
+            $order['pay_note_name'] = '终端购物';
+        }
+        $order['add_time'] = date('Y-m-d H:i:s', $order['add_time']);
+        $order['surplus'] = sprintf("%.2f", $order['surplus']);
+        $order['goods_amount'] = sprintf("%.2f", $order['goods_amount']);
+        $total_money[$year_month] += $order['integral_money'];
+        $total_money[$year_month] = sprintf("%.2f", $total_money[$year_month]);
+        $order['integral_money'] = sprintf("%.2f", $order['integral_money']);
+        $order_list[$year_month][] = $order;
+    }
+    $smarty->assign('total_money', $total_money);
 	$smarty->assign('pos_no', $pos_no);
-	$smarty->assign('start_time', date('Y-m-d H:i:s', min($terminal_result['add_time'], $trade_result['add_time'], $cash_result['add_time'])));
-	$smarty->assign('terminal_money', $terminal_result['total']);
-	$smarty->assign('trade_money', $trade_result['total']);
-	$smarty->assign('cash_money', $cash_result['total']);
-	$smarty->assign('total', $terminal_result['total'] + $trade_result['total'] + $cash_result['total']);
-    $smarty->assign('record_list', $record_list);
-    /*$smarty->assign('filter', $record_list['filter']);
-    $smarty->assign('record_count', $record_list['record_count']);
-    $smarty->assign('page_count', $record_list['page_count']);*/
+	$smarty->assign('cash_total', $cash_total);
+	$smarty->assign('trade_total', $trade_total);
+	$smarty->assign('total', $cash_total + $trade_total);
+    $smarty->assign('order_list', $order_list);
     $smarty->assign('full_page', 1);
-
     assign_query_info();
     $smarty->display('pos_record.htm');
 }

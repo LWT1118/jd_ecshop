@@ -38,7 +38,7 @@ $not_login_arr = array(
 $ui_arr = array(
 	'login', 'profile', 'order_list', 'order_detail', 'address_list', 'collection_list', 'follow_shop', 'message_list', 'tag_list',
 	'get_password', 'reset_password', 'booking_list', 'add_booking', 'account_raply', 'account_deposit', 'account_log', 'deposit_log', 'cash_log',
-	'trade_log', 'pay_log', 'account_detail', 'act_account', 'pay', 'default', 'bonus', 'group_buy', 'group_buy_detail', 'affiliate', 'comment_list', 'validate_email',
+	'trade_log', 'repay_log', 'account_detail', 'act_account', 'pay', 'default', 'bonus', 'group_buy', 'group_buy_detail', 'affiliate', 'comment_list', 'validate_email',
 	'track_packages', 'transform_points', 'qpassword_name', 'get_passwd_question', 'check_answer', 'check_register', 'back_order', 'back_list',
 	'back_order_detail', 'back_order_act', 'back_replay', 'my_comment', 'my_comment_send', 'shaidan_send', 'shaidan_sale', 'account_security',
 	'act_identity', 'check_phone', 'update_password', 're_binding', 'update_phone', 'update_email', 'act_update_email',
@@ -1957,7 +1957,7 @@ function action_order_list ()
 	include_once (ROOT_PATH . 'includes/lib_order.php');
 	include_once (ROOT_PATH . 'includes/lib_clips.php');
 	
-	$ex_where = " and user_id=$user_id and pay_note<>'terminal' ";
+	$ex_where = " and user_id=$user_id and pay_note<>'cash' ";
 	
 	/* 已完成的订单 */
 	$order_count['finished'] = $db->GetOne('SELECT COUNT(*) FROM ' . $ecs->table('order_info') . " WHERE 1 $ex_where " . order_query_sql('finished'));
@@ -1981,7 +1981,7 @@ function action_order_list ()
 	$smarty->assign('status', $status);
 	
 	$composite_status = isset($_REQUEST['composite_status']) ? intval($_REQUEST['composite_status']) : - 1;
-	$where = " and pay_note<>'terminal' ";
+	$where = " and pay_note<>'cash' ";
 	switch($composite_status)
 	{
 		case CS_AWAIT_PAY:
@@ -2003,7 +2003,7 @@ function action_order_list ()
 	}
 	$page = isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1;
 	
-	$record_count = $db->getOne("SELECT COUNT(*) FROM " . $ecs->table('order_info') . " WHERE user_id = '$user_id' and pay_note<>'terminal'");
+	$record_count = $db->getOne("SELECT COUNT(*) FROM " . $ecs->table('order_info') . " WHERE user_id = '$user_id' and pay_note<>'cash'");
 
 	/* 代码添加_68ECSHOP_20150909_STAR */
 	// 未确认
@@ -3649,7 +3649,18 @@ function action_deposit_log()
     $smarty->assign('pager', $pager);
     $smarty->display('user_transaction.dwt');
 }
+function action_repay_log()
+{
+    $smarty = $GLOBALS['smarty'];
+    $user_id = $_SESSION['user_id'];
+    global $action;
 
+    include_once (ROOT_PATH . 'includes/lib_clips.php');
+    $repay_log = get_repay_log($user_id);
+	$smarty->assign('action', $action);
+    $smarty->assign('repay_log', $repay_log);
+    $smarty->display('user_transaction.dwt');
+}
 function action_cash_log()
 {
     $smarty = $GLOBALS['smarty'];
@@ -3662,7 +3673,8 @@ function action_cash_log()
     $begin_time = empty($_REQUEST['begin_time']) ?  strtotime(date('Y-m-01')) : strtotime($_REQUEST['begin_time']);  //当前月份第一天
     $end_time = empty($_REQUEST['end_time']) ? strtotime(date('Y-m-t')) : strtotime($_REQUEST['end_time']);     //当前月份第二天
     /* 获取记录条数 */
-    $sql = "SELECT COUNT(*) FROM " . $ecs->table('cash_record') . " WHERE user_id = '$user_id'" . " AND create_time >={$begin_time} and create_time <= {$end_time}";
+    $order_table = $ecs->table('order_info');
+    $sql = "SELECT COUNT(*) FROM {$order_table} WHERE user_id ={$user_id} AND add_time >={$begin_time} and add_time <= {$end_time} and pay_note='cash'";
     $record_count = $db->getOne($sql);
 
     // 分页函数
@@ -3692,7 +3704,7 @@ function action_trade_log()
     $begin_time = empty($_REQUEST['begin_time']) ?  strtotime(date('Y-m-01')) : strtotime($_REQUEST['begin_time']);  //当前月份第一天
     $end_time = empty($_REQUEST['end_time']) ? strtotime(date('Y-m-t')) : strtotime($_REQUEST['end_time']);     //当前月份第二天
     /* 获取记录条数 */
-    $sql = "SELECT COUNT(*) FROM " . $ecs->table('order_info') . " WHERE pay_note='terminal' and user_id = '$user_id'" . " AND add_time >={$begin_time} and add_time <= {$end_time}";
+    $sql = "SELECT COUNT(*) FROM " . $ecs->table('order_info') . " WHERE pay_note!='cash' and user_id = '$user_id'" . " AND add_time >={$begin_time} and add_time <= {$end_time}";
     $record_count = $db->getOne($sql);
 
     // 分页函数

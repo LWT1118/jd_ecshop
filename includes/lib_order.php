@@ -51,7 +51,8 @@ function unserialize_config($cfg)
 function check_user_rank($cat_id, $user_rank)
 {
 	$category = $GLOBALS['db']->getRow('select cat_id,user_rank,parent_id from ' . $GLOBALS['ecs']->table('category') . " where cat_id={$cat_id}");
-	if($category['user_rank'] == 0 || $user_rank >= $category['user_rank']){
+	$rank_list = explode(','. $category['user_rank']);
+	if(!in_array($user_rank, $rank_list)){
 		if($category['parent_id'] > 0){
 			return check_user_rank($category['parent_id'], $user_rank);
 		}
@@ -303,7 +304,7 @@ function available_payment_list($support_cod, $cod_fee = 0, $is_online = false, 
 {
     $sql = 'SELECT pay_id, pay_code, pay_name, pay_fee, pay_desc, pay_config, is_cod' .
             ' FROM ' . $GLOBALS['ecs']->table('payment') .
-            ' WHERE enabled = 1 ';
+            " WHERE enabled = 1 and pay_code in ('balance', 'alipay', 'weixin')"; // paycode in add by liuweitao
     if (!$support_cod || $is_virtual)
     {
         $sql .= 'AND is_cod = 0 '; // 如果不支持货到付款

@@ -1718,7 +1718,7 @@ elseif ($_REQUEST['step'] == 'check_surplus_open')
 {
     //$pay_code = $_SESSION['flow_order']['pay_code'];
     //$surplus = $_SESSION['flow_order']['surplus'];
-    //if($pay_code == 'balance'||$surplus > 0){
+    //if($pay_code == 'balance'){ //||$surplus > 0
         $sql = 'SELECT `is_surplus_open`'.
             'FROM `ecs_users`'.
             'WHERE `user_id` = \''.$_SESSION['user_id'].'\''.
@@ -1727,9 +1727,9 @@ elseif ($_REQUEST['step'] == 'check_surplus_open')
         echo $is_surplus_open;
     //}
     //else
-    {
-        //echo '0';
-    }
+    //{
+    //    echo '0';
+    //}
     exit;
 }
 
@@ -2302,7 +2302,6 @@ elseif ($_REQUEST['step'] == 'done')
             ' WHERE enabled = 1 and pay_code="balance"';
 	$pay_balance_id = $GLOBALS['db']->getOne($sql);
 
-
     /*
     $orderinfo = flow_order_info();
 
@@ -2333,7 +2332,7 @@ elseif ($_REQUEST['step'] == 'done')
 
 	    $order = array(
 	        //'shipping_id'     => intval($_POST['shipping']),
-	        'pay_id'          => $pay_balance_id,  //intval($_POST['payment']) 全部改成余额支付
+	        'pay_id'          => intval($_POST['payment']),  // 全部改成余额支付 $pay_balance_id
 	        'pack_id'         => isset($_POST['pack']) ? intval($_POST['pack']) : 0,
 	        'card_id'         => isset($_POST['card']) ? intval($_POST['card']) : 0,
 	        'card_message'    => trim($_POST['card_message']),
@@ -2537,7 +2536,7 @@ elseif ($_REQUEST['step'] == 'done')
 		}
 		//if($total['amount'] <= 0){
 			//余额全部支付，让支付方式修改为余额支付
-			$order['pay_id'] = $pay_balance_id;//余额支付方式的id
+			//$order['pay_id'] = $pay_balance_id;//余额支付方式的id
 		//}
 	    $order['tax']          = $total['tax'];
 
@@ -2600,8 +2599,7 @@ elseif ($_REQUEST['step'] == 'done')
     	/*增值税发票_添加_END_www.68ecshop.com*/
 
     	/* 如果全部使用余额支付，检查余额是否足够 */
-	    //if ($payment['pay_code'] == 'balance' && $order['order_amount'] > 0)
-		//if ($order['order_amount'] > 0)
+	    if ($payment['pay_code'] == 'balance' && $order['order_amount'] > 0)
 	    {
 	        if($order['surplus'] >0) //余额支付里如果输入了一个金额
 	        {
@@ -2620,7 +2618,8 @@ elseif ($_REQUEST['step'] == 'done')
 				}else{
 	            	$order['surplus'] = $user_info['user_money'];
 	            	$user_info['user_money'] = 0;
-	            	$user_info['pay_points'] -= ($order['order_amount'] - $user_info['user_money']);
+	            	$order['integral_money'] = $order['order_amount'] - $order['surplus'];
+	            	$user_info['pay_points'] -= ($order['order_amount'] - $order['surplus']);
 				}
 				//是否开启余额变动给客户发短信-用户消费
 				/* comment by liuweitao start */
@@ -2652,7 +2651,7 @@ elseif ($_REQUEST['step'] == 'done')
 	       //$order['order_amount'] = $order['surplus'];//把支付的金额存进order_amount这个中
 	    }
 
-	    $order['integral_money']   = $total['integral_money'];
+	    //$order['integral_money']   = $total['integral_money']; //comment by liuweitao
 	    $order['integral']         = $total['integral'];
 
 	    if ($order['extension_code'] == 'exchange_goods')
@@ -2838,9 +2837,8 @@ elseif ($_REQUEST['step'] == 'done')
 		$split_order['suborder_list'][$ok]['pay_name'] = $order['pay_name'];
 		$split_order['suborder_list'][$ok]['shipping_name'] = $order['shipping_name'];
 	    //$split_order['suborder_list'][$ok]['order_amount_formated'] = price_format($order['order_amount']);
-		//if($order['order_amount'] <=0 && $payment['pay_code'] == 'balance'){//余额全额支付
-		if($order['order_amount'] <=0){//余额全额支付
-			$split_order['suborder_list'][$ok]['order_amount_formated'] = price_format($order['surplus'],false);
+		if($order['order_amount'] <=0 && $payment['pay_code'] == 'balance'){//余额全额支付
+			$split_order['suborder_list'][$ok]['order_amount_formated'] = price_format($order['goods_amount'],false); //surplus->order_amount
 		}else{
 			$split_order['suborder_list'][$ok]['order_amount_formated'] = price_format($order['order_amount'],false);
 		}
@@ -3041,7 +3039,7 @@ elseif ($_REQUEST['step'] == 'done')
 
     /* 订单信息 */
     $smarty->assign('order',      $order);
-    //$smarty->assign('total',      $total);
+    $smarty->assign('total',      $total);
     //$smarty->assign('goods_list', $cart_goods);
     //$smarty->assign('order_submit_back', sprintf($_LANG['order_submit_back'], $_LANG['back_home'], $_LANG['goto_user_center'])); // 返回提示
 

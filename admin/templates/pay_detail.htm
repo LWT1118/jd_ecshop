@@ -5,7 +5,8 @@
 <link href="../js/calendar/calendar.css" rel="stylesheet" type="text/css" />
 <div class="form-div">
     <form action="users.php" name="searchForm" method="post"><!--javascript:searchRecord()"-->
-        <input type="hidden" name="act" value="pay">
+        <input type="hidden" name="act" value="detail">
+        <input type="hidden" name="uid" value="{$user_id}">
         <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
         <span style="position:relative">
 		<input type="text" name="begin_date" maxlength="60" size="30" id="txt_begin_time" placeholder="开始日期" value="" />
@@ -22,27 +23,29 @@
     <!-- start users list -->
     <div class="list-div" id="listDiv">
         {/if}
-        {foreach from=$record_list key=year_month item=user_list}
-        <span style="font-weight: bold">{$year_month}</span>
+        {foreach from=$record_list key=year_month item=record_list}
+        <span style="font-weight: bold">{$year_month}(总额：{$total_money.$year_month})</span>
         <table cellpadding="3" cellspacing="1">
             <tr>
                 <th>编号</th>
-                <th>卡号</th>
-                <th>姓名</th>
-                <th>手机号</th>
-                <th>还款金额</th>
-                <th>操作</th>
+                <th>订单号</th>
+                <th>订单金额</th>
+                <th>余额支付</th>
+                <th>授信/提现额度支付</th>
+                <th>POS机</th>
+                <th>类型</th>
+                <th>日期</th>
             <tr>
-            {foreach from=$user_list item=user}
+            {foreach from=$record_list item=order}
             <tr>
-                <td style="text-align: center">{$user.user_id}</td>
-                <td style="text-align: center">{$user.user_name}</td>
-                <td style="text-align: center">{$user.real_name}</td>
-                <td style="text-align: center">{$user.mobile_phone}</td>
-                <td style="text-align: center"><a href="users.php?act=detail&uid={$user.user_id}&date={$year_month}">{$user.repay_money}</a></td>
-                <td align="center">
-                    <a href="users.php?act=pay&uid={$user.user_id}&date={$year_month}" onclick="if(!confirm('确定要还款吗？')){ return false ;}">还款</a>
-                </td>
+                <td style="text-align: center">{$order.order_id}</td>
+                <td style="text-align: center">{$order.order_sn}</td>
+                <td style="text-align: center">{$order.goods_amount}</td>
+                <td style="text-align: center">{$order.surplus}</td>
+                <td style="text-align: center">{$order.integral_money}</td>
+                <td style="text-align: center">{$order.pay_name}</td>
+                <td style="text-align: center">{$order.pay_note_name}</td>
+                <td style="text-align: center">{$order.add_time}</td>
             </tr>
             {/foreach}
         </table>

@@ -290,6 +290,7 @@ $_LANG['vote_list'] = '在线调查';
 /* 会员管理 */
 $_LANG['08_unreply_msg'] = '会员留言';
 $_LANG['03_users_list'] = '会员列表';
+$_LANG['03_users_pay'] = '刷卡会员';
 $_LANG['03_pos_list'] = 'POS机列表';
 
 $_LANG['04_users_export'] = '会员导出'; // 代码增加 By www.68ecshop.com

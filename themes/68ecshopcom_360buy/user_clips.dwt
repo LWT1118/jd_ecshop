@@ -51,9 +51,9 @@
                 <p><a href="user.php?act=bonus" class="_backAccount">{$info.credit_line}</a></p>
               </li>
               <li class="third">
-                <div class="title"><span>账户余额</span></div>
+                <div class="title"><span>本月还款金额</span></div>
                 <div class="pic"><i class="user_bg"></i></div>
-                <p><span class="_goldAccount">{$info.user_money}</span></p>
+                <p><span class="_goldAccount">{$info.repay_money}</span></p>
               </li>
             </ul>
           </div>

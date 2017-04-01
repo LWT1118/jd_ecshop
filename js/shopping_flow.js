@@ -586,9 +586,12 @@ function changeOOS(obj) {
 function check_before_submit() {
 	var the_form = document.getElementById("theForm");
 	if (checkOrderForm(the_form)) {
-		Ajax.call('flow.php?step=check_surplus_open', '', is_surplus_open, 'GET', 'TEXT', true, true);
+		if(the_form.elements['payment'].value == pay_balance_id) {
+			Ajax.call('flow.php?step=check_surplus_open', '', is_surplus_open, 'GET', 'TEXT', true, true);
+			return false;
+		}
 	}
-	return false;
+	return true;
 }
 
 function check_before_submit_vir() {   
@@ -636,7 +639,8 @@ function submit_the_form() {
  * 检查提交的订单表单
  */
 function checkOrderForm(frm) {
-	var paymentSelected = false;
+	//var paymentSelected = false;
+	var paymentSelected = frm.elements['payment'].value;
 	var shippingSelected = true;
 
 	/* 代码增加_start By www.68ecshop.com */
@@ -693,7 +697,7 @@ function checkOrderForm(frm) {
 					paymentSelected = false;
 				}*/
 	//		} else {
-				paymentSelected = true;
+	//			paymentSelected = true;
 	//		}
 			/* 代码修改_end By www.68ecshop.com */
 	//	}

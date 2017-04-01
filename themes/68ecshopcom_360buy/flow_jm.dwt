@@ -1121,7 +1121,7 @@ else
       </script> 
     {* 支付方式 *}
     <div class="checkBox_jm" id="pay_div">
-      <!--div class="title">4 支付方式</div>
+      <div class="title">4 支付方式</div>
       <ul class="payment_tab_jm" id="payment_tab">
         <!-- {foreach from=$payment_list name="payment_list" item=payment} --> 
         <!-- 预售订单不支持货到付款 -->
@@ -1134,22 +1134,22 @@ else
           {/if} </li>
         {/if} 
         <!-- {/foreach} -->
-        <li  onclick="selPayment(this)">
-          <input type="radio" onclick="selectPayment(this)" isCod="0" name="payment"  id="payment_other_input" value="0"  >
-          &nbsp;支付宝/快钱/财付通/其他支付
-          <div class="payment_subbox">
+        <li>
+          <!--input type="radio" onclick="selectPayment(this)" isCod="0" name="payment"  id="payment_other_input" value="0"  >
+          &nbsp;支付宝/快钱/财付通/其他支付-->
+          <div class="payment_subbox" style="display:block">
             <ul >
               <!-- {foreach from=$payment_list name="payment_list" item=payment} --> 
-              {if $payment.pay_code neq 'alipay_bank' && $payment.pay_code neq 'cod' && $payment.pay_code neq 'pup' && $payment.pay_code neq 'balance'}
+              {if $payment.pay_code neq 'alipay_bank' && $payment.pay_code neq 'cod' && $payment.pay_code neq 'pup'}
               <li>
-                <input type="radio" name="payment_other" onclick="selectPayment(this);document.getElementById('payment_other_input').value=this.value;" value="{$payment.pay_id}" >
+                <input type="radio" name="payment" value="{$payment.pay_id}" >
                 <img align="absmiddle" src="images/jmpic/pay_{$payment.pay_code}.gif" alt="{$payment.pay_name}" /></li>
               {/if} 
               <!-- {/foreach} -->
             </ul>
           </div>
         </li>
-      </ul-->
+      </ul>
     </div>
     <script type="text/javascript">
 	{literal}
