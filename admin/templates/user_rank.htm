@@ -10,6 +10,7 @@
 
 <table cellspacing='1' id="list-table">
   <tr>
+    <th>ID</th>
     <th>{$lang.rank_name}</th>
     <th>{$lang.integral_min}</th>
     <th>{$lang.integral_max}</th>
@@ -23,10 +24,11 @@
   </tr>
   {foreach from=$user_ranks item=rank}
   <tr>
-    <td class="first-cell" ><span onclick="listTable.edit(this,'edit_name', {$rank.rank_id})">{$rank.rank_name}</span></td>
-    <td align="right"><span {if $rank.special_rank != 1} onclick="listTable.edit(this, 'edit_min_points', {$rank.rank_id})" {/if} >{$rank.min_points}</span></td>
-    <td align="right"><span {if $rank.special_rank != 1} onclick="listTable.edit(this, 'edit_max_points', {$rank.rank_id})" {/if} >{$rank.max_points}</span></td>
-    <td align="right"><span onclick="listTable.edit(this, 'edit_discount', {$rank.rank_id})">{$rank.discount}</span></td>
+    <td class="first-cell" align="center">{$rank.rank_id}</td>
+    <td align="center"><span onclick="listTable.edit(this,'edit_name', {$rank.rank_id})">{$rank.rank_name}</span></td>
+    <td align="center"><span {if $rank.special_rank != 1} onclick="listTable.edit(this, 'edit_min_points', {$rank.rank_id})" {/if} >{$rank.min_points}</span></td>
+    <td align="center"><span {if $rank.special_rank != 1} onclick="listTable.edit(this, 'edit_max_points', {$rank.rank_id})" {/if} >{$rank.max_points}</span></td>
+    <td align="center"><span onclick="listTable.edit(this, 'edit_discount', {$rank.rank_id})">{$rank.discount}</span></td>
     <td align="center"><img src="images/{if $rank.special_rank}yes{else}no{/if}.gif" onclick="listTable.toggle(this, 'toggle_special', {$rank.rank_id})" /></td>
     <td align="center"><img src="images/{if $rank.show_price}yes{else}no{/if}.gif" onclick="listTable.toggle(this, 'toggle_showprice', {$rank.rank_id})" /></td>
     <!--代码增加--cb--68ecshop-->

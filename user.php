@@ -325,8 +325,10 @@ function action_default ()
 	$db = $GLOBALS['db'];
 	$ecs = $GLOBALS['ecs'];
 	$user_id = $_SESSION['user_id'];
+	$smarty->assign('test', 'SB');
 	
 	include_once (ROOT_PATH . 'includes/lib_clips.php');
+
 	if($rank = get_rank_info())
 	{
 		$smarty->assign('rank_name', sprintf($_LANG['your_level'], $rank['rank_name']));
