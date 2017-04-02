@@ -51,14 +51,18 @@ function unserialize_config($cfg)
 function check_user_rank($cat_id, $user_rank)
 {
 	$category = $GLOBALS['db']->getRow('select cat_id,user_rank,parent_id from ' . $GLOBALS['ecs']->table('category') . " where cat_id={$cat_id}");
+	if(empty($category['user_rank'])){
+	    return true;
+    }
 	$rank_list = explode(','. $category['user_rank']);
-	if(!in_array($user_rank, $rank_list)){
+	return in_array($user_rank, $rank_list);
+	/*if(!in_array($user_rank, $rank_list)){
 		if($category['parent_id'] > 0){
 			return check_user_rank($category['parent_id'], $user_rank);
 		}
 		return true;
 	}
-	return false;
+	return false;*/
 }
 /**
  * 取得已安装的配送方式
