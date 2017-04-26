@@ -133,14 +133,40 @@ if($_GET['act'] == 'send')
 	}
 }
 
-function sendSMS ($mobile, $content, $time = '', $mid = '')
+function sendSMS ($phone, $msg, $sendtime = '', $port = '', $needstatus = '')
 {
-	//$content = iconv('utf-8', 'gbk', $content);
-	$http = 'http://120.24.167.205/msg/HttpSendSM'; // 短信接口
+    $username = 'shanglian8';
+    $passwd = 'Ykt111';
+    $ch = curl_init();
+    $post_data = "username=".$username."&passwd=".$passwd."&phone=".$phone."&msg=".urlencode($msg)."&needstatus=true&port=".$port."&sendtime=".$sendtime;
+    /**
+    php5.4或php6 curl版本的curl数据格式为数组   你们接入时要注意
+    $post_data = array(
+    "username"="账号",
+    "passwd"="密码",
+    "phone"="手机号码1,号码2,号码3".
+    "msg"="您好,你的验证码:8888【企业宝】",
+    "needstatus"="true",
+    "port"='',
+    "sendtime"=''
+    );
+     **/
+    curl_setopt ($ch, CURLOPT_URL,"http://www.qybor.com:8500/shortMessage");
+    curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT,30);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+    $file_contents = curl_exec($ch);
+    curl_close($ch);
+    $result = json_decode($file_contents, true);
+    return $result['respcode'] == '0';
+    //$content = iconv('utf-8', 'gbk', $content);
+	/*$http = 'http://120.24.167.205/msg/HttpSendSM'; // 短信接口
 	
 	$data = array(
-		'account' => 'jnzhengh_member', // 用户账号
-		'pswd' => 'M111111m', // MD5位32密码,密码和用户名拼接字符
+		'account' => 'shanglian8', // 用户账号
+		'pswd' => 'Ykt111', // MD5位32密码,密码和用户名拼接字符
 		'mobile' => $mobile, // 号码
 		'msg' => $content, // 内容
 		'needstatus' => true, // 定时发送
@@ -156,7 +182,7 @@ function sendSMS ($mobile, $content, $time = '', $mid = '')
 	else
 	{
 		return false;
-	}
+	}*/
 }
 
 function postSMS ($url, $data = '')
